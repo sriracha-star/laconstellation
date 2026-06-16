@@ -1,0 +1,11 @@
+.DS_Store
+.claude/
+CLAUDE.local.md
+
+# Images source (matière brute non utilisée par le site - les portraits sont
+# encodés en base64 dans index.html). Décommenter si tu veux les versionner.
+*.jpg
+*.jpeg
+*.png
+*.webp
+*.avif
