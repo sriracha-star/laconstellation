@@ -2,10 +2,14 @@
 .claude/
 CLAUDE.local.md
 
-# Images source (matière brute non utilisée par le site - les portraits sont
-# encodés en base64 dans index.html). Décommenter si tu veux les versionner.
-*.jpg
-*.jpeg
-*.png
-*.webp
-*.avif
+# Images source à la racine (matière brute non utilisée par le site).
+# Les images dans les sous-dossiers de figures (Sappho/, Rimbaud/, etc.)
+# sont en revanche versionnées et servies via chemins relatifs.
+/*.jpg
+/*.jpeg
+/*.png
+/*.webp
+/*.avif
+
+# Ignore fichiers temporaires d'OS dans les sous-dossiers
+**/.DS_Store

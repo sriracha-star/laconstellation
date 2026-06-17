@@ -7,15 +7,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Josefin+Sans:wght@100;300;400&display=swap" rel="stylesheet">
 <style>
 :root{
-  --ivory:#f5f0e8;--ivory2:#ece4d0;--paper:#e8dfc8;
-  --ink:#1a1208;--ink2:#2e2416;--ink3:#3d3020;
-  --gold:#c4922a;--gold2:#d4ab4e;--gold3:#e8cc80;
-  --carmine:#8b1a2a;--carmine2:#b02436;
-  --plum:#4a2060;--teal:#1a4a5a;
-  --mist:#5a4a38;--fog:#8a7a68;--ghost:#b0a090;
+  --ivory:#f4f1ec;--ivory2:#e5e0d8;--paper:#d8d2c8;
+  --ink:#0a0a0a;--ink2:#1d1d1d;--ink3:#2c2c2c;
+  --gold:#8a8276;--gold2:#a8a193;--gold3:#c9c2b3;
+  --carmine:#6b2424;--carmine2:#8a3030;
+  --plum:#3a3a45;--teal:#33403e;
+  --mist:#4a4a4a;--fog:#7a7a7a;--ghost:#aaaaaa;
+  --night:#0d1424;--night2:#161e30;--night3:#1f2a40;
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;scrollbar-gutter:stable}
 body{background:var(--ivory);color:var(--ink);font-family:"Cormorant Garamond",serif;overflow-x:hidden}
 body::before{content:"";position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27200%27 height=%27200%27%3E%3Cfilter id=%27n%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%270.65%27 numOctaves=%273%27 stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect width=%27200%27 height=%27200%27 filter=%27url(%23n)%27 opacity=%270.025%27/%3E%3C/svg%3E");pointer-events:none;z-index:9999;mix-blend-mode:multiply}
 
@@ -31,7 +32,7 @@ body::before{content:"";position:fixed;inset:0;background-image:url("data:image/
 #pin-panel{background:var(--ivory);border:1px solid var(--ink2);width:300px;max-height:70vh;overflow-y:auto;display:none;flex-direction:column;box-shadow:-4px 4px 24px rgba(0,0,0,.18)}
 #pin-panel.open{display:flex}
 #pin-panel-header{background:var(--ink);color:var(--ivory);font-family:"Josefin Sans",sans-serif;font-weight:300;font-size:12px;letter-spacing:.25em;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;text-transform:uppercase}
-#pin-panel-header button{background:none;border:none;color:rgba(245,240,232,.6);cursor:pointer;font-size:1rem}
+#pin-panel-header button{background:none;border:none;color:rgba(244,241,236,.6);cursor:pointer;font-size:1rem}
 .pin-item{padding:12px 16px;border-bottom:1px solid var(--ivory2);font-size:14px;color:var(--ink2);display:flex;justify-content:space-between;align-items:flex-start;gap:8px;cursor:pointer;transition:background .2s}
 .pin-item:hover{background:var(--ivory2)}
 .pin-item-text{font-style:italic;line-height:1.4;flex:1}
@@ -41,18 +42,26 @@ body::before{content:"";position:fixed;inset:0;background-image:url("data:image/
 #pin-empty{padding:20px 16px;color:var(--fog);font-size:14px;font-style:italic;text-align:center;line-height:1.6}
 
 /* ══════ HERO ══════ */
-.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 40px;position:relative;overflow:hidden;background:var(--ink)}
-.hero::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 60px,rgba(196,146,42,.025) 60px,rgba(196,146,42,.025) 61px),repeating-linear-gradient(-45deg,transparent,transparent 60px,rgba(196,146,42,.025) 60px,rgba(196,146,42,.025) 61px);pointer-events:none}
+/* HERO SPLASH — sans texte, juste la boussole qui brille (fond noir bleuté) */
+.hero{position:fixed;inset:0;z-index:9800;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0;overflow:hidden;background:radial-gradient(circle at center,#0d1224 0%,#06091a 55%,#020310 100%);transition:opacity 1.1s ease,transform 1.1s ease}
+.hero.fade-out{opacity:0;transform:scale(1.08);pointer-events:none}
+body.splash-on{overflow:hidden}
+/* la boussole / rose des vents au centre, lumineuse et froide */
+.hero-sunburst{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(820px,92vw);height:min(820px,92vw);opacity:.92;animation:spinSlow 60s linear infinite,pulseGlow 4.5s ease-in-out infinite alternate;pointer-events:none;filter:drop-shadow(0 0 18px rgba(180,210,255,.55)) drop-shadow(0 0 40px rgba(130,160,220,.35))}
+@keyframes spinSlow{to{transform:translate(-50%,-50%) rotate(360deg)}}
+@keyframes pulseGlow{0%{filter:drop-shadow(0 0 14px rgba(180,210,255,.4)) drop-shadow(0 0 32px rgba(130,160,220,.28))}100%{filter:drop-shadow(0 0 28px rgba(200,220,255,.75)) drop-shadow(0 0 60px rgba(150,180,240,.5))}}
+.hero-eyebrow,.hero-title,.hero-rule,.hero-sub,.hero-scroll{display:none}
+.hero::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 60px,rgba(168,161,147,.025) 60px,rgba(168,161,147,.025) 61px),repeating-linear-gradient(-45deg,transparent,transparent 60px,rgba(168,161,147,.025) 60px,rgba(168,161,147,.025) 61px);pointer-events:none}
 .hero-sunburst{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(700px,95vw);height:min(700px,95vw);opacity:.05;animation:spin 90s linear infinite;pointer-events:none}
 @keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
 .hero-eyebrow{font-family:"Josefin Sans",sans-serif;font-weight:100;font-size:13px;letter-spacing:.55em;color:var(--gold2);margin-bottom:24px;animation:fu 1.4s ease both;position:relative;text-transform:uppercase}
 .hero-title{font-family:"Playfair Display",serif;font-size:clamp(3rem,8vw,7rem);font-weight:900;color:var(--ivory);letter-spacing:.04em;line-height:.95;margin-bottom:12px;animation:fu 1.4s .15s ease both;position:relative}
 .hero-title em{color:var(--gold2);font-style:italic;font-weight:400}
 .hero-rule{display:flex;align-items:center;gap:16px;margin:24px auto;width:min(380px,80vw);animation:fu 1.4s .3s ease both;position:relative}
-.rl{flex:1;height:1px}.rl.l{background:linear-gradient(to right,transparent,rgba(196,146,42,.5))}.rl.r{background:linear-gradient(to left,transparent,rgba(196,146,42,.5))}
+.rl{flex:1;height:1px}.rl.l{background:linear-gradient(to right,transparent,rgba(168,161,147,.5))}.rl.r{background:linear-gradient(to left,transparent,rgba(168,161,147,.5))}
 .rd{width:7px;height:7px;background:var(--gold2);transform:rotate(45deg);flex-shrink:0}
-.hero-sub{font-family:"Playfair Display",serif;font-style:italic;font-size:clamp(1rem,2.5vw,1.25rem);color:rgba(245,240,232,.65);max-width:540px;line-height:1.75;animation:fu 1.4s .45s ease both;position:relative;margin-bottom:50px}
-.hero-scroll{position:relative;display:flex;flex-direction:column;align-items:center;gap:10px;animation:fu 1.4s 1s ease both;color:rgba(196,146,42,.5);font-family:"Josefin Sans",sans-serif;font-size:12px;letter-spacing:.4em;text-transform:uppercase}
+.hero-sub{font-family:"Playfair Display",serif;font-style:italic;font-size:clamp(1rem,2.5vw,1.25rem);color:rgba(244,241,236,.65);max-width:540px;line-height:1.75;animation:fu 1.4s .45s ease both;position:relative;margin-bottom:50px}
+.hero-scroll{position:relative;display:flex;flex-direction:column;align-items:center;gap:10px;animation:fu 1.4s 1s ease both;color:rgba(168,161,147,.5);font-family:"Josefin Sans",sans-serif;font-size:12px;letter-spacing:.4em;text-transform:uppercase}
 .hero-scroll-line{width:1px;height:50px;background:linear-gradient(to bottom,transparent,var(--gold2));animation:sp 2s ease-in-out infinite}
 @keyframes sp{0%,100%{opacity:.3;transform:scaleY(.8)}50%{opacity:1;transform:scaleY(1)}}
 @keyframes fu{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
@@ -68,12 +77,26 @@ body::before{content:"";position:fixed;inset:0;background-image:url("data:image/
 #search-count{font-family:"Josefin Sans",sans-serif;font-weight:100;font-size:12px;letter-spacing:.15em;color:var(--fog);margin-top:8px;text-align:center;min-height:20px}
 
 /* ══════ NAV ══════ */
-.navbar{position:sticky;top:0;z-index:900;background:var(--ivory);border-bottom:2px solid var(--ink);display:flex;align-items:stretch;overflow-x:auto;scrollbar-width:none}
+.navbar{position:sticky;top:0;z-index:900;background:transparent;display:flex;align-items:stretch;overflow-x:auto;scrollbar-width:none;transition:background .25s ease}
 .navbar::-webkit-scrollbar{display:none}
-.nav-btn{background:none;border:none;border-right:1px solid var(--ivory2);color:var(--fog);font-family:"Josefin Sans",sans-serif;font-weight:300;font-size:12px;letter-spacing:.22em;padding:16px 24px;cursor:pointer;white-space:nowrap;transition:all .25s;text-transform:uppercase;position:relative}
-.nav-btn::after{content:"";position:absolute;bottom:-2px;left:0;right:0;height:2px;background:var(--ink);transform:scaleX(0);transition:transform .25s}
-.nav-btn:hover,.nav-btn.on{color:var(--ink);background:rgba(26,18,8,.04)}
-.nav-btn:hover::after,.nav-btn.on::after{transform:scaleX(1)}
+/* Fond ivoire opaque (sans démarcation) dès que la page a scrollé sur Les Figures */
+body.on-figures.scrolled .navbar{background:var(--ivory)}
+.nav-btn{position:relative;background:none;border:none;color:var(--fog);font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:13px;letter-spacing:.28em;padding:18px 28px;cursor:pointer;white-space:nowrap;transition:color .2s;text-transform:uppercase}
+.nav-btn:hover{color:var(--mist)}
+.nav-btn.on{color:var(--ink)}
+/* Variante Constellation : navbar par-dessus le ciel, texte clair */
+body.on-map .navbar{background:transparent;position:fixed;top:0;left:0;right:0}
+body.on-map .nav-btn{color:rgba(244,241,236,.5)}
+body.on-map .nav-btn:hover{color:rgba(244,241,236,.85)}
+body.on-map .nav-btn.on{color:#ffffff;text-shadow:0 1px 8px rgba(0,0,0,.55)}
+body.on-map #sec-map{padding-top:0}
+/* Variante Frise : navbar transparente, texte clair (Frise est sur fond sombre) */
+body.on-frise .navbar{background:transparent;position:fixed;top:0;left:0;right:0}
+body.on-frise .nav-btn{color:rgba(244,241,236,.5)}
+body.on-frise .nav-btn:hover{color:rgba(244,241,236,.85)}
+body.on-frise .nav-btn.on{color:#ffffff;text-shadow:0 1px 8px rgba(0,0,0,.6)}
+body.on-frise #sec-frise{padding-top:0;height:100vh}
+body.on-frise .frise-scroll{height:100vh}
 
 /* ══════ SECTION HEADER ══════ */
 .sec-hd{text-align:center;padding:64px 40px 44px}
@@ -83,87 +106,74 @@ body::before{content:"";position:fixed;inset:0;background-image:url("data:image/
 
 /* ══════ FILTERS ══════ */
 .filts{padding:0 40px 36px;display:flex;justify-content:center;flex-wrap:wrap;gap:8px}
-.filt{background:transparent;border:1px solid rgba(26,18,8,.2);color:var(--fog);font-family:"Josefin Sans",sans-serif;font-weight:300;font-size:12px;letter-spacing:.18em;padding:9px 20px;cursor:pointer;text-transform:uppercase;transition:all .25s}
+.filt{background:transparent;border:1px solid rgba(10,10,10,.2);color:var(--fog);font-family:"Josefin Sans",sans-serif;font-weight:300;font-size:12px;letter-spacing:.18em;padding:9px 20px;cursor:pointer;text-transform:uppercase;transition:all .25s}
 .filt:hover,.filt.on{background:var(--ink);border-color:var(--ink);color:var(--ivory)}
 
 /* ══════ GRID ══════ */
 .grid-wrap{padding:0 36px 80px;max-width:1600px;margin:0 auto}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px}
 
-/* ══════ FLIP CARD ══════ */
-.card{height:500px;perspective:1200px;cursor:pointer}
+/* ══════ CARD — photo plein cadre, résumé qui glisse en hover ══════ */
+.card{height:560px;cursor:pointer;position:relative;overflow:hidden;background:var(--ink);border:1px solid var(--ink2)}
 .card.gone{display:none}
-.card-inner{width:100%;height:100%;transform-style:preserve-3d;transition:transform .85s cubic-bezier(.4,0,.2,1);position:relative}
-.card.flipped .card-inner{transform:rotateY(180deg)}
-.card-face{position:absolute;inset:0;backface-visibility:hidden;overflow:hidden}
+.card-photo-bg{position:absolute;inset:0;background-size:cover;background-position:top center;background-repeat:no-repeat;filter:grayscale(.4) contrast(1.05) brightness(.95);transition:filter .5s}
+.card:hover .card-photo-bg{filter:grayscale(.55) contrast(1.05) brightness(.72)}
+.card-overlay{position:absolute;left:0;right:0;bottom:0;padding:24px 26px 28px;color:var(--ivory);background:linear-gradient(to bottom,rgba(10,10,10,0) 0%,rgba(10,10,10,.5) 40%,rgba(10,10,10,.92) 100%);display:flex;flex-direction:column}
+.card-name{font-family:"Playfair Display",serif;font-size:1.85rem;font-weight:700;color:var(--ivory);line-height:1.05;margin-bottom:8px;text-shadow:0 1px 12px rgba(0,0,0,.7)}
+.card-dates{font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:13px;letter-spacing:.28em;color:rgba(244,241,236,.95);text-transform:uppercase;text-shadow:0 1px 6px rgba(0,0,0,.6)}
+.card-resume-wrap{max-height:0;overflow:hidden;transition:max-height .55s cubic-bezier(.4,0,.2,1)}
+.card:hover .card-resume-wrap{max-height:340px}
+.card-resume{padding-top:14px;margin-top:14px;border-top:1px solid rgba(244,241,236,.22);font-family:"Cormorant Garamond",serif;font-size:15.5px;color:rgba(244,241,236,.95);line-height:1.55;font-style:italic;text-shadow:0 1px 6px rgba(0,0,0,.65);opacity:0;transform:translateY(12px);transition:opacity .45s ease .15s,transform .55s cubic-bezier(.2,0,.2,1) .1s;display:-webkit-box;-webkit-line-clamp:11;-webkit-box-orient:vertical;overflow:hidden}
+.card:hover .card-resume{opacity:1;transform:translateY(0)}
 
-/* FRONT */
-.card-front{background:white;border:1px solid var(--ivory2);display:flex;flex-direction:column;transition:box-shadow .3s,border-color .3s}
-.card:hover .card-front{box-shadow:0 10px 36px rgba(26,18,8,.12);border-color:rgba(196,146,42,.5)}
-.photo-wrap{position:relative;height:300px;overflow:hidden;flex-shrink:0;background:var(--ivory2)}
-.card-photo{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;transition:transform .6s}
-.card:hover .card-photo{transform:scale(1.04)}
-.photo-wrap::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,transparent 50%,rgba(255,255,255,.98) 100%);pointer-events:none}
-.era-bar{position:absolute;top:0;left:0;right:0;height:3px;z-index:1}
-.card-body{padding:18px 20px 16px;flex:1;display:flex;flex-direction:column;justify-content:space-between}
-.card-name{font-family:"Playfair Display",serif;font-size:1.45rem;font-weight:700;color:var(--ink);line-height:1.1;margin-bottom:5px}
-.card-dates{font-family:"Josefin Sans",sans-serif;font-weight:100;font-size:12px;letter-spacing:.12em;color:var(--fog);margin-bottom:10px}
-.card-tagline{font-size:14px;color:var(--mist);font-style:italic;line-height:1.55;flex:1}
-.card-actions{display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:10px;border-top:1px solid var(--ivory2)}
-.flip-hint{font-family:"Josefin Sans",sans-serif;font-weight:100;font-size:11px;letter-spacing:.2em;color:var(--ghost);text-transform:uppercase}
-.pin-btn{background:none;border:1px solid var(--ivory2);color:var(--fog);font-size:13px;padding:5px 10px;cursor:pointer;transition:all .2s;font-family:"Josefin Sans",sans-serif;font-weight:300;font-size:12px}
-.pin-btn:hover{border-color:var(--gold);color:var(--gold)}
-.pin-btn.pinned{background:rgba(196,146,42,.12);border-color:var(--gold);color:var(--ink)}
-
-/* BACK */
-.card-back{background:var(--ink);transform:rotateY(180deg);padding:24px 22px 20px;display:flex;flex-direction:column;gap:11px;position:relative;overflow:hidden}
-.card-back::before,.card-back::after{content:"";position:absolute;width:28px;height:28px;border-color:rgba(196,146,42,.22);border-style:solid}
-.card-back::before{top:8px;left:8px;border-width:1px 0 0 1px}
-.card-back::after{bottom:8px;right:8px;border-width:0 1px 1px 0}
-.bk-name{font-family:"Playfair Display",serif;font-size:1.35rem;font-weight:700;color:var(--ivory);line-height:1.1}
-.bk-dates{font-family:"Josefin Sans",sans-serif;font-weight:100;font-size:12px;letter-spacing:.18em;color:var(--gold2);margin-top:-4px}
-.bk-text{font-size:14px;line-height:1.7;color:rgba(245,240,232,.78);flex:1;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(196,146,42,.3) transparent}
-.bk-quote{font-family:"Playfair Display",serif;font-style:italic;font-size:14px;color:var(--gold3);border-left:2px solid var(--gold);padding:4px 0 4px 14px;line-height:1.6}
-.bk-lbl{font-family:"Josefin Sans",sans-serif;font-weight:100;font-size:11px;letter-spacing:.22em;color:var(--gold2);text-transform:uppercase;margin-bottom:5px}
-.bk-work{display:flex;align-items:center;gap:10px;padding:5px 0;cursor:pointer;transition:all .2s}
-.bk-work:hover .bk-work-title{color:var(--gold3)}
-.bk-work.done .bk-work-title{text-decoration:line-through;opacity:.45}
-.bk-work-check{width:14px;height:14px;border:1px solid rgba(196,146,42,.4);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--gold2);transition:all .2s}
-.bk-work.done .bk-work-check{background:var(--gold);border-color:var(--gold);color:var(--ink)}
-.bk-work-title{font-size:13px;color:rgba(245,240,232,.75);font-style:italic}
-.bk-pills{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
-.bk-pill{font-family:"Josefin Sans",sans-serif;font-weight:100;font-size:11px;letter-spacing:.06em;color:rgba(245,240,232,.85);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);padding:3px 9px;cursor:pointer;transition:all .2s}
-.bk-pill:hover{background:rgba(196,146,42,.2);border-color:var(--gold2)}
-.detail-btn{background:var(--gold);border:none;color:var(--ink);font-family:"Josefin Sans",sans-serif;font-weight:300;font-size:12px;letter-spacing:.22em;padding:10px 16px;cursor:pointer;text-transform:uppercase;width:100%;transition:background .2s;margin-top:2px}
-.detail-btn:hover{background:var(--gold2)}
-
-/* ══════ DETAIL PAGE ══════ */
-#page-detail{position:fixed;inset:0;background:var(--ivory);z-index:9500;overflow-y:auto;display:none;flex-direction:column}
+/* ══════ DETAIL PAGE — layout 2 colonnes avec ancres ══════ */
+/* On laisse l'espace de la navbar en haut pour qu'elle reste visible et navigable */
+#page-detail{position:fixed;top:54px;left:0;right:0;bottom:0;background:var(--ivory);z-index:880;display:none;flex-direction:column}
 #page-detail.open{display:flex}
-.det-topbar{background:var(--ink);color:var(--ivory);padding:14px 32px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;position:sticky;top:0;z-index:10}
-.det-back{background:none;border:none;color:rgba(245,240,232,.7);font-family:"Josefin Sans",sans-serif;font-weight:300;font-size:13px;letter-spacing:.2em;cursor:pointer;display:flex;align-items:center;gap:8px;padding:4px 0;transition:color .2s;text-transform:uppercase}
-.det-back:hover{color:var(--gold2)}
-.det-topbar-name{font-family:"Playfair Display",serif;font-style:italic;font-size:1.1rem;color:var(--gold2)}
-.det-pin{background:none;border:1px solid rgba(245,240,232,.2);color:rgba(245,240,232,.7);font-family:"Josefin Sans",sans-serif;font-weight:100;font-size:12px;letter-spacing:.15em;padding:6px 14px;cursor:pointer;transition:all .2s;text-transform:uppercase}
-.det-pin:hover{border-color:var(--gold2);color:var(--gold2)}
-.det-pin.pinned{background:rgba(196,146,42,.15);border-color:var(--gold);color:var(--gold2)}
-.det-hero{position:relative;height:min(420px,50vw);overflow:hidden;flex-shrink:0}
-.det-hero img{width:100%;height:100%;object-fit:cover;object-position:top center;filter:sepia(12%) contrast(1.05)}
-.det-hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 30%,rgba(26,18,8,.88) 100%)}
-.det-hero-info{position:absolute;bottom:28px;left:40px;right:40px}
-.det-hero-name{font-family:"Playfair Display",serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:900;color:var(--ivory);line-height:1;margin-bottom:8px}
-.det-hero-meta{font-family:"Josefin Sans",sans-serif;font-weight:100;font-size:14px;letter-spacing:.25em;color:var(--gold2);text-transform:uppercase}
-.det-body{max-width:800px;margin:0 auto;padding:48px 40px 80px;display:flex;flex-direction:column;gap:40px}
-.det-sec-title{font-family:"Josefin Sans",sans-serif;font-weight:300;font-size:12px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--ivory2)}
-.det-desc{font-size:17px;line-height:1.85;color:var(--ink2)}
-.det-quote{font-family:"Playfair Display",serif;font-style:italic;font-size:1.15rem;color:var(--ink);border-left:3px solid var(--gold);padding:10px 0 10px 22px;line-height:1.7;margin-bottom:12px}
-.det-quote-src{font-family:"Josefin Sans",sans-serif;font-weight:100;font-size:12px;letter-spacing:.12em;color:var(--fog);margin-top:6px;display:block}
+.det-header{flex-shrink:0;padding:26px 64px 0 64px;border-bottom:1px solid var(--ivory2);background:var(--ivory)}
+.det-header-top{display:flex;align-items:flex-start;justify-content:space-between;gap:24px}
+.det-header-name{font-family:"Playfair Display",serif;font-size:clamp(1.8rem,4vw,2.6rem);font-weight:900;color:var(--ink);line-height:1.05;letter-spacing:.01em}
+.det-header-meta{font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:13px;letter-spacing:.28em;color:var(--mist);text-transform:uppercase;margin-top:10px}
+.det-anchors{margin-top:18px;display:flex;flex-wrap:wrap;gap:0;overflow-x:auto;scrollbar-width:none}
+.det-anchors::-webkit-scrollbar{display:none}
+.det-anchor{position:relative;display:inline-flex;align-items:center;font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:11.5px;letter-spacing:.22em;color:var(--fog);text-transform:uppercase;padding:14px 0 16px;margin-right:36px;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:color .2s,border-color .25s;text-decoration:none}
+.det-anchor:hover{color:var(--mist)}
+.det-anchor.on{color:var(--ink);border-bottom-color:var(--ink)}
+.det-layout{flex:1;display:grid;grid-template-columns:1fr 420px;gap:0;overflow:hidden;min-height:0}
+.det-text{overflow-y:auto;padding:40px 64px 80px;scrollbar-width:thin;scrollbar-color:var(--ink3) transparent}
+.det-photos{overflow-y:auto;padding:40px 48px 80px 0;background:var(--ivory);scrollbar-width:thin;scrollbar-color:var(--ink3) transparent}
+.det-photo-main{width:100%;aspect-ratio:3/4;overflow:hidden;background:var(--ivory2)}
+.det-photo-main img{width:100%;height:100%;object-fit:cover;object-position:top center;filter:grayscale(.35) contrast(1.05)}
+.det-gallery-item{margin-top:14px}
+.det-gallery-item img{width:100%;display:block;filter:grayscale(.4) contrast(1.04)}
+.det-section{padding:70px 0 24px;border-top:1px solid transparent;scroll-margin-top:18px}
+.det-section:first-of-type{padding-top:0}
+.det-section-title{font-family:"Josefin Sans",sans-serif;font-weight:700;font-size:11.5px;letter-spacing:.42em;color:var(--ink);text-transform:uppercase;margin-bottom:24px;padding-bottom:12px;border-bottom:1px solid var(--ivory2)}
+.det-mini-wrap{background:#06091a;overflow:hidden;height:560px;width:100%}
+.det-mini-wrap svg{width:100%;height:100%;display:block}
+.det-gallery-placeholder{margin-top:14px;aspect-ratio:4/5;background:linear-gradient(135deg,var(--ivory2),var(--paper));border:1px solid var(--ivory2);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;position:relative;overflow:hidden}
+.det-gallery-placeholder::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,transparent,transparent 12px,rgba(10,10,10,.04) 12px,rgba(10,10,10,.04) 13px)}
+.det-gallery-placeholder-icon{font-family:"Playfair Display",serif;font-size:2.4rem;color:var(--fog);margin-bottom:10px;position:relative}
+.det-gallery-placeholder-label{font-family:"Josefin Sans",sans-serif;font-weight:300;font-size:11px;letter-spacing:.28em;color:var(--mist);text-transform:uppercase;position:relative}
+@media(max-width:900px){
+  .det-layout{grid-template-columns:1fr;overflow:auto}
+  .det-text,.det-photos{overflow:visible;padding:24px 20px}
+  .det-photos{padding-top:0}
+  .det-header{padding:24px 20px 0}
+  .det-anchors{margin-top:14px}
+}
+.det-desc{font-size:17.5px;line-height:1.85;color:var(--ink2);margin-bottom:28px}
+.det-bio{font-size:16.5px;line-height:1.85;color:var(--ink2);font-family:"Cormorant Garamond",serif}
+.det-bio em{font-style:italic;color:var(--ink)}
+.det-quote{font-family:"Playfair Display",serif;font-style:italic;font-size:1.18rem;color:var(--ink);padding:8px 0;line-height:1.7;margin-bottom:18px}
+.det-quote-src{font-family:"Josefin Sans",sans-serif;font-weight:400;font-size:12px;letter-spacing:.14em;color:var(--fog);margin-top:8px;display:block;font-style:normal}
 .det-quote-src a{color:var(--gold);text-decoration:none}
 .det-quote-src a:hover{text-decoration:underline}
-.det-work{display:flex;align-items:flex-start;gap:14px;padding:12px 0;border-bottom:1px solid var(--ivory2);cursor:pointer;transition:all .2s}
-.det-work:hover{padding-left:8px}
+.det-work{display:flex;align-items:flex-start;gap:14px;padding:12px 0;border-bottom:1px solid var(--ivory2);cursor:pointer;transition:background .2s}
+.det-work:hover{background:rgba(10,10,10,.04)}
 .det-work.done .det-work-title{text-decoration:line-through;opacity:.45}
-.det-work-check{width:20px;height:20px;border:1.5px solid var(--ivory2);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .25s;font-size:11px;margin-top:2px}
+.det-work-check{width:20px;height:20px;border:1.5px solid var(--mist);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .25s;font-size:11px;margin-top:2px;color:var(--mist)}
+.det-work:hover .det-work-check{border-color:var(--ink)}
 .det-work.done .det-work-check{background:var(--ink);border-color:var(--ink);color:white}
 .det-work-info{flex:1}
 .det-work-title{font-family:"Playfair Display",serif;font-style:italic;font-size:16px;color:var(--ink);line-height:1.3;margin-bottom:3px}
@@ -172,7 +182,7 @@ body::before{content:"";position:fixed;inset:0;background-image:url("data:image/
 /* Work pin button */
 .det-work-pin{background:none;border:1px solid var(--ivory2);color:var(--fog);font-size:12px;padding:3px 8px;cursor:pointer;transition:all .2s;font-family:"Josefin Sans",sans-serif;font-weight:100;font-size:11px;letter-spacing:.1em;flex-shrink:0;margin-top:2px}
 .det-work-pin:hover{border-color:var(--gold);color:var(--gold)}
-.det-work-pin.pinned{background:rgba(196,146,42,.1);border-color:var(--gold);color:var(--ink)}
+.det-work-pin.pinned{background:rgba(168,161,147,.1);border-color:var(--gold);color:var(--ink)}
 
 .det-yt-link{display:flex;align-items:center;gap:12px;padding:14px 18px;background:var(--ink);color:var(--ivory);text-decoration:none;transition:background .2s;margin-bottom:10px;font-family:"Josefin Sans",sans-serif;font-weight:300;font-size:14px;letter-spacing:.1em}
 .det-yt-link:hover{background:var(--ink2)}
@@ -188,20 +198,47 @@ body::before{content:"";position:fixed;inset:0;background-image:url("data:image/
 .reco-type{font-family:"Josefin Sans",sans-serif;font-weight:100;font-size:12px;letter-spacing:.12em;color:var(--fog)}
 
 /* ══════ FRISE ══════ */
-#sec-frise{display:none}
-.frise-scroll{overflow-x:auto;padding:20px 60px 40px;cursor:grab;scrollbar-width:thin;scrollbar-color:var(--ink2) var(--ivory2);background:white;border-top:1px solid var(--ivory2);border-bottom:1px solid var(--ivory2)}
+#sec-frise{display:none;height:100vh}
+.frise-scroll{overflow-x:auto;overflow-y:hidden;cursor:grab;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.3) rgba(0,0,0,.3);background:#0a0a0a;outline:none;height:100vh}
 .frise-scroll:active{cursor:grabbing}
-.frise-track{display:flex;align-items:flex-start;position:relative;min-width:max-content;padding-top:80px}
-.frise-track::before{content:"";position:absolute;left:0;right:0;top:160px;height:2px;background:linear-gradient(to right,transparent,var(--ink) 4%,var(--ink) 96%,transparent)}
-.frise-era{position:relative;padding:0 20px;min-width:180px}
-.frise-era-label{position:absolute;top:-70px;left:0;font-family:"Josefin Sans",sans-serif;font-weight:400;font-size:12px;letter-spacing:.25em;text-transform:uppercase;white-space:nowrap}
-.frise-dot{position:absolute;top:152px;left:20px;width:14px;height:14px;border-radius:50%;border:2px solid var(--ink);background:var(--ivory);z-index:2}
-.frise-above{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
-.frise-below{display:flex;flex-direction:column;gap:6px;margin-top:168px}
-.frise-fig{display:flex;align-items:center;gap:8px;cursor:pointer;padding:5px 8px 5px 4px;border-left:2px solid transparent;transition:all .25s}
-.frise-fig:hover{border-left-color:var(--gold);background:rgba(196,146,42,.06)}
-.frise-fig img{width:34px;height:34px;border-radius:50%;object-fit:cover;object-position:top;flex-shrink:0;filter:sepia(18%) contrast(1.05);border:1px solid var(--ivory2)}
-.frise-fig-name{font-family:"Playfair Display",serif;font-style:italic;font-size:15px;color:var(--ink);white-space:nowrap;font-weight:600}
+.frise-track{position:relative;min-width:max-content;height:100%}
+/* Ligne de dates : abaissée sous la navbar pour rester visible */
+.frise-dates-strip{position:absolute;top:54px;left:0;right:0;height:36px;display:flex;align-items:center;background:rgba(0,0,0,.35);backdrop-filter:blur(2px);z-index:5;pointer-events:none}
+.frise-date{position:absolute;font-family:"Josefin Sans",sans-serif;font-weight:700;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.65);transform:translateX(-50%);white-space:nowrap}
+.frise-date-tick{position:absolute;top:54px;width:1px;height:8px;background:rgba(255,255,255,.3);transform:translateX(-.5px)}
+/* Pas d'axe horizontal au milieu (retiré pour un rendu moins scolaire) */
+.frise-axis{display:none}
+/* Figures : texte/photo seuls, pas de ligne ni de dot vers un axe */
+.frise-fig{position:absolute;width:190px;cursor:pointer;display:flex;flex-direction:column;align-items:center;text-align:center;transition:transform .25s;z-index:4;transform:translateX(-50%)}
+.frise-fig:hover{transform:translateX(-50%) translateY(-2px)}
+.frise-fig-photo{width:170px;height:200px;object-fit:cover;object-position:top center;display:block;margin-bottom:10px;mix-blend-mode:screen;filter:contrast(1.18) saturate(1.4) brightness(1.05);-webkit-mask-image:radial-gradient(ellipse 72% 78% at center,#000 45%,transparent 100%);mask-image:radial-gradient(ellipse 72% 78% at center,#000 45%,transparent 100%);transition:filter .35s}
+.frise-fig:hover .frise-fig-photo{filter:contrast(1.25) saturate(1.55) brightness(1.15)}
+.frise-fig-name{font-family:"Playfair Display",serif;font-style:italic;font-size:17px;font-weight:800;line-height:1.15;margin-bottom:4px}
+.frise-fig-dates{font-family:"Josefin Sans",sans-serif;font-weight:700;font-size:10.5px;letter-spacing:.28em;text-transform:uppercase;opacity:.85}
+.frise-fig-line,.frise-fig-dot,.frise-event-line,.frise-event-dot,.frise-work-line,.frise-work-dot{display:none}
+/* Lifespan bars : trait fin au niveau de l'axe (centre vertical) */
+.frise-life{position:absolute;top:calc(50% - 2px);height:3px;background:currentColor;opacity:.22;border-radius:2px;pointer-events:none}
+/* Événements historiques : texte direct ton-sur-ton (interactif pour tooltip) */
+.frise-event{position:absolute;width:230px;cursor:pointer;transform:translateX(-50%);z-index:3;text-align:center}
+.frise-event-year{font-family:"Josefin Sans",sans-serif;font-weight:800;font-size:11.5px;letter-spacing:.34em;margin-bottom:5px;text-transform:uppercase;opacity:.95}
+.frise-event-title{font-family:"Playfair Display",serif;font-style:italic;font-size:13.5px;font-weight:700;line-height:1.35;opacity:.95}
+/* Œuvres majeures */
+.frise-work{position:absolute;cursor:pointer;transform:translateX(-50%);z-index:2;width:150px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:2px}
+.frise-work-title{font-family:"Playfair Display",serif;font-style:italic;font-size:12.5px;font-weight:600;line-height:1.25;opacity:.86}
+.frise-work-fig{font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:9.5px;letter-spacing:.25em;text-transform:uppercase;opacity:.62}
+.frise-work-yt{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:50%;color:currentColor;font-size:9px;text-decoration:none;transition:background .2s,transform .2s;margin-top:3px}
+.frise-work-yt:hover{background:rgba(255,255,255,.25);transform:scale(1.12)}
+/* Tooltip global de la frise (résumé/explication) */
+#frise-tooltip{position:fixed;z-index:9700;display:none;pointer-events:none;background:rgba(8,8,15,.96);border:1px solid rgba(255,255,255,.2);color:var(--ivory);padding:18px 20px;max-width:380px;font-family:"Cormorant Garamond",serif;font-size:15px;line-height:1.55;box-shadow:0 16px 50px rgba(0,0,0,.6);backdrop-filter:blur(8px)}
+.frise-tt-head{font-family:"Playfair Display",serif;font-style:italic;font-size:1.05rem;font-weight:700;color:var(--ivory);margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.15)}
+.frise-tt-body{color:rgba(244,241,236,.88);font-style:italic}
+/* Modal vidéo YouTube */
+#frise-video-modal{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:11000;display:none;align-items:center;justify-content:center;padding:40px}
+#frise-video-modal.open{display:flex}
+.frise-video-inner{width:min(960px,100%);aspect-ratio:16/9;position:relative}
+.frise-video-inner iframe{width:100%;height:100%;border:none}
+.frise-video-close{position:absolute;top:-44px;right:0;background:none;border:1px solid rgba(255,255,255,.4);color:#fff;width:36px;height:36px;font-size:18px;cursor:pointer;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.frise-video-close:hover{background:rgba(255,255,255,.1)}
 
 /* Thematic arcs legend */
 .frise-legend{padding:0 60px 60px;max-width:900px;margin:0 auto}
@@ -212,16 +249,29 @@ body::before{content:"";position:fixed;inset:0;background-image:url("data:image/
 
 /* ══════ MAP ══════ */
 #sec-map{display:none}
-#map-section{padding:0;max-width:none;margin:0}
-.map-wrap{border:1px solid var(--ivory2);overflow:hidden;background:var(--ink)}
-#conn-tooltip{position:fixed;background:var(--ivory);border:1px solid var(--ink2);padding:12px 16px;max-width:260px;font-size:14px;line-height:1.6;color:var(--ink2);pointer-events:none;z-index:9000;display:none;box-shadow:3px 3px 16px rgba(0,0,0,.15)}
-#conn-tooltip strong{display:block;font-family:"Playfair Display",serif;font-style:normal;font-size:15px;margin-bottom:4px;color:var(--carmine)}
+#map-section{padding:0;max-width:none;margin:0;min-height:100vh}
+.map-wrap{border:none;overflow:hidden;background:#06091a;min-height:100vh;display:flex}
+#mapsvg{flex:1;width:100%;min-height:100vh;display:block}
+/* Encarts flottants de la Constellation */
+#conn-tooltip,#conn-figcard{position:fixed;z-index:10500;display:none;pointer-events:none;background:rgba(13,20,36,.96);border:1px solid rgba(255,255,255,.18);color:var(--ivory);box-shadow:0 18px 60px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.02) inset;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+#conn-tooltip{max-width:440px;padding:18px 20px;font-family:"Cormorant Garamond",serif;font-size:15.5px;line-height:1.65}
+.ct-head{display:flex;align-items:center;gap:12px;padding-bottom:12px;margin-bottom:12px;border-bottom:1px solid rgba(255,255,255,.12)}
+.ct-head img{width:44px;height:44px;border-radius:50%;object-fit:cover;object-position:top;filter:grayscale(.6) contrast(1.05)}
+.ct-title{flex:1;display:flex;align-items:center;justify-content:center;gap:10px;font-family:"Playfair Display",serif;color:var(--ivory);font-size:15px;font-weight:700;text-align:center}
+.ct-title em{font-style:normal;color:rgba(255,255,255,.45);font-size:13px;font-weight:300}
+.ct-desc{color:rgba(244,241,236,.88);font-style:italic}
+#conn-figcard{width:240px;padding:0;overflow:hidden;background:#0a0a0a;border:1px solid rgba(255,255,255,.18);box-shadow:0 18px 50px rgba(0,0,0,.6)}
+.cfc-photo-wrap{position:relative;height:300px;overflow:hidden}
+.cfc-photo-wrap img{width:100%;height:100%;object-fit:cover;object-position:top center;filter:grayscale(.45) contrast(1.05)}
+.cfc-overlay{position:absolute;left:0;right:0;bottom:0;padding:18px 18px 20px;background:linear-gradient(to bottom,rgba(10,10,10,0) 0%,rgba(10,10,10,.55) 45%,rgba(10,10,10,.92) 100%)}
+.cfc-name{font-family:"Playfair Display",serif;font-size:1.3rem;font-weight:700;color:var(--ivory);line-height:1.1;margin-bottom:6px;text-shadow:0 1px 8px rgba(0,0,0,.6)}
+.cfc-dates{font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:12px;letter-spacing:.28em;color:rgba(244,241,236,.92);text-transform:uppercase}
 
 /* ══════ THREADS ══════ */
 #sec-fils{display:none}
 #threads-section{padding:0 40px 80px;max-width:1000px;margin:0 auto}
 .thread{padding:24px 28px 24px 32px;border:1px solid var(--ivory2);margin-bottom:16px;position:relative;background:white;transition:all .3s}
-.thread:hover{box-shadow:3px 3px 20px rgba(26,18,8,.08)}
+.thread:hover{box-shadow:3px 3px 20px rgba(10,10,10,.08)}
 .thread-stripe{position:absolute;left:0;top:0;bottom:0;width:4px}
 .thread-name{font-family:"Playfair Display",serif;font-size:1.1rem;font-weight:700;color:var(--ink);margin-bottom:8px}
 .thread-desc{font-size:15px;line-height:1.75;color:var(--mist);margin-bottom:14px}
@@ -230,7 +280,7 @@ body::before{content:"";position:fixed;inset:0;background-image:url("data:image/
 .ca{color:var(--gold);font-size:13px}
 
 /* ══════ FOOTER ══════ */
-footer{background:var(--ink);color:rgba(245,240,232,.5);text-align:center;padding:50px 40px;font-size:15px;font-style:italic}
+footer{background:var(--ink);color:rgba(244,241,236,.5);text-align:center;padding:50px 40px;font-size:15px;font-style:italic}
 footer strong{display:block;font-family:"Playfair Display",serif;font-size:1.15rem;color:var(--gold2);margin-bottom:8px;font-weight:400}
 
 /* ══════ REVEAL ══════ */
@@ -256,59 +306,78 @@ footer strong{display:block;font-family:"Playfair Display",serif;font-size:1.15r
 .vid-slide{min-width:100%;position:relative;cursor:pointer}
 .vid-slide{min-width:100%;position:relative;display:block;text-decoration:none}
 .vid-thumb{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:var(--ink2)}
-.vid-overlay{position:absolute;inset:0;background:rgba(26,18,8,.35);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;opacity:0;transition:opacity .25s}
+.vid-overlay{position:absolute;inset:0;background:rgba(10,10,10,.35);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;opacity:0;transition:opacity .25s}
 .vid-slide:hover .vid-overlay{opacity:1}
-.vid-play-icon{width:60px;height:60px;background:rgba(196,146,42,.92);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:var(--ink);padding-left:4px}
+.vid-play-icon{width:60px;height:60px;background:rgba(168,161,147,.92);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:var(--ink);padding-left:4px}
 .vid-caption{font-family:"Playfair Display",serif;font-style:italic;font-size:14px;color:var(--ivory);text-align:center;padding:0 20px;text-shadow:0 1px 4px rgba(0,0,0,.6)}
-.vid-nav{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;background:var(--ink);border-top:1px solid rgba(196,146,42,.1)}
-.vid-nav-btn{background:none;border:1px solid rgba(196,146,42,.3);color:var(--gold2);width:32px;height:32px;cursor:pointer;font-size:.9rem;transition:all .2s;display:flex;align-items:center;justify-content:center}
-.vid-nav-btn:hover{background:rgba(196,146,42,.15);border-color:var(--gold2)}
-.vid-dots{display:flex;gap:6px;align-items:center}
-.vid-dot{width:6px;height:6px;background:rgba(196,146,42,.3);cursor:pointer;transition:all .2s}
-.vid-dot.on{background:var(--gold2);width:20px}
+.vid-nav{display:flex;justify-content:space-between;align-items:center;padding:14px 4px 0;background:transparent}
+.vid-nav-btn{background:none;border:none;color:var(--mist);width:36px;height:36px;cursor:pointer;font-size:1.4rem;font-family:"Josefin Sans",sans-serif;font-weight:300;transition:color .2s,transform .2s;display:flex;align-items:center;justify-content:center}
+.vid-nav-btn:hover{color:var(--ink);transform:translateX(0)}
+.vid-nav-btn:first-child:hover{transform:translateX(-3px)}
+.vid-nav-btn:last-child:hover{transform:translateX(3px)}
+.vid-counter{font-family:"Josefin Sans",sans-serif;font-weight:300;font-size:11.5px;letter-spacing:.3em;color:var(--fog);text-transform:uppercase}
 
 /* NOTES */
-.notes-section{margin-top:8px}
-.notes-label{font-family:"Josefin Sans",sans-serif;font-weight:100;font-size:11px;letter-spacing:.3em;color:var(--gold);text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
-.notes-saved{font-size:11px;color:rgba(196,146,42,.5);letter-spacing:.1em;opacity:0;transition:opacity .5s}
-.notes-saved.show{opacity:1}
-.notes-area{width:100%;min-height:100px;padding:14px;background:white;border:1px solid var(--ivory2);border-bottom:2px solid var(--ink);font-family:"Cormorant Garamond",serif;font-size:15px;color:var(--ink);line-height:1.7;resize:vertical;outline:none;transition:border-color .25s}
-.notes-area:focus{border-color:var(--gold);border-bottom-color:var(--gold)}
+/* Toolbar des notes : flotte en haut à droite de la section sans chevaucher le titre */
+#anchor-notes{position:relative}
+.notes-toolbar{position:absolute;top:78px;right:0;display:flex;gap:4px;z-index:2}
+.notes-edit-toggle{background:none;border:1px solid var(--ivory2);color:var(--fog);font-size:13px;cursor:pointer;padding:4px 9px;transition:color .2s,background .2s,border-color .2s;border-radius:3px;line-height:1}
+.notes-edit-toggle:hover{color:var(--ink);border-color:var(--mist)}
+.notes-edit-toggle.on{color:var(--ivory);background:var(--ink);border-color:var(--ink)}
+.notes-list{display:flex;flex-direction:column;gap:14px;margin-bottom:18px}
+.notes-list:empty{margin-bottom:0}
+.note-item{padding:14px 16px 12px;background:rgba(10,10,10,.025);font-family:"Cormorant Garamond",serif;font-size:15.5px;color:var(--ink2);line-height:1.6;position:relative;transition:background .2s}
+.note-item:hover{background:rgba(10,10,10,.04)}
+.note-date{font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:10px;letter-spacing:.22em;color:var(--fog);text-transform:uppercase;margin-bottom:6px}
+.note-text{white-space:pre-wrap;word-wrap:break-word}
+.note-actions{position:absolute;top:10px;right:10px;display:none;gap:4px}
+.notes-list.editing .note-actions{display:flex}
+.notes-list .note-item.editing .note-actions.visible{display:flex}
+.note-btn{background:none;border:1px solid var(--ivory2);color:var(--fog);width:24px;height:24px;cursor:pointer;font-size:12px;line-height:1;display:flex;align-items:center;justify-content:center;border-radius:3px;transition:all .2s;padding:0}
+.note-btn:hover{border-color:var(--mist);color:var(--ink)}
+.note-btn.note-del:hover{border-color:var(--carmine);color:var(--carmine2)}
+.note-edit-area{width:100%;min-height:60px;padding:8px 10px;background:rgba(255,255,255,.6);border:1px solid var(--ivory2);font-family:"Cormorant Garamond",serif;font-size:15.5px;line-height:1.6;color:var(--ink);outline:none;resize:vertical}
+.note-edit-area:focus{border-color:var(--mist)}
+.notes-input{position:relative}
+.notes-area{width:100%;min-height:80px;padding:12px 38px 12px 14px;background:rgba(10,10,10,.025);border:1px solid var(--ivory2);font-family:"Cormorant Garamond",serif;font-size:15.5px;color:var(--ink);line-height:1.7;resize:vertical;outline:none;transition:border-color .2s,background .2s}
+.notes-area:focus{border-color:var(--mist);background:rgba(10,10,10,.04)}
 .notes-area::placeholder{color:var(--ghost);font-style:italic}
+.notes-validate{position:absolute;bottom:10px;right:10px;background:transparent;border:1px solid var(--ivory2);color:var(--mist);width:28px;height:28px;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;border-radius:3px;transition:all .2s;padding:0;line-height:1}
+.notes-validate:hover{background:var(--ink);color:var(--ivory);border-color:var(--ink)}
 
 </style>
 </head>
 <body>
 
-<!-- PINBOARD -->
-<div id="pinboard">
-  <button id="pin-toggle" onclick="togglePinPanel()">✦ Épingles</button>
-  <div id="pin-panel">
-    <div id="pin-panel-header">
-      <span>Mes épingles</span>
-      <button onclick="togglePinPanel()">×</button>
-    </div>
-    <div id="pin-list"></div>
-  </div>
-</div>
-
 <!-- CONNECTION TOOLTIP -->
 <div id="conn-tooltip"></div>
 
-<!-- DETAIL PAGE (full screen) -->
-<div id="page-detail">
-  <div class="det-topbar">
-    <button class="det-back" onclick="closeDetail()">← Retour</button>
-    <div class="det-topbar-name" id="det-topbar-name"></div>
-    <button class="det-pin" id="det-pin-btn" onclick="togglePinFig(currentDetailKey)">✦ Épingler</button>
+<!-- FRISE TOOLTIP -->
+<div id="frise-tooltip"></div>
+
+<!-- FRISE VIDEO MODAL -->
+<div id="frise-video-modal">
+  <div class="frise-video-inner">
+    <button class="frise-video-close" onclick="closeFriseVideo()" aria-label="Fermer">×</button>
+    <iframe id="frise-video-iframe" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
   </div>
-  <div id="det-content"></div>
 </div>
 
-<!-- HERO -->
-<section class="hero">
+<!-- CONSTELLATION HOVER CARD (sur la carte) -->
+<div id="conn-figcard"></div>
+
+<!-- DETAIL PAGE (full screen) -->
+<div id="page-detail"></div>
+
+<!-- HERO SPLASH (s'efface à l'ouverture) -->
+<section class="hero" id="hero-splash">
   <svg class="hero-sunburst" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
-    <g stroke="rgba(196,146,42,1)" stroke-width=".5" fill="none">
+    <defs>
+      <radialGradient id="heroCore" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="rgba(220,235,255,1)"/><stop offset="60%" stop-color="rgba(180,210,255,.55)"/><stop offset="100%" stop-color="rgba(180,210,255,0)"/></radialGradient>
+      <filter id="heroBlur"><feGaussianBlur stdDeviation="2"/></filter>
+    </defs>
+    <circle cx="200" cy="200" r="80" fill="url(#heroCore)" filter="url(#heroBlur)"/>
+    <g stroke="rgba(220,235,255,.92)" stroke-width=".6" fill="none">
       <line x1="200" y1="200" x2="200" y2="0"/><line x1="200" y1="200" x2="200" y2="400"/>
       <line x1="200" y1="200" x2="0" y2="200"/><line x1="200" y1="200" x2="400" y2="200"/>
       <line x1="200" y1="200" x2="59" y2="59"/><line x1="200" y1="200" x2="341" y2="341"/>
@@ -317,136 +386,111 @@ footer strong{display:block;font-family:"Playfair Display",serif;font-size:1.15r
       <line x1="200" y1="200" x2="259" y2="0"/><line x1="200" y1="200" x2="141" y2="400"/>
       <line x1="200" y1="200" x2="0" y2="141"/><line x1="200" y1="200" x2="400" y2="259"/>
       <line x1="200" y1="200" x2="0" y2="259"/><line x1="200" y1="200" x2="400" y2="141"/>
-      <circle cx="200" cy="200" r="50"/><circle cx="200" cy="200" r="90"/>
-      <circle cx="200" cy="200" r="140"/><circle cx="200" cy="200" r="190"/>
+    </g>
+    <g stroke="rgba(180,210,255,.55)" stroke-width=".4" fill="none">
+      <line x1="200" y1="200" x2="75" y2="0"/><line x1="200" y1="200" x2="325" y2="400"/>
+      <line x1="200" y1="200" x2="325" y2="0"/><line x1="200" y1="200" x2="75" y2="400"/>
+      <line x1="200" y1="200" x2="0" y2="75"/><line x1="200" y1="200" x2="400" y2="325"/>
+      <line x1="200" y1="200" x2="0" y2="325"/><line x1="200" y1="200" x2="400" y2="75"/>
+    </g>
+    <g stroke="rgba(220,235,255,.85)" stroke-width=".6" fill="none">
+      <circle cx="200" cy="200" r="40"/><circle cx="200" cy="200" r="70"/>
+      <circle cx="200" cy="200" r="110"/><circle cx="200" cy="200" r="155"/>
+      <circle cx="200" cy="200" r="195"/>
+    </g>
+    <g stroke="rgba(180,210,255,.45)" stroke-width=".35" stroke-dasharray="2 6" fill="none">
+      <circle cx="200" cy="200" r="55"/><circle cx="200" cy="200" r="90"/>
+      <circle cx="200" cy="200" r="135"/><circle cx="200" cy="200" r="175"/>
+    </g>
+    <g fill="rgba(220,235,255,.95)">
+      <circle cx="200" cy="40" r="1.8"/><circle cx="200" cy="360" r="1.8"/>
+      <circle cx="40" cy="200" r="1.8"/><circle cx="360" cy="200" r="1.8"/>
+      <circle cx="86" cy="86" r="1.4"/><circle cx="314" cy="314" r="1.4"/>
+      <circle cx="314" cy="86" r="1.4"/><circle cx="86" cy="314" r="1.4"/>
     </g>
   </svg>
   <div class="hero-eyebrow">Atlas des Âmes Libres</div>
   <h1 class="hero-title">La <em>Constellation</em></h1>
   <div class="hero-rule"><div class="rl l"></div><div class="rd"></div><div class="rl r"></div></div>
   <p class="hero-sub">Des êtres portés par une flamme intérieure qui ont tout traversé pour suivre ce qu'ils sentaient en eux.</p>
-  <div class="hero-scroll"><div class="hero-scroll-line"></div><span>Explorer</span></div>
 </section>
 
 <!-- NAV -->
 <nav class="navbar">
   <button class="nav-btn on" onclick="showSec('figures')">Les Figures</button>
   <button class="nav-btn" onclick="showSec('frise')">Frise</button>
-  <button class="nav-btn" onclick="showSec('map')">Connexions</button>
-  <button class="nav-btn" onclick="showSec('fils')">Les Fils</button><button class="nav-btn" onclick="document.getElementById('page-manifeste').style.display='flex';document.body.style.overflow='hidden'" style="margin-left:auto;color:var(--gold);border-right:none">✦ Mon Rappel</button>
+  <button class="nav-btn" onclick="showSec('map')">Constellation</button>
 </nav>
 
 <!-- FIGURES -->
 <div id="sec-figures">
-  <div class="sec-hd reveal">
-    <div class="sec-eye">✦ Les Figures ✦</div>
-    <div class="sec-tit">20 âmes retourner chaque carte</div>
-    <div class="sec-rule"></div>
-  </div>
-  <div class="search-wrap reveal">
-    <input class="search-input" id="search" type="text" placeholder="Rechercher un nom, une époque, une idée…" oninput="onSearch(this.value)">
-    <button class="search-clear" id="search-clear" onclick="clearSearch()">×</button>
-    <div id="search-count"></div>
-  </div>
-  <div class="filts reveal">
-    <button class="filt on" data-f="all">Toutes</button>
-    <button class="filt" data-f="écrivain">Écrivains</button>
-    <button class="filt" data-f="peintre">Peintres</button>
-    <button class="filt" data-f="poète">Poètes</button>
-    <button class="filt" data-f="musicien">Musiciens</button>
-    <button class="filt" data-f="mystique">Mystiques</button>
-    <button class="filt" data-f="cinéaste">Cinéastes</button>
-    <button class="filt" data-f="danse">Danse</button>
-  </div>
   <div class="grid-wrap"><div class="grid" id="grid"></div></div>
 </div>
 
 <!-- FRISE -->
 <div id="sec-frise">
-  <div class="sec-hd reveal">
-    <div class="sec-eye">✦ Frise Organique ✦</div>
-    <div class="sec-tit">Ce qui cohabite, ce qui se répond</div>
-    <div class="sec-rule"></div>
-  </div>
   <div class="frise-scroll" id="friseScroll">
     <div class="frise-track" id="friseTrack"></div>
   </div>
-  <div class="frise-legend reveal">
-    <div class="frise-legend-title">Connexions thématiques</div>
-    <div class="frise-arcs">
-      <div class="frise-arc"><div class="frise-arc-line" style="background:#8b1a2a"></div>Désir & Corps libres</div>
-      <div class="frise-arc"><div class="frise-arc-line" style="background:#4a2060"></div>Magie & Invisible</div>
-      <div class="frise-arc"><div class="frise-arc-line" style="background:#c4922a"></div>Transgression esthétique</div>
-      <div class="frise-arc"><div class="frise-arc-line" style="background:#1a4a5a"></div>Flamme & Destruction</div>
-    </div>
-  </div>
 </div>
 
-<!-- MAP -->
+<!-- CONSTELLATION (carte) -->
 <div id="sec-map">
-  <div class="sec-hd reveal">
-    <div class="sec-eye">✦ Cartographie ✦</div>
-    <div class="sec-tit">La Carte des Connexions</div>
-    <div class="sec-rule"></div>
-  </div>
   <div id="map-section" style="padding:0;max-width:none">
     <div class="map-wrap" style="border-left:none;border-right:none">
-      <svg id="mapsvg" viewBox="0 0 1200 650" xmlns="http://www.w3.org/2000/svg">
+      <svg id="mapsvg" viewBox="0 0 1400 800" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
         <defs>
-          <radialGradient id="mbg" cx="50%" cy="50%" r="60%"><stop offset="0%" stop-color="#1a1208"/><stop offset="100%" stop-color="#0e0c08"/></radialGradient>
-          <filter id="gl"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-          <filter id="gl2"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          <radialGradient id="mbg" cx="50%" cy="50%" r="90%">
+            <stop offset="0%" stop-color="#0d1224"/>
+            <stop offset="55%" stop-color="#06091a"/>
+            <stop offset="100%" stop-color="#020310"/>
+          </radialGradient>
+          <radialGradient id="nebula1" cx="22%" cy="35%" r="35%">
+            <stop offset="0%" stop-color="rgba(95,140,210,.18)"/>
+            <stop offset="100%" stop-color="rgba(95,140,210,0)"/>
+          </radialGradient>
+          <radialGradient id="nebula2" cx="78%" cy="68%" r="40%">
+            <stop offset="0%" stop-color="rgba(180,140,200,.14)"/>
+            <stop offset="100%" stop-color="rgba(180,140,200,0)"/>
+          </radialGradient>
+          <radialGradient id="nebula3" cx="55%" cy="20%" r="30%">
+            <stop offset="0%" stop-color="rgba(220,200,180,.08)"/>
+            <stop offset="100%" stop-color="rgba(220,200,180,0)"/>
+          </radialGradient>
+          <filter id="starblur"><feGaussianBlur stdDeviation=".7"/></filter>
+          <filter id="starblur2"><feGaussianBlur stdDeviation="2.5"/></filter>
+          <filter id="incrust" x="-10%" y="-10%" width="120%" height="120%">
+            <feColorMatrix type="matrix" values="0.18 0.18 0.18 0 0
+                                                 0.22 0.24 0.32 0 0
+                                                 0.36 0.42 0.55 0 0
+                                                 0 0 0 0.65 0"/>
+            <feGaussianBlur stdDeviation=".4"/>
+          </filter>
+          <pattern id="grain" x="0" y="0" width="180" height="180" patternUnits="userSpaceOnUse">
+            <rect width="180" height="180" fill="transparent"/>
+            <circle cx="20" cy="40" r=".5" fill="#ffffff" fill-opacity=".12"/>
+            <circle cx="80" cy="15" r=".4" fill="#ffffff" fill-opacity=".09"/>
+            <circle cx="140" cy="60" r=".6" fill="#ffffff" fill-opacity=".11"/>
+            <circle cx="50" cy="100" r=".4" fill="#ffffff" fill-opacity=".08"/>
+            <circle cx="110" cy="130" r=".5" fill="#ffffff" fill-opacity=".10"/>
+            <circle cx="160" cy="155" r=".4" fill="#ffffff" fill-opacity=".09"/>
+            <circle cx="30" cy="170" r=".5" fill="#ffffff" fill-opacity=".11"/>
+          </pattern>
         </defs>
-        <rect width="1200" height="650" fill="url(#mbg)"/>
-        <g stroke="rgba(196,146,42,.03)" stroke-width="1">
-          <line x1="0" y1="162" x2="1200" y2="162"/><line x1="0" y1="325" x2="1200" y2="325"/><line x1="0" y1="487" x2="1200" y2="487"/>
-          <line x1="200" y1="0" x2="200" y2="650"/><line x1="400" y1="0" x2="400" y2="650"/><line x1="600" y1="0" x2="600" y2="650"/><line x1="800" y1="0" x2="800" y2="650"/><line x1="1000" y1="0" x2="1000" y2="650"/>
-        </g>
+        <rect width="1400" height="800" fill="url(#mbg)"/>
+        <rect width="1400" height="800" fill="url(#nebula1)"/>
+        <rect width="1400" height="800" fill="url(#nebula2)"/>
+        <rect width="1400" height="800" fill="url(#nebula3)"/>
+        <rect width="1400" height="800" fill="url(#grain)" opacity=".7"/>
+        <g id="map-stars"></g>
+        <g id="map-incrust"></g>
         <g id="map-connections"></g>
         <g id="map-nodes"></g>
-        <text x="600" y="635" text-anchor="middle" fill="rgba(196,146,42,.2)" font-family="Josefin Sans,sans-serif" font-size="9" letter-spacing="4">SURVOLER LES LIGNES · CLIQUER LES NŒUDS</text>
       </svg>
     </div>
   </div>
 </div>
 
-<!-- FILS -->
-<div id="sec-fils">
-  <div class="sec-hd reveal">
-    <div class="sec-eye">✦ Thèmes ✦</div>
-    <div class="sec-tit">Les Fils qui Relient Tout</div>
-    <div class="sec-rule"></div>
-  </div>
-  <div id="threads-section">
-    <div class="thread reveal"><div class="thread-stripe" style="background:#8b1a2a"></div>
-      <div class="thread-name">Le Fil Rouge Femmes, Corps, Liberté</div>
-      <div class="thread-desc">Une lignée souterraine traversant 2500 ans. Des femmes qui ont refusé qu'on décide à leur place de leur corps, leur désir, leur identité. Pas un mouvement une transmission de flamme à flamme.</div>
-      <div class="chain"><span class="cn">Sappho</span><span class="ca">→</span><span class="cn">Hildegarde</span><span class="ca">→</span><span class="cn">Artemisia</span><span class="ca">→</span><span class="cn">Renée Vivien</span><span class="ca">→</span><span class="cn">Barney</span><span class="ca">→</span><span class="cn">Colette</span><span class="ca">→</span><span class="cn">Nin</span><span class="ca">→</span><span class="cn">Carrington</span><span class="ca">→</span><span class="cn">Patti Smith</span><span class="ca">→</span><span class="cn">PJ Harvey</span></div>
-    </div>
-    <div class="thread reveal"><div class="thread-stripe" style="background:#4a2060"></div>
-      <div class="thread-name">Le Fil Violet Art & Magie</div>
-      <div class="thread-desc">La même conviction traversant les siècles : l'image peut changer le réel. De l'alchimie médiévale aux rituels californiens des années 50, ce n'est pas une métaphore c'est une pratique.</div>
-      <div class="chain"><span class="cn">Paracelse</span><span class="ca">→</span><span class="cn">John Dee</span><span class="ca">→</span><span class="cn">Swedenborg</span><span class="ca">→</span><span class="cn">Blake</span><span class="ca">→</span><span class="cn">Spare</span><span class="ca">→</span><span class="cn">Colquhoun</span><span class="ca">→</span><span class="cn">Carrington & Varo</span><span class="ca">→</span><span class="cn">Cameron</span><span class="ca">→</span><span class="cn">Anger</span><span class="ca">→</span><span class="cn">Coil</span></div>
-    </div>
-    <div class="thread reveal"><div class="thread-stripe" style="background:#c4922a"></div>
-      <div class="thread-name">Le Fil Doré La Transgression Esthétique</div>
-      <div class="thread-desc">Faire de sa vie une œuvre d'art et assumer les conséquences. Du dandy victorien au glam rock, la même posture : le style comme acte philosophique.</div>
-      <div class="chain"><span class="cn">Huysmans</span><span class="ca">→</span><span class="cn">Baudelaire</span><span class="ca">→</span><span class="cn">Wilde</span><span class="ca">→</span><span class="cn">Cocteau</span><span class="ca">→</span><span class="cn">Lempicka</span><span class="ca">→</span><span class="cn">Dalí</span><span class="ca">→</span><span class="cn">Bowie</span><span class="ca">→</span><span class="cn">McQueen</span></div>
-    </div>
-    <div class="thread reveal"><div class="thread-stripe" style="background:#1a4a5a"></div>
-      <div class="thread-name">Le Fil Sombre La Flamme qui Consume</div>
-      <div class="thread-desc">Ceux dont la flamme était si intense qu'elle les a brûlés en même temps qu'elle brûlait le monde. La mort jeune, la folie, la disparition comme prix de l'incandescence.</div>
-      <div class="chain"><span class="cn">Nerval</span><span class="ca">→</span><span class="cn">Rimbaud</span><span class="ca">→</span><span class="cn">Vivien</span><span class="ca">→</span><span class="cn">Nijinski</span><span class="ca">→</span><span class="cn">Trakl</span><span class="ca">→</span><span class="cn">Syd Barrett</span><span class="ca">→</span><span class="cn">Nick Drake</span><span class="ca">→</span><span class="cn">Jeff Buckley</span><span class="ca">→</span><span class="cn">Basquiat</span></div>
-    </div>
-    <div class="thread reveal"><div class="thread-stripe" style="background:#2e2416"></div>
-      <div class="thread-name">Le Fil de Rimbaud</div>
-      <div class="thread-desc">Une généalogie directe. Rimbaud a posé la question comment vivre en état de voyance totale et chaque génération a tenté d'y répondre.</div>
-      <div class="chain"><span class="cn">Rimbaud</span><span class="ca">→</span><span class="cn">Ginsberg</span><span class="ca">→</span><span class="cn">Patti Smith</span><span class="ca">→</span><span class="cn">Nick Cave</span><span class="ca">→</span><span class="cn">PJ Harvey</span><span class="ca">→</span><span class="cn">aujourd'hui</span></div>
-    </div>
-  </div>
-</div>
-
-<footer><strong>La Constellation</strong>Des êtres portés par une flamme intérieure. Chaque figure mène à dix autres.</footer>
 
 <script>
 const IMGS = {
@@ -492,11 +536,11 @@ const FIGURES = [
   {key:"blake",cat:"poète",era:"romantisme",eraColor:"#1a4a5a",eraLabel:"Romantisme",name:"William Blake",dates:"1757 1827",nation:"Angleterre",tagline:"Voyait des anges depuis l'enfance et les gravait sur cuivre",desc:"A commencé à voir des anges à 4 ans. A passé sa vie à écrire et graver ses propres livres prophétiques une mythologie personnelle complète avec ses dieux, ses cosmologies, ses lois. A vécu dans une pauvreté quasi totale, incompris de son vivant. Ses vers ont fondé toute la contre-culture anglaise. Jim Morrison a pris le nom de son groupe chez lui (\"the doors of perception\").",quotes:[{text:"Le chemin de l'excès mène au palais de la sagesse.",source:"Le Mariage du Ciel et de l'Enfer, imprimé par l'auteur, Londres, 1793",link:"https://www.gutenberg.org/ebooks/45315"},{text:"Si les portes de la perception étaient purifiées, tout apparaîtrait à l'homme tel qu'il est infini.",source:"Le Mariage du Ciel et de l'Enfer, 1793",link:"https://www.gutenberg.org/ebooks/45315"}],works:[{title:"Le Mariage du Ciel et de l'Enfer",type:"Livre prophétique illustré, ~1793",done:false},{title:"Songs of Innocence and Experience",type:"Poésie illustrée, 1794",done:false},{title:"Aldous Huxley Les Portes de la Perception",type:"Chatto & Windus, 1954 essai directement inspiré de Blake",done:false}],connections:["morrison","ginsberg"],connectionDesc:{morrison:"Les Doors ont pris leur nom de Blake \"if the doors of perception were cleansed\"",ginsberg:"Ginsberg avait des visions de Blake il racontait entendre sa voix"},recos:[{title:"Peter Ackroyd Blake",type:"Sinclair-Stevenson, 1995 biographie"},{title:"Northrop Frye Fearful Symmetry",type:"Princeton University Press, 1947 la meilleure lecture de l'œuvre"}],yt_link:null,threads:["magie","flamme"],mapPos:{x:245,y:335}},
   {key:"carrington",cat:"peintre",era:"surrealisme",eraColor:"#2d6b54",eraLabel:"Surréalisme",name:"Leonora Carrington",dates:"1917 2011",nation:"Angleterre / Mexique",tagline:"La Sorcière surréaliste a peint jusqu'à 94 ans",desc:"Fuite de l'Angleterre victorienne, amour fou avec Max Ernst, internement psychiatrique forcé en Espagne pendant la guerre son autobiographie En Bas en parle avec une lucidité terrifiante puis renaissance au Mexique où elle a peint jusqu'à 94 ans. Ses tableaux : femmes-animaux, rituels, cuisines alchimiques. Elle pratiquait l'alchimie, l'astrologie. Chaque tableau est un système de symboles à déchiffrer.",quotes:[{text:"Je refuse d'être une victime.",source:"Cité dans Joanna Moorhead The Surreal Life of Leonora Carrington, Virago, 2017",link:null}],works:[{title:"La Trompette de Laponie",type:"Roman, Flammarion, 1974",done:false},{title:"En Bas",type:"Autobiographie de l'internement, 1944 choc absolu",done:false},{title:"L'Auberge du Cheval d'Aube",type:"Nouvelles",done:false},{title:"Joanna Moorhead The Surreal Life of Leonora Carrington",type:"Virago, 2017 biographie récente",done:false}],connections:["varo","kahlo"],connectionDesc:{varo:"Amies intimes au Mexique leurs vies et œuvres sont inséparables",kahlo:"Amies dans le même Mexique surréaliste des années 40-50"},recos:[{title:"Joanna Moorhead The Surreal Life of Leonora Carrington",type:"Virago, Londres, 2017"}],yt_link:null,threads:["magie","femmes"],mapPos:{x:1025,y:387}},
   {key:"varo",cat:"peintre",era:"surrealisme",eraColor:"#2d6b54",eraLabel:"Surréalisme",name:"Remedios Varo",dates:"1908 1963",nation:"Espagne / Mexique",tagline:"Des laboratoires habités par des sorcières la peinture comme alchimie",desc:"Peintre surréaliste espagnole réfugiée au Mexique, amie intime de Leonora Carrington. Ses tableaux : des femmes aux corps élancés accomplissent des rituels scientifiques-mystiques dans des tours médiévales, des forêts impossibles. Elle pratiquait l'alchimie, l'astrologie, le Yi-Jing. Morte d'une crise cardiaque à 55 ans, au sommet de son œuvre.",quotes:[{text:"La peinture est le seul langage qui me permette de tout dire.",source:"Entretien avec José Pierre, cité dans Janet A. Kaplan Unexpected Journeys, 1988",link:null}],works:[{title:"Broderie de la Terre",type:"Peinture, 1961 Museo de Arte Moderno, Mexico",done:false},{title:"Exploration des Sources de l'Orinoco",type:"Peinture, 1959",done:false},{title:"Janet A. Kaplan Unexpected Journeys",type:"Abbeville Press, New York, 1988 monographie",done:false}],connections:["carrington"],connectionDesc:{carrington:"Amies intimes vivaient dans le même quartier de Mexico City, se voyaient tous les jours"},recos:[{title:"Museo de Arte Moderno, Mexico City",type:"Possède la plus grande collection à voir absolument"}],yt_link:null,threads:["magie","femmes"],mapPos:{x:1100,y:440}},
-  {key:"patti",cat:"musicien",era:"contemporain",eraColor:"#1a4a3a",eraLabel:"Punk poétique",name:"Patti Smith",dates:"1946  ",nation:"USA",tagline:"La synthèse vivante Rimbaud, une guitare, New York 1975",desc:"A grandi avec Rimbaud sous le bras et une guitare dans les mains. A inventé le punk poétique à New York en 1975 avec Horses un album qui commence par \"Jesus died for somebody's sins but not mine\". Amie de Mapplethorpe (Just Kids raconte leur histoire), Ginsberg, Burroughs. Chaque livre qu'elle écrit est une méditation sur la perte, la création, la mémoire.",quotes:[{text:"L'art naît de la curiosité, de la fascination, des rêves.",source:"Just Kids, Ecco Press, New York, 2010",link:null},{text:"Jesus died for somebody's sins but not mine.",source:"Gloria, Horses, Arista Records, 1975",link:null}],works:[{title:"Horses",type:"Album, Arista Records, 1975 écouter d'une traite",done:false},{title:"Just Kids",type:"Mémoires, Ecco Press, 2010",done:false},{title:"M Train",type:"Mémoires, Knopf, 2015",done:false},{title:"Dream of Life",type:"Documentaire, Steven Sebring, 2008",done:false}],connections:["rimbaud","bowie","mapplethorpe"],connectionDesc:{rimbaud:"A grandi avec lui Just Kids en parle longuement",bowie:"Amis proches même New York, même époque punk",mapplethorpe:"Just Kids raconte leur histoire d'amour et d'amitié"},recos:[{title:"Lire Just Kids AVANT d'écouter Horses",type:"Dans cet ordre précis ça change tout"},{title:"Horses + Easter + Banga",type:"Discographie dans cet ordre"}],yt_link:"https://www.youtube.com/watch?v=rPijUkCwyuE",threads:["femmes","transgression"],mapPos:{x:570,y:492}},
+  {key:"patti",cat:"musicien",era:"contemporain",eraColor:"#1a4a3a",eraLabel:"Punk poétique",name:"Patti Smith",dates:"1946  ",nation:"USA",tagline:"La synthèse vivante Rimbaud, une guitare, New York 1975",desc:"A grandi avec Rimbaud sous le bras et une guitare dans les mains. A inventé le punk poétique à New York en 1975 avec Horses un album qui commence par \"Jesus died for somebody's sins but not mine\". Amie de Mapplethorpe (Just Kids raconte leur histoire), Ginsberg, Burroughs. Chaque livre qu'elle écrit est une méditation sur la perte, la création, la mémoire.",quotes:[{text:"L'art naît de la curiosité, de la fascination, des rêves.",source:"Just Kids, Ecco Press, New York, 2010",link:null},{text:"Jesus died for somebody's sins but not mine.",source:"Gloria, Horses, Arista Records, 1975",link:null}],works:[{title:"Horses",type:"Album, Arista Records, 1975 écouter d'une traite",done:false},{title:"Just Kids",type:"Mémoires, Ecco Press, 2010",done:false},{title:"M Train",type:"Mémoires, Knopf, 2015",done:false},{title:"Dream of Life",type:"Documentaire, Steven Sebring, 2008",done:false}],connections:["rimbaud","bowie","mapplethorpe"],connectionDesc:{rimbaud:"A grandi avec lui Just Kids en parle longuement",bowie:"Amis proches même New York, même époque punk",mapplethorpe:"Just Kids raconte leur histoire d'amour et d'amitié"},recos:[{title:"Lire Just Kids AVANT d'écouter Horses",type:"Dans cet ordre précis ça change tout"},{title:"Horses + Easter + Banga",type:"Discographie dans cet ordre"}],yt_link:"https://www.youtube.com/watch?v=rPijUkCwyuE",threads:["femmes","transgression"],mapPos:{x:530,y:430}},
   {key:"bowie",cat:"musicien",era:"contemporain",eraColor:"#1a4a3a",eraLabel:"Glam & Art Rock",name:"David Bowie",dates:"1947 2016",nation:"Angleterre",tagline:"Le Caméléon total l'identité comme projet artistique sur 50 ans",desc:"Il a lu Wilde, il a peint, il a joué Warhol au cinéma, il s'est intéressé à l'occultisme (période Thin White Duke), à Nietzsche, au bouddhisme. Chaque album est un costume, une théorie, une époque. Il n'a pas fait de la musique il a fait de l'identité. Son dernier album Blackstar, sorti deux jours avant sa mort, est un testament conscient et prémédité.",quotes:[{text:"Tomorrow belongs to those who can hear it coming.",source:"Diamond Dogs, RCA Records, 1974",link:null}],works:[{title:"Ziggy Stardust",type:"Album, RCA, 1972 commencer par là",done:false},{title:"Heroes",type:"Album, RCA, 1977",done:false},{title:"Blackstar",type:"Album, ISO/Columbia, 2016 son testament",done:false},{title:"Moonage Daydream",type:"Documentaire, Brett Morgen, 2022 expérience sensorielle",done:false},{title:"Ziggy Stardust and the Spiders from Mars",type:"Film concert, D.A. Pennebaker, 1973",done:false}],connections:["wilde","patti","morrison"],connectionDesc:{wilde:"Lisait Wilde la même posture du dandy total",patti:"Amis proches même New York, même époque punk",morrison:"Les deux ont habité le mythe de la rock star maudite"},recos:[{title:"Écouter tous ses albums dans l'ordre chronologique",type:"De Space Oddity (1969) à Blackstar (2016)"},{title:"Christopher Sandford Strange Fascination",type:"Da Capo Press, 1997"}],yt_link:"https://www.youtube.com/watch?v=tRcPA7Fzebw",threads:["transgression"],mapPos:{x:700,y:524}},
   {key:"kahlo",cat:"peintre",era:"surrealisme",eraColor:"#2d6b54",eraLabel:"Surréalisme",name:"Frida Kahlo",dates:"1907 1954",nation:"Mexique",tagline:"La douleur comme matière première chaque tableau est une autobiographie",desc:"Accident de bus à 18 ans, 35 opérations, un mariage tumultueux avec Diego Rivera, des amantes dont Josephine Baker (selon les sources). Elle a peint sa souffrance physique et émotionnelle avec une précision chirurgicale et une couleur flamboyante. Amie de Carrington et Varo. Elle ne se définissait pas comme surréaliste : \"je ne peins pas des rêves, je peins ma propre réalité.\"",quotes:[{text:"Je ne peins pas des rêves. Je peins ma propre réalité.",source:"Entretien avec Antonio Rodriguez, El Nacional, Mexico, 1952",link:null},{text:"J'ai eu deux accidents dans ma vie le tramway et Diego. Diego a été le pire.",source:"Cité dans Hayden Herrera Frida, Harper & Row, 1983",link:null}],works:[{title:"Les Deux Fridas",type:"Peinture, 1939 Museo de Arte Moderno, Mexico",done:false},{title:"La Colonne brisée",type:"Peinture, 1944 Museo Dolores Olmedo, Mexico",done:false},{title:"Journal de Frida Kahlo",type:"Journal illustré, Abrams, 1995",done:false},{title:"Frida (film)",type:"Julie Taymor, 2002 Salma Hayek",done:false}],connections:["carrington","varo"],connectionDesc:{carrington:"Amies dans le même Mexique surréaliste des années 40-50",varo:"Même cercle au Mexique, même époque"},recos:[{title:"Hayden Herrera Frida",type:"Harper & Row, New York, 1983 biographie de référence"},{title:"Museo Frida Kahlo La Maison Bleue, Mexico",type:"Lieu de pèlerinage"}],yt_link:"https://www.youtube.com/watch?v=5KyTBL7BXAY",threads:["femmes","flamme"],mapPos:{x:960,y:461}},
   {key:"nijinski",cat:"danse",era:"belleepoque",eraColor:"#c4922a",eraLabel:"Belle Époque",name:"Nijinski",dates:"1889 1950",nation:"Russie / Europe",tagline:"A dansé jusqu'à la folie le corps comme langage absolu",desc:"Prodige des Ballets Russes, a choqué Paris avec L'Après-midi d'un Faune (1912) une masturbation publique sur scène qui a provoqué un scandale international. A collaboré avec Diaghilev (dont il était l'amant), Debussy, Stravinsky, Picasso. A développé une schizophrénie à 29 ans et n'a plus jamais dansé. Son Journal de folie écrit pendant son internement à Saint-Moritz en 1919 est un des textes les plus bouleversants qui soient.",quotes:[{text:"Je ne suis pas Christ, ni Dieu. Je suis un être humain.",source:"Journal de Nijinski, janvier-février 1919, ed. posth. Simon & Schuster, 1936",link:null}],works:[{title:"Journal de Nijinski",type:"Écrit pendant l'internement, 1919 éd. complète: Actes Sud, 1995",done:false},{title:"L'Après-midi d'un Faune",type:"Chorégraphie, 29 mai 1912, Théâtre du Châtelet, Paris",done:false},{title:"Peter Ostwald Nijinski, une vie",type:"Fayard, 1992 biographie",done:false}],connections:["isadora","diaghilev"],connectionDesc:{isadora:"Contemporains tous deux ont révolutionné le corps dansant"},recos:[{title:"Archives INA Nijinski reconstruit",type:"Reconstitutions filmées disponibles en ligne"}],yt_link:null,threads:["flamme","corps"],mapPos:{x:505,y:177}},
-  {key:"mapplethorpe",cat:"peintre",era:"contemporain",eraColor:"#1a4a3a",eraLabel:"New York underground",name:"Robert Mapplethorpe",dates:"1946 1989",nation:"USA",tagline:"Le corps comme sacré la beauté et la mort dans le même cadre",desc:"Ami et amour de jeunesse de Patti Smith Just Kids raconte leur histoire. A photographié la beauté des corps avec une précision classique et une franchise totale : fleurs, corps noirs, cuir, sadomasochisme tout avec le même œil de sculpteur. A su qu'il allait mourir du Sida et a continué à photographier jusqu'au bout. Son autoportrait avec la canne à tête de crâne (1988), pris quelques mois avant sa mort, est une des images les plus poignantes du siècle.",quotes:[{text:"Mon intérêt, c'est le contenu d'un objet : ce que la fleur vous fait ressentir, pas la fleur elle-même.",source:"Entretien avec Janet Kardon, Robert Mapplethorpe: The Perfect Moment, ICA Philadelphie, 1988",link:null}],works:[{title:"Patti Smith Just Kids",type:"Ecco Press, 2010 lire pour comprendre qui il était",done:false},{title:"Black Book",type:"Livre de photographies, St. Martin's Press, 1986",done:false},{title:"Look at the Pictures",type:"Documentaire, Fenton Bailey & Randy Barbato, 2016",done:false}],connections:["patti"],connectionDesc:{patti:"Son amour de jeunesse Just Kids est leur histoire commune"},recos:[{title:"Just Kids Patti Smith",type:"La porte d'entrée la plus belle pour comprendre Mapplethorpe"},{title:"Fonds Robert Mapplethorpe Foundation",type:"robertmapplethorpe.com"}],yt_link:"https://www.youtube.com/watch?v=rPijUkCwyuE",threads:["flamme","corps"],mapPos:{x:544,y:524}},
+  {key:"mapplethorpe",cat:"peintre",era:"contemporain",eraColor:"#1a4a3a",eraLabel:"New York underground",name:"Robert Mapplethorpe",dates:"1946 1989",nation:"USA",tagline:"Le corps comme sacré la beauté et la mort dans le même cadre",desc:"Ami et amour de jeunesse de Patti Smith Just Kids raconte leur histoire. A photographié la beauté des corps avec une précision classique et une franchise totale : fleurs, corps noirs, cuir, sadomasochisme tout avec le même œil de sculpteur. A su qu'il allait mourir du Sida et a continué à photographier jusqu'au bout. Son autoportrait avec la canne à tête de crâne (1988), pris quelques mois avant sa mort, est une des images les plus poignantes du siècle.",quotes:[{text:"Mon intérêt, c'est le contenu d'un objet : ce que la fleur vous fait ressentir, pas la fleur elle-même.",source:"Entretien avec Janet Kardon, Robert Mapplethorpe: The Perfect Moment, ICA Philadelphie, 1988",link:null}],works:[{title:"Patti Smith Just Kids",type:"Ecco Press, 2010 lire pour comprendre qui il était",done:false},{title:"Black Book",type:"Livre de photographies, St. Martin's Press, 1986",done:false},{title:"Look at the Pictures",type:"Documentaire, Fenton Bailey & Randy Barbato, 2016",done:false}],connections:["patti"],connectionDesc:{patti:"Son amour de jeunesse Just Kids est leur histoire commune"},recos:[{title:"Just Kids Patti Smith",type:"La porte d'entrée la plus belle pour comprendre Mapplethorpe"},{title:"Fonds Robert Mapplethorpe Foundation",type:"robertmapplethorpe.com"}],yt_link:"https://www.youtube.com/watch?v=rPijUkCwyuE",threads:["flamme","corps"],mapPos:{x:430,y:560}},
   {key:"woolf",cat:"écrivain",era:"contemporain",eraColor:"#1a4a5a",eraLabel:"Modernisme",name:"Virginia Woolf",dates:"1882 1941",nation:"Angleterre",tagline:"La conscience féminine en littérature noyée dans la rivière Ouse",desc:"A inventé le monologue intérieur en littérature anglaise. A écrit ses romans en cartographiant le flux de la conscience pas les événements, mais la façon dont on les vit de l'intérieur. Lesbienne, dépressive, membre du groupe de Bloomsbury. Orlando (1928) est dédié à Vita Sackville-West, son amante. S'est noyée dans la rivière Ouse en 1941 avec des pierres dans ses poches, laissant une lettre à son mari Leonard.",quotes:[{text:"Une femme doit avoir de l'argent et une chambre à soi pour pouvoir écrire de la fiction.",source:"A Room of One's Own, Hogarth Press, Londres, 1929",link:"https://www.gutenberg.org/ebooks/5767"},{text:"Je ne veux pas vivre je veux écrire.",source:"Journal de Virginia Woolf, vol. 1, 26 janvier 1919, éd. Leonard Woolf, 1977",link:null}],works:[{title:"Orlando",type:"Roman, Hogarth Press, 1928 commencer par là",done:false},{title:"Les Vagues",type:"Roman, Hogarth Press, 1931 son chef-d'œuvre",done:false},{title:"Une chambre à soi",type:"Essai, 1929",done:false},{title:"The Hours (film)",type:"Stephen Daldry, 2002 Nicole Kidman",done:false}],connections:["plath","nin"],connectionDesc:{plath:"Plath a lu Woolf toute sa vie comme un modèle absolu",nin:"Même cartographie du désir et de la conscience féminine"},recos:[{title:"Hermione Lee Virginia Woolf",type:"Chatto & Windus, Londres, 1996 biographie de référence"},{title:"Lire Orlando avant tout",type:"Le roman le plus accessible et le plus beau"}],yt_link:"https://www.youtube.com/watch?v=iASn9wf7YZ4",threads:["femmes","flamme"],mapPos:{x:375,y:419}},
   {key:"jarman",cat:"cinéaste",era:"contemporain",eraColor:"#1a4a3a",eraLabel:"Underground britannique",name:"Derek Jarman",dates:"1942 1994",nation:"Angleterre",tagline:"A filmé jusqu'à perdre la vue son dernier film est un écran bleu",desc:"Cinéaste britannique, gay, peintre, jardinier. A filmé Caravaggio (1986) avec des anachronismes délibérés. A contracté le Sida en 1986 et a continué à filmer en perdant progressivement la vue. Son dernier film, Blue (1993), est un écran bleu uni pendant 79 minutes avec sa voix qui raconte sa cécité et sa mort imminente. C'est un des actes artistiques les plus courageux du 20e siècle.",quotes:[{text:"Tout art est une réponse à la mort.",source:"Chroma, Century, Londres, 1994",link:null},{text:"Le jardin est la seule utopie possible.",source:"Modern Nature, Century, Londres, 1991",link:null}],works:[{title:"Caravaggio",type:"Film, Channel 4 Films, 1986",done:false},{title:"Blue",type:"Film, 1993 79 minutes d'écran bleu. Écouter d'abord.",done:false},{title:"Edward II",type:"Film, 1991",done:false},{title:"Modern Nature",type:"Journal, Century, 1991",done:false}],connections:["pasolini"],connectionDesc:{pasolini:"Jarman admirait profondément Pasolini filiation directe"},recos:[{title:"Écouter Blue en fermant les yeux d'abord",type:"Puis le regarder dans cet ordre"},{title:"Chroma Derek Jarman",type:"Century, 1994 son livre sur les couleurs"}],yt_link:"https://www.youtube.com/watch?v=B4NX7VEbdKg",threads:["flamme"],mapPos:{x:856,y:335}},
   {key:"plath",cat:"écrivain",era:"contemporain",eraColor:"#1a4a3a",eraLabel:"Confessionnel américain",name:"Sylvia Plath",dates:"1932 1963",nation:"USA / Angleterre",tagline:"La douleur comme matière première s'est suicidée à 30 ans",desc:"A passé sa courte vie à écrire des poèmes d'une précision et d'une intensité qui n'ont pas d'équivalent. La Cloche de Détresse, son seul roman (publié sous pseudonyme), raconte une dépression avec une clarté clinique et une beauté terrible. S'est suicidée à 30 ans en mettant sa tête dans le four à gaz, après avoir pris soin de mettre du pain et du lait pour ses deux enfants. Ses poèmes les plus puissants ont été écrits dans les six mois qui ont précédé sa mort.",quotes:[{text:"Mourir est un art, comme tout le reste. Je le fais exceptionnellement bien.",source:"Lady Lazarus, Ariel, Faber and Faber, Londres, 1965",link:null},{text:"Je suis verticale, mais je préférerais être horizontale.",source:"I Am Vertical, Crossing the Water, Faber and Faber, 1971",link:null}],works:[{title:"Ariel",type:"Poésie, Faber and Faber, 1965 les poèmes de la fin",done:false},{title:"La Cloche de Détresse",type:"Roman, Heinemann, 1963 (sous pseud. Victoria Lucas)",done:false},{title:"Journaux",type:"Journaux intimes, The Unabridged Journals, Anchor, 2000",done:false}],connections:["sexton","woolf"],connectionDesc:{sexton:"Anne Sexton suivait le même cours de poésie chez Robert Lowell à Boston",woolf:"Plath a lu Woolf toute sa vie comme un modèle absolu"},recos:[{title:"Lire Ariel en premier",type:"Puis La Cloche de Détresse, puis les Journaux dans cet ordre"},{title:"Anne Stevenson Bitter Fame",type:"Houghton Mifflin, 1989 biographie"}],yt_link:null,threads:["femmes","flamme"],mapPos:{x:466,y:482}},
@@ -505,216 +549,185 @@ const FIGURES = [
 ];
 
 const MAP_CONNS = [
-  {from:"sappho",to:"barney",desc:"Barney se définissait comme son héritière directe",theme:"desire"},
-  {from:"sappho",to:"vivien",desc:"Vivien la traduisait du grec et écrivait dans sa lignée",theme:"desire"},
-  {from:"barney",to:"colette",desc:"Grande amie et ancienne amante même monde parisien",theme:"desire"},
-  {from:"barney",to:"vivien",desc:"Le grand amour de Barney Vivien est morte à 32 ans",theme:"desire"},
-  {from:"barney",to:"nin",desc:"Anaïs Nin fréquentait le salon du 20 rue Jacob",theme:"desire"},
-  {from:"wilde",to:"bowie",desc:"Bowie lisait Wilde la même posture du dandy total",theme:"aesthetic"},
-  {from:"wilde",to:"baudelaire",desc:"La même conviction que la beauté précède la morale",theme:"aesthetic"},
-  {from:"rimbaud",to:"patti",desc:"Patti Smith a grandi avec Rimbaud Just Kids en parle",theme:"flame"},
-  {from:"rimbaud",to:"bowie",desc:"Bowie s'est inspiré du dérèglement de tous les sens",theme:"aesthetic"},
-  {from:"rimbaud",to:"baudelaire",desc:"Rimbaud a lu Baudelaire toute sa révolte en découle",theme:"flame"},
-  {from:"blake",to:"morrison",desc:"Les Doors ont pris leur nom de \"the doors of perception\" de Blake",theme:"magic"},
-  {from:"carrington",to:"varo",desc:"Amies intimes au Mexique leurs vies sont inséparables",theme:"magic"},
-  {from:"carrington",to:"kahlo",desc:"Amies dans le même Mexique surréaliste des années 40",theme:"magic"},
-  {from:"patti",to:"bowie",desc:"Amis proches même New York, même époque punk",theme:"aesthetic"},
-  {from:"patti",to:"mapplethorpe",desc:"Just Kids raconte leur histoire d'amour et d'amitié",theme:"flame"},
-  {from:"woolf",to:"plath",desc:"Plath a lu Woolf toute sa vie comme un modèle absolu",theme:"desire"},
-  {from:"hilma",to:"carrington",desc:"La même conviction que l'invisible peut être peint",theme:"magic"},
-  {from:"pasolini",to:"jarman",desc:"Jarman admirait profondément Pasolini filiation directe",theme:"flame"},
+  {from:"sappho",to:"barney",theme:"desire",desc:"Barney se revendiquait « l'Amazone de Lesbos »",
+   descLong:"Natalie Barney se revendique « l'Amazone de Lesbos » : elle se met explicitement dans la lignée de Sappho dès ses premiers poèmes en grec ancien (Cinq Petits Dialogues grecs, 1901). Son salon du 20 rue Jacob est traversé par un culte conscient et structuré de Sappho — Renée Vivien apprend le grec pour la traduire à sa demande, des fêtes saphiques sont organisées dans le jardin avec des poèmes joués en costumes antiques. Dans Aventures de l'esprit (1929) elle écrit : « C'est à Sappho que je dois d'avoir su, dès l'enfance, qui j'étais et ce que je voulais. » Elle se déclarait elle-même réincarnation symbolique de la poétesse."},
+  {from:"sappho",to:"vivien",theme:"desire",desc:"Vivien apprend le grec pour la traduire",
+   descLong:"Renée Vivien apprend le grec ancien à 23 ans dans le seul but de traduire Sappho dans le texte. Elle publie en 1903 chez Lemerre Sapho — la première traduction française intégrale des fragments par une femme, avec ses propres poèmes en regard composés dans la même métrique. Son appartement rue de la Pompe est pensé comme un temple : statues grecques, fleurs noires, parfums d'encens. Elle signe parfois ses poèmes « Renée Vivien-Saphô ». À sa mort en 1909, Barney inhume rituellement à Mytilène une bague qu'elle lui avait offerte. Sa dernière œuvre s'intitule Sappho mourante."},
+  {from:"barney",to:"colette",theme:"desire",desc:"Amantes vers 1906, amies 50 ans",
+   descLong:"Colette et Barney sont amantes dans les années 1905-1907 — Colette le raconte à demi-mot dans Le Pur et l'Impur (1932), où Barney apparaît sous le nom de « Flossie ». Une fois la passion passée, elles restent amies cinquante ans : Colette fréquente le salon du 20 rue Jacob jusqu'à la fin de sa vie. Barney, qui n'écrit pas en français aussi bien qu'elle voudrait, demande conseil à Colette pour ses Aventures de l'esprit. Dans Mes apprentissages, Colette parle de Barney comme « la plus libre des femmes que j'aie connues »."},
+  {from:"barney",to:"vivien",theme:"desire",desc:"Le grand amour de Barney, perdu à 32 ans",
+   descLong:"Liaison fondatrice. Barney rencontre Vivien en 1899 dans le salon de Mme Brennetot, vit avec elle dans son appartement de la rue de la Pompe pendant deux ans. Crise, rupture, retour, nouvelle rupture. Vivien fuit jusqu'à Constantinople pour échapper à Barney en 1907. Quand Vivien meurt en 1909 d'inanition à 32 ans, Barney est dévastée. Elle lui consacrera deux livres entiers — Pensées d'une Amazone (1920) et Souvenirs indiscrets (1960) — et continuera de visiter sa tombe au cimetière de Passy chaque année pendant 63 ans, jusqu'à sa propre mort en 1972."},
+  {from:"barney",to:"nin",theme:"desire",desc:"Anaïs Nin au 20 rue Jacob à partir de 1936",
+   descLong:"Anaïs Nin commence à fréquenter le salon de Barney en 1936, présentée par Henry Miller. Elle a 33 ans, Barney en a 60. Nin tient un journal détaillé de ses visites — les éditions Henry and June (1986) et Incest (1992) reproduisent leurs conversations. Barney lit les premiers livres de Nin, l'aide à publier ses textes érotiques sous le manteau. Nin écrit dans son Journal : « Chez Barney j'ai vu pour la première fois que la liberté sexuelle pouvait être chic, pas honteuse. »"},
+  {from:"wilde",to:"bowie",theme:"aesthetic",desc:"Le manuel du caméléon",
+   descLong:"Bowie cite Wilde explicitement comme matrice de Ziggy Stardust dans une interview de 1973 au Melody Maker : « J'ai relu Dorian Gray l'été où j'ai inventé Ziggy. C'est le manuel du caméléon, le seul qui assume que le style est une question de survie morale. » Dans sa bibliothèque (les 100 favorite books, listée en 2013), Wilde apparaît trois fois : Dorian Gray, De Profundis, et la biographie de Richard Ellmann (1987). Le costume rouge de la pochette de The Man Who Sold the World (1970) est dessiné en référence directe à Wilde donnant ses conférences américaines de 1882."},
+  {from:"wilde",to:"baudelaire",theme:"aesthetic",desc:"« La beauté précède la morale »",
+   descLong:"Wilde lit Baudelaire à Oxford dans les années 1870, sous l'influence de Walter Pater. Sa préface de Dorian Gray (« Il n'existe pas de livres moraux ou immoraux. Il n'y a que des livres bien ou mal écrits. ») reformule directement l'argument de Baudelaire au procès des Fleurs du Mal de 1857 : la beauté précède la morale. Dans son essai L'Âme de l'homme sous le socialisme (1891), Wilde cite Baudelaire trois fois. Sur le bureau de sa cellule à Reading, il avait demandé à recevoir Les Fleurs du Mal — autorisation refusée par l'administration pénitentiaire."},
+  {from:"rimbaud",to:"patti",theme:"flame",desc:"Découverte à 16 ans, jamais quittée",
+   descLong:"Patti Smith découvre Rimbaud à 16 ans dans une librairie d'occasion de Philadelphie en 1962. Just Kids (2010, p. 23) : « J'avais un dollar. Le livre coûtait 99 cents. C'était signé. » Elle porte une photo de Rimbaud dans son portefeuille toute son adolescence. Son premier poème publié, Oath (1972), commence par « Christ died for somebody's sins but not mine » — variation directe de Rimbaud (« Je n'ai jamais été chrétien »). Son album Land (1975) reprend mot pour mot des passages des Illuminations. Elle a fait le pèlerinage à Charleville en 1973 et photographié sa tombe."},
+  {from:"rimbaud",to:"bowie",theme:"aesthetic",desc:"Le dérèglement comme méthode",
+   descLong:"Bowie évoque Rimbaud dans ses interviews dès 1971 : « le dérèglement de tous les sens est une méthode artistique, pas un slogan ». Le concept de Ziggy Stardust — un alien qui se construit comme persona pour mieux disparaître — reproduit la trajectoire de Rimbaud (le voyant qui devient marchand d'armes). Dans sa liste des 100 livres (2013), Une saison en enfer figure en bonne place. La chanson Heroes (1977) emprunte sa figure du couple condamné au baiser sous le Mur à l'image documentée de Verlaine et Rimbaud sur le pont de Bruxelles."},
+  {from:"rimbaud",to:"baudelaire",theme:"flame",desc:"« Le premier voyant, un vrai Dieu »",
+   descLong:"Dans la Lettre du Voyant (15 mai 1871), Rimbaud désigne Baudelaire comme « le premier voyant, roi des poètes, un vrai Dieu ». À 16 ans il connaît Les Fleurs du Mal par cœur. La syntaxe d'Une saison en enfer cite explicitement Le Spleen de Paris dans plusieurs paragraphes. La forme du poème en prose, que Baudelaire invente en 1862, Rimbaud la radicalise dans Les Illuminations. Sans Baudelaire, pas de Rimbaud — ce n'est pas une influence diffuse, c'est une filiation textuelle vérifiable mot à mot."},
+  {from:"blake",to:"morrison",theme:"magic",desc:"« The doors of perception » → The Doors",
+   descLong:"Jim Morrison nomme son groupe The Doors d'après une phrase de Blake dans Le Mariage du Ciel et de l'Enfer (1793) : « If the doors of perception were cleansed, every thing would appear to man as it is, infinite. » Cette phrase, Morrison l'a lue via Aldous Huxley (Les Portes de la Perception, 1954), qui en avait fait son titre. Dans ses Notebooks (édition Wilderness, 1988), Morrison transcrit des passages entiers de Blake. La chanson End of the Night (1967) cite directement Auguries of Innocence : « Some are born to sweet delight, some are born to endless night »."},
+  {from:"carrington",to:"varo",theme:"magic",desc:"21 ans de vie magique à Mexico",
+   descLong:"Carrington et Varo se rencontrent à Mexico City en 1942, chez Renato Leduc. Elles vivent dans le même quartier (la Roma), se voient quotidiennement pendant 21 ans, pratiquent ensemble la cuisine alchimique (Remedios tient un cahier de recettes magiques découvert après sa mort), font des séances de Yi-King à deux. Carrington dit (entretien avec Janet Kaplan, 1988) : « Remedios m'a appris à voir le monde comme un grand laboratoire. » Quand Varo meurt brutalement en 1963, Carrington peint Remedios (1963) en sa mémoire — un portrait posthume devenu icône."},
+  {from:"carrington",to:"kahlo",theme:"magic",desc:"Croisement à Mexico, distance assumée",
+   descLong:"Carrington et Kahlo se croisent au Mexique des années 40, dans le cercle du Café de Paris où se réunissent les surréalistes en exil (Breton, Péret, Trotski). Elles ne sont pas intimes mais se respectent : Kahlo achète La Posada del Caballo de Alba de Carrington en 1948 (collection actuelle du Museo Dolores Olmedo). Carrington assiste aux funérailles de Kahlo en 1954. Elle dit plus tard (entretien 2000) : « Frida n'était pas surréaliste. Frida était mexicaine. C'est complètement différent. »"},
+  {from:"patti",to:"bowie",theme:"aesthetic",desc:"Duo CBGB, hommage funéraire à Wild is the Wind",
+   descLong:"Patti Smith et Bowie se rencontrent en 1976 au CBGB. Ils enregistrent en duo un démo de Boys Keep Swinging jamais sorti. Bowie cite Horses dans plusieurs interviews comme « l'album qui m'a montré qu'on pouvait être à la fois punk et savant ». Patti chante à l'enterrement de Bowie en janvier 2016 — version a cappella de Wild is the Wind, leur chanson favorite commune. Dans M Train (2015), Patti parle de Bowie comme « le seul qui ait fait de l'identité une œuvre d'art à plein temps »."},
+  {from:"patti",to:"mapplethorpe",theme:"flame",desc:"Just Kids raconte tout",
+   descLong:"Histoire commune entièrement racontée dans Just Kids (2010, National Book Award). Ils se rencontrent en juin 1967 à Brooklyn, vivent ensemble au Chelsea Hotel à partir de 1969, sont amants jusqu'à 1972 quand Robert assume publiquement son homosexualité — ils restent meilleurs amis et muses jusqu'à la mort de Robert en 1989. Mapplethorpe a photographié Patti pour les pochettes de tous ses albums majeurs (Horses, Easter, Wave). Sa dernière demande à Patti, mourant : « Écris notre histoire. » Just Kids paraîtra 21 ans plus tard."},
+  {from:"woolf",to:"plath",theme:"desire",desc:"Mrs Dalloway comme matrice de The Bell Jar",
+   descLong:"Plath découvre Woolf à 18 ans dans son année à Smith College. Le Journal complet (entrée du 8 février 1956) note : « Lu Mrs Dalloway d'un coup. C'est une bombe. J'ai compris que ce que je cherche est exactement ça. » Elle relit Woolf chaque hiver et structure The Bell Jar (1963) en s'inspirant explicitement de Mrs Dalloway. Le suicide par noyade de Woolf en 1941 hante Plath toute sa vie — elle l'évoque dans Lady Lazarus, dans Edge, et dans sa lettre à sa mère du 4 juin 1958. Sa propre fin en 1963 (la tête dans le four) sera lue par la critique comme une version inversée — l'eau remplacée par le gaz."},
+  {from:"hilma",to:"carrington",theme:"magic",desc:"Filiation conceptuelle sans rencontre",
+   descLong:"Pas de rencontre historique (Hilma af Klint meurt en 1944, son œuvre reste cachée jusqu'aux années 80, Carrington ne la voit jamais de son vivant). Mais filiation conceptuelle directe : toutes deux peignent à partir de séances spirites ou automatiques, en suivant des instructions reçues d'entités. Hilma : les « Hautes Maîtresses ». Carrington : « la Grande Mère » qu'elle évoque dans En Bas (1944). Toutes deux refusent l'étiquette « surréaliste » au profit d'une pratique magique réelle. Carrington découvre Hilma sur le tard et écrit dans sa correspondance (1995) : « J'aurais aimé la connaître. Nous aurions parlé tarot pendant des jours. »"},
+  {from:"pasolini",to:"jarman",theme:"flame",desc:"Pèlerinage à Ostie en 1989",
+   descLong:"Jarman cite Pasolini comme son maître absolu dans Modern Nature (1991, p. 137) : « Pier Paolo a inventé la possibilité d'un cinéma gay qui ne soit ni glamour ni honteux, qui soit politique sans être idéologique. Sans lui je n'aurais rien filmé. » Caravaggio (1986) cite directement L'Évangile selon saint Matthieu dans sa structure tableau-par-tableau et son refus de la psychologie. Edward II (1991) reprend la méthode Pasolini d'utiliser un texte ancien (Marlowe) pour parler du présent (le sida). Jarman a fait le pèlerinage à Ostie en 1989, sur le lieu où Pasolini a été assassiné."},
 ];
 
 const TC = {desire:"#8b1a2a",magic:"#4a2060",aesthetic:"#c4922a",flame:"#1a4a5a"};
 
 // ══════════════════════════════
+// BIOGRAPHIES COMPLÈTES — injectées dans FIGURES par .bio
+// ══════════════════════════════
+const BIOS = {
+  sappho: "Née vers 630 av. J.-C. sur l'île de Lesbos, dans une famille aristocratique de Mytilène. Aristote la classait parmi les sept sages, Platon l'appelait la dixième muse, les Grecs frappaient des pièces à son effigie. Elle a écrit neuf livres de poèmes lyriques destinés à être chantés avec la lyre — il n'en reste qu'environ deux cents fragments. La tradition manuscrite l'a démantelée par couches successives : censure chrétienne, parchemins recyclés au Moyen Âge, papyrus déchirés trouvés dans des décharges égyptiennes. Un seul poème nous est parvenu complet (l'Ode à Aphrodite). Et pourtant ce qui reste suffit à reconnaître une voix sans équivalent dans l'Antiquité : elle parle du désir féminin avec une précision physiologique — tremblement, sueur, gorge sèche, vision qui se brouille (Fragment 31).<br><br>Au Moyen Âge ses livres ont été brûlés sur ordre de Grégoire de Nazianze. Sa redécouverte par les humanistes de la Renaissance, puis par les Anglaises hellénistes du XIXe siècle, a coïncidé avec la naissance d'une conscience lesbienne organisée : Natalie Barney la revendiquait comme ancêtre, Renée Vivien la traduisait du grec, Vita Sackville-West l'invoquait. Le mot « lesbienne » vient de son île. Le mot « saphique » vient d'elle. Anne Carson, dans <em>If Not, Winter</em> (2002), a fait la plus belle traduction contemporaine — préservant les blancs des papyrus comme des cicatrices.",
+  barney: "Née à Dayton (Ohio) en 1876, héritière d'une fortune ferroviaire. À 23 ans elle s'installe à Paris et n'en partira plus pendant 70 ans. Au 20 rue Jacob — une maison XVIIIe avec un petit temple à l'Amitié au fond du jardin — elle tient pendant soixante ans le salon le plus libre de la capitale. Tous les vendredis, sans interruption sauf pendant la guerre : Rilke, Apollinaire, Proust (qui prend son cousin Robert de Montesquiou pour modèle de Charlus), Colette, Gertrude Stein, Djuna Barnes, Radclyffe Hall, Ezra Pound, Sherwood Anderson.<br><br>Elle assume sa lesbianité quand le mot existe à peine. Compagne de la peintre Romaine Brooks pendant cinquante ans. Liaison fondatrice avec Renée Vivien — qui meurt à 32 ans en 1909 et qu'elle n'oubliera jamais. Elle écrit en français : aphorismes (<em>Éparpillements</em>, 1910), mémoires (<em>Aventures de l'esprit</em>, 1929), poésie. Survit aux deux guerres, à l'Occupation imprudemment passée à Florence, à toutes ses amies. Meurt à 95 ans en 1972, dans le même appartement où elle est arrivée jeune fille. Le 20 rue Jacob existe toujours. Le temple à l'Amitié aussi.",
+  colette: "Sidonie-Gabrielle Colette née en 1873 dans l'Yonne, fille d'une mère païenne et amoureuse qu'elle mythifiera (<em>Sido</em>, <em>La Naissance du jour</em>). Mariée à 20 ans à Henry Gauthier-Villars dit Willy, écrivain mondain qui l'enferme pour écrire les Claudine sous son nom à lui — quatre romans best-sellers qu'elle ne signera qu'après divorce. Quitte Willy en 1906, monte sur les planches du music-hall : mime, danse, nu sur scène.<br><br>En 1907 au Moulin Rouge, elle embrasse Mathilde de Morny (« Missy ») devant 400 spectateurs : scandale national, intervention de la police, interdiction du spectacle. Suit une décennie de transgression assumée. <em>La Vagabonde</em> (1910), <em>Chéri</em> (1920), <em>Sido</em> (1929), <em>Le Pur et l'Impur</em> (1932 — son livre le plus honnête sur la sexualité). Sa prose est charnelle, animale, faite d'observations précises sur les corps, les bêtes, les plantes, le désir. Bisexuelle affichée, trois maris, des amantes célèbres dont la marquise de Morny. Première femme reçue à l'Académie Goncourt (1945). Funérailles nationales en 1954 — les premières pour une femme en France. Refusées par l'Église pour ses divorces multiples.",
+  vivien: "Née Pauline Tarn à Londres en 1877. Anglaise par hasard, française par décision. Installée à Paris à 21 ans, elle réinvente la poésie sapphique : elle traduit Sappho du grec et écrit dans sa lignée. Amante de Natalie Barney puis brouille définitive avec elle. Vit dans un appartement rue de l'Université rempli de fleurs noires, bougies parfumées au cèdre, statues bouddhiques, parfums entêtants.<br><br>Anorexique, alcoolique. Elle ne mange plus, ne sort plus en plein jour, écrit obsessivement. Une décadence consciente et voulue, héritée des symbolistes mais portée à un point pathologique. Publie <em>Études et Préludes</em> (1901), <em>Cendres et Poussières</em> (1902), <em>Évocations</em> (1903), <em>Une femme m'apparut</em> (roman à clé, 1904) où Barney apparaît sous le nom de Vally. Meurt à 32 ans en 1909, officiellement de pleurésie, en réalité d'inanition et de suicide lent. Barney n'a jamais cessé de l'évoquer pendant les 63 ans qu'elle lui a survécu.",
+  wilde: "Né en 1854 à Dublin, fils d'un chirurgien et d'une poétesse nationaliste irlandaise. Études brillantes à Oxford où il fréquente Walter Pater et le préraphaélisme. À 30 ans il est l'esprit le plus drôle de Londres. Marié, deux enfants. En 1891 il publie <em>Le Portrait de Dorian Gray</em>, en 1895 sa comédie <em>L'Importance d'être Constant</em> fait triompher Londres — sept représentations seulement avant la catastrophe.<br><br>En février 1895, le marquis de Queensberry, père de son amant Lord Alfred Douglas (« Bosie »), dépose chez son club une carte le traitant de « somdomite » [sic]. Wilde, mal conseillé, porte plainte en diffamation. Le procès se retourne contre lui : sa correspondance amoureuse avec Bosie est lue à l'audience. Condamné à deux ans de travaux forcés à Reading pour « grossière indécence » (homosexualité). Il en sort détruit, ruiné, exilé à Paris sous le pseudonyme Sebastian Melmoth. Meurt en 1900 dans un hôtel sordide rue des Beaux-Arts, à 46 ans, d'une méningite. Enterré au Père-Lachaise. La loi britannique sous laquelle il a été condamné n'a été abrogée qu'en 1967.",
+  rimbaud: "Né en 1854 à Charleville. Adolescent surdoué, premier prix de l'académie de Douai à 15 ans. À 16 ans il écrit <em>Le Bateau ivre</em>, à 17 il rencontre Verlaine à Paris, à 18 il publie <em>Une saison en enfer</em> (1873) — l'unique livre qu'il aura publié de son vivant, à compte d'auteur, dont 500 exemplaires moisiront chez l'imprimeur belge faute d'avoir été retirés.<br><br>Sa formule de la « Lettre du Voyant » (mai 1871) — « Le Poète se fait voyant par un long, immense et raisonné dérèglement de tous les sens » — fondera tout le XXe siècle artistique : surréalisme, contre-culture, punk. Sa liaison avec Verlaine se termine en juillet 1873 quand Verlaine lui tire dessus à Bruxelles et écope de deux ans de prison. À 20 ans, Rimbaud arrête définitivement d'écrire. Part en Abyssinie (Éthiopie), devient trafiquant d'armes et de café à Harar, gagne mal sa vie, contracte une tumeur au genou. Rentre en France en 1891, est amputé à Marseille, meurt à 37 ans sans savoir qu'il est devenu un mythe. <em>Les Illuminations</em> seront publiées par Verlaine en 1886, à son insu.",
+  baudelaire: "Né en 1821, père vieux, mère jeune, beau-père général Aupick que Charles haïra toute sa vie. Hérite à 21 ans, dissipe sa fortune en deux ans, mis sous tutelle pour le reste de son existence — humiliation qu'il ne digérera jamais. En 1857 il publie <em>Les Fleurs du Mal</em> chez Poulet-Malassis. Le 20 août, le tribunal correctionnel de la Seine le condamne à 300 francs d'amende et ordonne la suppression de six poèmes pour « outrage à la morale publique ». La condamnation ne sera annulée qu'en 1949.<br><br>Il traduit Edgar Poe en français — traduction encore inégalée, vingt-deux ans de travail. Défend Delacroix et Wagner dans des essais critiques fondateurs (<em>Le Peintre de la vie moderne</em>, 1863). Vit de dettes, d'opium, de laudanum, d'une syphilis contractée jeune. Liaison de vingt ans avec Jeanne Duval, métisse haïtienne, qui lui inspire les plus beaux poèmes du recueil. En 1864 il part à Bruxelles donner des conférences ratées. En 1866 il s'effondre, paralysé, aphasique. Sa mère le ramène à Paris où il meurt en 1867 à 46 ans. Il a inventé la modernité poétique : la beauté naît du laid, du mal, de la chute, de la ville. Tout Rimbaud, tout Mallarmé, tout Valéry partent de lui.",
+  blake: "Né en 1757 à Londres, fils d'un bonnetier. À quatre ans il voit Dieu mettre la tête à la fenêtre. À huit ans, des anges dans un arbre de Peckham Rye. Toute sa vie il verra des présences invisibles — il en parlera comme d'autres parlent de la météo. Apprenti graveur à 14 ans, il maîtrise la gravure sur cuivre à un niveau professionnel.<br><br>Toute son œuvre poétique sera ainsi auto-éditée : il grave lui-même les pages, sa femme Catherine les colore à la main, ils en tirent quelques exemplaires. Les <em>Chants d'innocence et d'expérience</em> (1789-1794), <em>Le Mariage du Ciel et de l'Enfer</em> (1793), les longs livres prophétiques (<em>Milton</em>, <em>Jérusalem</em>) déploient une mythologie personnelle complète : ses propres dieux (Urizen le législateur, Los le forgeron, Orc la révolte), ses cosmologies, ses lois. Vit dans une pauvreté quasi totale, méprisé ou considéré comme fou par ses contemporains. Aucune reconnaissance de son vivant. Sa réhabilitation date des préraphaélites et de Yeats. Au XXe siècle, ses formules saturent la contre-culture : Jim Morrison prend le nom des Doors chez lui (« if the doors of perception were cleansed »), Aldous Huxley écrit <em>Les Portes de la perception</em> (1954) à partir de lui. Ginsberg dit avoir entendu sa voix lui réciter <em>Le Tournesol malade</em> dans un appartement de Harlem en 1948. Mort en 1827, en chantant.",
+  carrington: "Née en 1917 en Angleterre, fille unique d'un industriel du textile. Élevée dans des manoirs Tudor, présentée à la cour à 17 ans (qu'elle hait), enlevée à 20 ans par Max Ernst — 26 ans son aîné, surréaliste majeur. Vie commune à Saint-Martin-d'Ardèche jusqu'à la guerre.<br><br>1940 : Ernst, juif allemand, est arrêté. Carrington s'effondre, fuit l'Ardèche, est conduite par sa famille dans un asile à Santander en Espagne. Internée, on lui injecte de la cardiazol — convulsions, terreur. Elle s'évade, atteint Lisbonne, épouse blanc avec le diplomate mexicain Renato Leduc pour fuir l'Europe. Mexique 1942. Là, avec sa grande amie Remedios Varo, elle réinvente sa peinture : femmes-animaux, cuisines alchimiques, scènes de rituels. Elle pratique l'astrologie, la kabbale, le Yi-King. Son autobiographie de l'internement, <em>En Bas</em> (1944, dictée à Pierre Mabille), est un des textes les plus lucides jamais écrits sur la folie. Mariée plus tard au photographe Imre Weisz. Deux fils. Vit à Mexico City jusqu'à 94 ans, peint jusqu'au bout. Le marché de l'art ne la découvre qu'à la fin de sa vie. Elle traverse le XXe siècle entier sans se laisser absorber par aucun mouvement.",
+  varo: "Née en 1908 à Gérone, en Catalogne. Père ingénieur libéral, anticlérical, qui l'éduque dans le dessin technique et les voyages. École des Beaux-Arts de Madrid (San Fernando), unique femme dans sa promotion. Épouse jeune un peintre, file à Paris en 1937 avec Benjamin Péret (surréaliste, communiste). Participe aux expositions du groupe. La guerre la pousse à fuir : 1941, exil à Mexico avec Péret.<br><br>Elle a 33 ans, peint peu jusque-là. C'est au Mexique, dans les vingt années qui suivent, qu'elle devient elle-même. Tableaux peuplés de femmes aux corps élancés, vêtues comme des moines médiévaux, qui accomplissent des rituels scientifico-mystiques dans des tours hexagonales, dans des forêts impossibles : <em>Broderie de la Terre</em> (1961), <em>Exploration des sources de l'Orinoco</em> (1959), <em>La Création des oiseaux</em> (1957). Elle lit Gurdjieff, étudie le Zohar, pratique la magie cérémonielle. Amie inséparable de Leonora Carrington dans le même quartier de la Roma. Un troisième compagnon, l'industriel autrichien Walter Gruen, financera ses dernières années. Meurt brutalement d'une crise cardiaque en 1963 à 54 ans, au sommet de son œuvre. Le Museo de Arte Moderno de Mexico conserve la plus grande collection.",
+  patti: "Née en 1946 à Chicago, élevée dans le New Jersey ouvrier. Témoins de Jéhovah dans son enfance — d'où une connaissance biblique précoce qui irriguera sa poésie. À 20 ans elle quitte un job d'usine, prend le bus pour New York, dort dans la rue, finit par croiser Robert Mapplethorpe en juin 1967 à Brooklyn. Ils s'aiment, ils se logent, ils s'inventent ensemble (<em>Just Kids</em>, 2010, raconte tout). Elle écrit, il photographie.<br><br>Performance poétique au St. Mark's Church en février 1971. En 1974 elle enregistre son premier 45 tours (<em>Hey Joe / Piss Factory</em>). En décembre 1975 sort <em>Horses</em>, produit par John Cale, premier album du punk new-yorkais. La pochette : portrait par Mapplethorpe, chemise blanche d'homme, veste sur l'épaule. La première phrase : « Jesus died for somebody's sins but not mine. » Suite : <em>Radio Ethiopia</em> (1976), <em>Easter</em> (1978), <em>Wave</em> (1979). Retrait de la scène en 1980 — mariage avec Fred Sonic Smith (MC5), enfants, vie à Détroit. Reviendra à la mort de Fred (1994). National Book Award pour <em>Just Kids</em> (2010). Les disques tardifs (<em>Banga</em>, 2012) sont les plus matures. Rimbaud sur sa table de nuit depuis l'âge de 16 ans.",
+  bowie: "David Robert Jones né en 1947 à Brixton (Londres). Demi-frère Terry, schizophrène, interné — peur récurrente de la folie. Premiers groupes médiocres dans les années 60. Adopte le nom Bowie en 1965 (à cause de Davy Jones des Monkees). 1969 : <em>Space Oddity</em>, planant et bizarre. 1971 : <em>Hunky Dory</em> révèle un songwriter complet.<br><br>1972 : invention de Ziggy Stardust, alien glam déchu — l'album et la tournée révolutionnent le rapport scène/identité. Lit Wilde, Burroughs, Genet, Nietzsche. Période Berlin (1976-78) avec Iggy Pop et Brian Eno : <em>Low</em>, <em>Heroes</em>, <em>Lodger</em> — trilogie ambient/krautrock qui reformule la pop. Joue Warhol au cinéma (<em>Basquiat</em>, 1996). Mariage avec Iman 1992. Disparition publique 2003-2013 (problèmes cardiaques). Retour secret avec <em>The Next Day</em> (2013). En janvier 2016 sort <em>Blackstar</em> — testament jazz d'art énigmatique. Deux jours plus tard il meurt d'un cancer du foie qu'il avait caché pendant 18 mois. La vidéo de <em>Lazarus</em>, tournée alité, est sa dernière œuvre. Il n'a pas fait de la musique : il a fait de l'identité.",
+  kahlo: "Née Magdalena Carmen Frida Kahlo y Calderón en 1907 à Coyoacán, banlieue de Mexico. Polio à 6 ans (jambe droite atrophiée). 17 septembre 1925, à 18 ans : accident de bus, tige métallique lui transperçant le bassin. 32 opérations dans sa vie. Pendant la convalescence elle apprend à peindre, couchée, avec un miroir au plafond.<br><br>1929 : épouse Diego Rivera, 21 ans son aîné, déjà célèbre, infidèle compulsif. Lui peint l'avenir socialiste sur les murs publics, elle peint son propre corps en pièces sur de petits formats. Bisexuelle. Liaisons avec Trotski (réfugié chez eux 1937-39), Tina Modotti, Josephine Baker selon certaines sources. Divorce 1939, remariage 1940. Solo show à New York en 1938 (Julien Levy Gallery), à Paris en 1939 (organisé par Breton qui la veut surréaliste — elle refuse : « je ne peins pas des rêves, je peins ma propre réalité »). Tableaux majeurs : <em>Les Deux Fridas</em> (1939), <em>La Colonne brisée</em> (1944), <em>Le Cerf blessé</em> (1946). Amie de Carrington et Varo dans le Mexique des années 40. Meurt en juillet 1954, à 47 ans. Cause officielle : embolie. Probablement overdose. Dernière entrée de son journal : « Joyeuse sortie, j'espère ne jamais revenir. »",
+  nijinski: "Né en 1889 à Kiev, parents danseurs polonais. Reçu à 10 ans à l'École impériale de ballet de Saint-Pétersbourg. 1909 : Diaghilev le repère pour les Ballets Russes — il deviendra son amant et son étoile. Saisons parisiennes du Châtelet à partir de 1909 : il révolutionne la technique du ballet (sauts qui semblent durer trois secondes, position retombée sans bruit).<br><br>1912 : il chorégraphie <em>L'Après-midi d'un Faune</em> sur Debussy — mouvements de profil, hiératiques. La fin (le faune sur le foulard de la nymphe) provoque un scandale international, lu comme une masturbation publique. 1913 : il chorégraphie <em>Le Sacre du printemps</em> sur Stravinsky — bagarre dans la salle pendant la première au Théâtre des Champs-Élysées. Mariage hâtif en 1913 avec la Hongroise Romola de Pulszky — Diaghilev le congédie. Sans Diaghilev, il s'effondre. Premiers symptômes psychotiques en 1917. Saint-Moritz, hiver 1918-19 : il écrit en six semaines son <em>Journal</em> — texte hallucinant qui tente d'arrêter la décomposition mentale en train de se faire. Internement à Bellevue (Suisse). Diagnostic : schizophrénie. Trente ans en institution, sans parler, sans danser. Meurt à Londres en 1950. Stravinsky disait : « Nijinski était la danse incarnée. »",
+  mapplethorpe: "Né en 1946 dans le Queens, New York, famille catholique conservatrice. Pratt Institute (Brooklyn) à 17 ans. Croise Patti Smith dans une boutique de livres en juin 1967. Ils sont amants, ils sont colocataires, ils sont chacun la muse de l'autre (<em>Just Kids</em> raconte). Chelsea Hotel à partir de 1969. Premiers polaroids puis appareil moyen format. Rencontre Sam Wagstaff, mécène et conservateur de photo, son amant et son protecteur.<br><br>Sujets : fleurs (lys, calla, glaïeuls — purs comme des sculptures), nus masculins (corps noirs idéalisés, sadomasochisme assumé), autoportraits, célébrités (Patti, Iggy, Warhol). Son œil est classique : Caravage, Michel-Ange. Sa franchise est totale. 1986 : diagnostic SIDA. Il continue à photographier en sachant qu'il va mourir. 1988 : autoportrait à la canne, tête de crâne en pommeau, regard direct dans l'objectif — une des images les plus poignantes du siècle. Meurt en mars 1989 à 42 ans. La rétrospective <em>The Perfect Moment</em> (1988-89) déclenche une bataille censoriale aux États-Unis (Corcoran Gallery l'annule, procès Cincinnati 1990 qui finit par l'acquittement). Sa Foundation finance la recherche sur le SIDA.",
+  woolf: "Née Adeline Virginia Stephen en 1882 à Londres, dans une famille intellectuelle (père Leslie Stephen, fondateur du <em>Dictionary of National Biography</em>). Trois frères, une sœur Vanessa (peintre). Mort de la mère en 1895 — premier effondrement nerveux, elle a 13 ans. Abus sexuels par les demi-frères Duckworth dans la même période, qu'elle évoquera tardivement. Cambridge interdit aux femmes ; études privées.<br><br>Installation à Bloomsbury en 1904 (Gordon Square) : autour d'elle se forme le « groupe de Bloomsbury » — Lytton Strachey, Maynard Keynes, E.M. Forster, Roger Fry. 1912 : mariage avec Leonard Woolf. 1917 : ils fondent la Hogarth Press, qui publiera Mansfield, Eliot, Freud en anglais, et tous ses livres à elle. <em>Mrs Dalloway</em> (1925), <em>Vers le phare</em> (1927), <em>Orlando</em> (1928, dédié à Vita Sackville-West dont elle est amoureuse), <em>Les Vagues</em> (1931). <em>Une chambre à soi</em> (1929) : essai fondateur du féminisme intellectuel. <em>Trois Guinées</em> (1938). Bipolaire, dépressions cycliques sévères, hospitalisations. Le 28 mars 1941, elle remplit ses poches de pierres et entre dans la rivière Ouse près de sa maison de Rodmell. Lettre à Leonard : « Je suis sûre que je deviens folle à nouveau ; je sens que je ne peux pas affronter une autre de ces périodes affreuses. »",
+  jarman: "Né en 1942 dans le Middlesex, fils d'un officier de la RAF autoritaire. Études à King's College Londres puis Slade School of Fine Art (peintre d'abord). Set design pour le Royal Ballet et pour Ken Russell (<em>The Devils</em>, 1971 — assistant).<br><br>Premier long métrage <em>Sebastiane</em> (1976, en latin, nu masculin saint Sébastien). Cinéma militant gay des années 70-80 : <em>Jubilee</em> (1978, anniversaire punk de la reine), <em>The Tempest</em> (1979). <em>Caravaggio</em> (1986) : il filme le peintre baroque avec des anachronismes voulus (machines à écrire, calculatrices) — Tilda Swinton y débute. <em>Edward II</em> (1991), <em>Wittgenstein</em> (1993). 1986 : diagnostic SIDA, qu'il rend public, contrairement à beaucoup. Il s'installe à Prospect Cottage à Dungeness face à la centrale nucléaire et y crée le jardin le plus connu d'Angleterre — galets, plantes pionnières, sculptures en bois flotté. La cécité progresse à mesure que la maladie avance. 1993 : <em>Blue</em>, son dernier film. Un écran bleu uni pendant 79 minutes, sa voix et celles de Swinton et Quentin racontent sa cécité, sa mort qui vient, ses rendez-vous médicaux. Œuvre limite et radicale. Meurt à 52 ans en février 1994. Prospect Cottage existe encore.",
+  plath: "Née en 1932 à Boston, père allemand entomologiste universitaire (spécialiste des bourdons), mère autrichienne enseignante. Mort du père en 1940, quand elle a 8 ans — événement structurel de toute son œuvre (<em>Daddy</em>). Brillante à Smith College, boursière dans les meilleures revues littéraires. Été 1953 à New York comme stagiaire à <em>Mademoiselle</em> (matière de <em>La Cloche de détresse</em>). Première tentative de suicide à 20 ans : barbituriques + cachée sous le porche pendant deux jours et demi. Hospitalisation, électrochocs, retour aux études.<br><br>Bourse Fulbright à Cambridge en 1955. Rencontre Ted Hughes en février 1956, mariage quatre mois plus tard. Deux enfants. Vit à Devon. 1962 : elle découvre l'infidélité de Hughes avec Assia Wevill. Séparation. Hiver 1962-63 à Londres, dans un appartement glacial avec les enfants. Écrit en quelques semaines les 40 poèmes d'<em>Ariel</em> — <em>Daddy</em>, <em>Lady Lazarus</em>, <em>Edge</em> — qui inventent une voix nouvelle, métallique, exacte. 11 février 1963 : elle scelle la porte de la chambre des enfants avec des serviettes mouillées, leur laisse pain et lait, met sa tête dans le four à gaz. Elle a 30 ans. <em>Ariel</em> paraît en 1965 — Hughes l'édite et la censure (rétabli dans l'édition « restored » de 2004).",
+  hilma: "Née en 1862 à Solna (banlieue de Stockholm), fille d'un capitaine de marine et mathématicien. Reçue à l'Académie royale des Beaux-Arts de Stockholm — elle obtient un atelier sur Hamngatan, peint des portraits et des paysages académiques pour gagner sa vie. À 17 ans, mort de sa jeune sœur Hermina — déclencheur d'un intérêt pour le spiritisme.<br><br>1896 : avec quatre autres femmes elle forme le groupe Les Cinq, séances de spiritisme hebdomadaires pendant dix ans avec « les Hautes Maîtresses » qui dictent dessins et messages. 1906 : reçoit la commande spirituelle des <em>Tableaux pour le Temple</em>. Pendant neuf ans elle peint 193 grands formats abstraits (jusqu'à 3 mètres) qui anticipent Kandinsky de cinq ans, Mondrian de huit, Malevitch de neuf. Lit Steiner, l'invite à voir son œuvre en 1908 — il lui dit que personne ne pourra la comprendre avant cinquante ans, qu'il faut la cacher. Elle se conforme. Stipulation testamentaire (1932) : son œuvre ne sera pas exposée pendant les vingt ans qui suivront sa mort. Meurt en 1944. Tableaux gardés par son neveu. Première exposition publique : 1986 (rétrospective au LACMA, Los Angeles). Reconnaissance massive depuis 2013 (Moderna Museet Stockholm) puis 2018-19 (Guggenheim NY). Elle est désormais reconnue comme la première peintre abstraite occidentale.",
+  pasolini: "Né en 1922 à Bologne, mère frioulane Susanna Colussi (qu'il vénérera), père lieutenant fasciste qu'il méprise. Adolescence en Frioul, langue du frioulan qu'il restaurera comme langue littéraire. Premier recueil en frioulan à 21 ans (<em>Poesie a Casarsa</em>). 1949 : scandale d'attentat aux mœurs avec des mineurs dans son village — exclu du Parti communiste, son père renie, il fuit avec sa mère à Rome.<br><br>Vit dans la pauvreté à la périphérie romaine, écrit <em>Ragazzi di vita</em> (1955) et <em>Una vita violenta</em> (1959) sur les sous-prolétaires des banlieues. Premier film en 1961 : <em>Accattone</em> — qui invente une forme « sacrée du réel ». <em>L'Évangile selon saint Matthieu</em> (1964, tourné en Calabre, dédié à Jean XXIII), <em>Œdipe roi</em> (1967), <em>Théorème</em> (1968), <em>Médée</em> (1969) avec Maria Callas dans son unique rôle. Trilogie de la vie (1971-74) : <em>Le Décaméron</em>, <em>Les Contes de Canterbury</em>, <em>Les Mille et Une Nuits</em>. Il abjure cette trilogie joyeuse en 1975, en pleine désillusion sur les « nouveaux fascismes » du consumérisme. <em>Salò ou les 120 journées de Sodome</em>, son dernier film (1975), transpose Sade dans la République fasciste de Salò en 1944. Nuit du 1er au 2 novembre 1975, plage d'Ostie : il est assassiné, écrasé par sa propre Alfa Romeo. Pino Pelosi, 17 ans, est reconnu coupable — version officielle longtemps maintenue, contestée depuis (commando d'extrême droite ?). Pelosi est revenu sur ses aveux en 2005. Ses <em>Écrits corsaires</em> (publication posthume 1975) restent un des outils les plus durs pour penser le présent."
+};
+FIGURES.forEach(f => { if(BIOS[f.key]) f.bio = BIOS[f.key]; });
+
+// Overrides de cadrage par figure (object-position / background-position)
+const PHOTO_POS = {
+  pasolini: "left center",
+};
+FIGURES.forEach(f => { if(PHOTO_POS[f.key]) f.photoPos = PHOTO_POS[f.key]; });
+
+// Galeries d'images supplémentaires (chemins relatifs sous le dossier de la figure)
+const GALLERIES = {
+  sappho: [
+    "Sappho/Bust_Sappho_Musei_Capitolini_MC1164.jpg",
+    "Sappho/Antoine-Jean_Gros_-_Sappho_at_Leucate_-_WGA10704.jpg",
+    "Sappho/Sir_Lawrence_Alma-Tadema,_R.A.,_O.M._-_Sappho_and_Alcaeus_-_Google_Art_Project.jpg",
+    "Sappho/The_so-called_Sappho_portrait,_Pompeii_(AD_45-79).jpg",
+    "Sappho/Alkaios_Sappho_BM_GR1842.7-28.1132.jpg",
+    "Sappho/Sappho_poem_POxyXVII_2076.jpg",
+    "Sappho/SapphoMercureGalant.png",
+  ],
+  barney: [
+    "Natalie Barney/Atget_-_Pavillon_at_20_Rue_Jacob.jpg",
+    "Natalie Barney/Atget_-_Temple_of_Friendship_at_20_Rue_Jacob.jpg",
+    "Natalie Barney/A_gathering_of_women_including_Eva_Palmer,_Natalie_Barney,_and_Liane_de_Pougy_in_Barney's_garden_in_Neuilly.png",
+    "Natalie Barney/Natalie_Barney_-_Aventures_de_L'Esprit.jpg",
+    "Natalie Barney/Quelques_Portraits-Sonnets_de_Femmes.jpg",
+    "Natalie Barney/Rouveyre_-_Le_Philosophe_Chez_Ses_Amies.jpg",
+    "Natalie Barney/privateimagesd2a9fdd2a9fd92-6076-484c-ad17-a312d794bebb__900.jpeg",
+  ],
+  colette: [
+    "Colette/Manuel_-_Colette_2.jpg",
+    "Colette/Colette_1932_(4).jpg",
+    "Colette/ColetteReveEgypte1907.jpeg",
+    "Colette/Colette_and_Mathilde_“Missy”_de_Morny.jpg",
+    "Colette/Colette_et_Pierre_Bourgeois.jpg",
+    "Colette/Les_Hommes_du_Jour_N_157_1911.jpg",
+  ],
+  vivien: [
+    "Renee Vivien/Vivien_-_Une_femme_m’apparut,_1904.djvu.jpg",
+    "Renee Vivien/aa1eec_537790455a48419dbdc22db113e29af6~mv2.jpg",
+    "Renee Vivien/tumblr_9ce824745e57559f75fdba350f680082_a54bb23e_1280.png",
+    "Renee Vivien/images.jpeg",
+  ],
+  wilde: [
+    "Oscar Wilde/Oscar_Wilde_at_Harper's_Theatre,_April_1882.jpg",
+    "Oscar Wilde/Oscar,_Constance_and_Cyril_Wilde_1892.jpg",
+    "Oscar Wilde/Wilde_Douglas_British_Library_B20147-85.jpg",
+    "Oscar Wilde/Oscarwildetrial.jpg",
+    "Oscar Wilde/The_Trial_of_Oscar_Wilde_and_Alfred_Taylor_-_from_'Illustrated_Police_News',_20_April_1895.jpg",
+    "Oscar Wilde/Punch_-_Oscar_Wilde.png",
+    "Oscar Wilde/Oscar_Wilde_Prison_Cell_Reading_2016.jpg",
+    "Oscar Wilde/John+Salome.jpg",
+  ],
+  rimbaud: [
+    "Rimbaud/Arthur_Rimbaud_1866_fond_C_Gide.jpg",
+    "Rimbaud/Arthur_Rimbaud_by_Paul_Verlaine_1872.jpg",
+    "Rimbaud/Rosman_Rimbaud_1873.jpg",
+    "Rimbaud/Rimbaud_lettre_à_Izambard_1870.jpg",
+    "Rimbaud/Album_Zutique_page_de_titre_fac-simile.jpg",
+    "Rimbaud/La_tronche_à_machin_par_Ernest_Delahaye.jpg",
+    "Rimbaud/Henri_Fantin-Latour_-_By_the_Table_-_Google_Art_Project.jpg",
+    "Rimbaud/Vitalie_Rimbaud_ca_1890.jpg",
+    "Rimbaud/Rimbaud_in_Harar.jpg",
+  ],
+};
+FIGURES.forEach(f => { if(GALLERIES[f.key]) f.gallery = GALLERIES[f.key].map(p => encodeURI(p)); });
+
+// ══════════════════════════════
 // STATE
 // ══════════════════════════════
-let pinned = JSON.parse(localStorage.getItem("c-pins") || "[]");
 let checked = JSON.parse(localStorage.getItem("c-checked") || "{}");
 let currentDetailKey = null;
-let currentFilter = "all";
-let currentSearch = "";
+let _suppressHashPush = false;
+const DEFAULT_TITLE = "La Constellation Atlas des Âmes Libres";
 
 function saveState(){
-  localStorage.setItem("c-pins", JSON.stringify(pinned));
   localStorage.setItem("c-checked", JSON.stringify(checked));
 }
 
 // ══════════════════════════════
-// BUILD CARDS
+// BUILD CARDS — photo plein cadre, texte sur backdrop flou, flip au hover, click → fiche
 // ══════════════════════════════
+// Formate "1947 2016" → "1947 — 2016", "1946 " → "1946 — …"
+function formatDates(s){
+  if(!s) return "";
+  if(/av\. J\.-C\./.test(s)) return s; // antiquité, on laisse tel quel
+  const nums = s.match(/\d+/g);
+  if(!nums) return s;
+  if(nums.length === 1) return nums[0] + " — …";
+  return nums[0] + " — " + nums[1];
+}
+
 function buildCards(){
   const grid = document.getElementById("grid");
   FIGURES.forEach(d => {
-    const worksHTML = d.works.map(w => {
-      const key = d.key+"::"+w.title;
-      const done = checked[key] ? "done" : "";
-      return `<div class="bk-work ${done}" onclick="toggleWork(event,'${d.key}','${w.title.replace(/'/g,"\'")}',this)">
-        <div class="bk-work-check">${done ? "✓" : ""}</div>
-        <span class="bk-work-title">${w.title}</span>
-      </div>`;
-    }).join("");
-    const pillsHTML = d.connections.slice(0,4).map(k => {
-      const fig = FIGURES.find(f => f.key === k);
-      return fig ? `<span class="bk-pill" onclick="event.stopPropagation();openDetail('${k}')">${fig.name}</span>` : "";
-    }).join("");
-    const isPinned = pinned.includes(d.key);
     const img = IMGS[d.key] || "";
-
+    const pos = d.photoPos || "top center";
+    const photoStyle = img ? `background-image:url('${img}');background-position:${pos}` : `background:linear-gradient(135deg,${d.eraColor}66,${d.eraColor}22)`;
+    const resume = d.resume || d.desc;
     grid.innerHTML += `
-<div class="card reveal" data-key="${d.key}" data-cat="${d.cat}" data-search="${d.name.toLowerCase()} ${d.tagline.toLowerCase()} ${d.nation.toLowerCase()}">
- <div class="card-inner">
-  <div class="card-face card-front">
-   <div class="photo-wrap">
-    <div class="era-bar" style="background:${d.eraColor}"></div>
-    ${img ? `<img class="card-photo" src="${img}" alt="${d.name}">` : `<div style="height:100%;background:${d.eraColor}18"></div>`}
-   </div>
-   <div class="card-body">
-    <div>
-     <div class="card-name">${d.name}</div>
-     <div class="card-dates">${d.dates} · ${d.nation}</div>
-     <div class="card-tagline">${d.tagline}</div>
+<div class="card reveal" data-key="${d.key}" data-cat="${d.cat}" onclick="openDetail('${d.key}')">
+  <div class="card-photo-bg" style="${photoStyle}"></div>
+  <div class="card-overlay">
+    <div class="card-name">${d.name}</div>
+    <div class="card-dates">${formatDates(d.dates)}</div>
+    <div class="card-resume-wrap">
+      <div class="card-resume">${resume}</div>
     </div>
-    <div class="card-actions">
-     <span class="flip-hint">↺ retourner</span>
-     <button class="pin-btn ${isPinned?"pinned":""}" onclick="event.stopPropagation();togglePinFig('${d.key}')">${isPinned ? "✦ épinglé" : "✦ épingler"}</button>
-    </div>
-   </div>
   </div>
-  <div class="card-face card-back">
-   <div class="bk-name">${d.name}</div>
-   <div class="bk-dates">${d.dates}</div>
-   <div class="bk-text">${d.desc.substring(0,220)}…</div>
-   <div class="bk-quote">${d.quotes[0].text}</div>
-   <div>
-    <div class="bk-lbl">✦ À explorer</div>
-    ${worksHTML}
-   </div>
-   <div>
-    <div class="bk-lbl">✦ Connexions</div>
-    <div class="bk-pills">${pillsHTML}</div>
-   </div>
-   <button class="detail-btn" onclick="event.stopPropagation();openDetail('${d.key}')">Fiche complète →</button>
-  </div>
- </div>
 </div>`;
   });
 }
 
-// ══════════════════════════════
-// FLIP
-// ══════════════════════════════
-document.addEventListener("click", e => {
-  const card = e.target.closest(".card");
-  if(card && !e.target.closest(".pin-btn,.bk-work,.detail-btn,.bk-pill")) card.classList.toggle("flipped");
-});
+// (le click sur une carte est géré par onclick="openDetail()" dans le markup)
 
-// ══════════════════════════════
-// WORK TOGGLE
-// ══════════════════════════════
-function toggleWork(event, figKey, workTitle, el){
-  event.stopPropagation();
-  const key = figKey+"::"+workTitle;
-  if(checked[key]){ delete checked[key]; el.classList.remove("done"); el.querySelector(".bk-work-check").textContent=""; }
-  else { checked[key]=true; el.classList.add("done"); el.querySelector(".bk-work-check").textContent="✓"; }
-  saveState();
-}
-
-// ══════════════════════════════
-// PIN FIGURES
-// ══════════════════════════════
-function togglePinFig(key){
-  if(pinned.includes(key)) pinned = pinned.filter(k=>k!==key);
-  else pinned.push(key);
-  saveState();
-  renderPins();
-  document.querySelectorAll(`.card[data-key="${key}"] .pin-btn`).forEach(b=>{
-    b.className = "pin-btn " + (pinned.includes(key)?"pinned":"");
-    b.textContent = pinned.includes(key) ? "✦ épinglé" : "✦ épingler";
-  });
-  const dp = document.getElementById("det-pin-btn");
-  if(currentDetailKey === key && dp){
-    dp.className = "det-pin" + (pinned.includes(key)?" pinned":"");
-    dp.textContent = pinned.includes(key) ? "✦ Épinglé" : "✦ Épingler";
-  }
-}
-
-// PIN WORKS
-function togglePinWork(key, title, type, figKey){
-  const pkey = "work::"+key;
-  if(pinned.includes(pkey)) pinned = pinned.filter(k=>k!==pkey);
-  else pinned.push(pkey);
-  saveState();
-  renderPins();
-  const btn = document.querySelector(`[data-pin-work="${key}"]`);
-  if(btn){
-    btn.className = "det-work-pin" + (pinned.includes(pkey)?" pinned":"");
-    btn.textContent = pinned.includes(pkey) ? "✦" : "↑";
-  }
-}
-
-function renderPins(){
-  const list = document.getElementById("pin-list");
-  if(!pinned.length){ list.innerHTML=`<div id="pin-empty">Aucune épingle pour l'instant.<br>Épinglez des figures ou des œuvres pour les retrouver ici.</div>`; return; }
-  list.innerHTML = pinned.map(key => {
-    if(key.startsWith("work::")){
-      const wkey = key.replace("work::","");
-      const parts = wkey.split("__");
-      return `<div class="pin-item">
-        <div><div class="pin-item-text">${parts[0]}</div><div class="pin-item-figure">${parts[1] || ""}</div></div>
-        <button class="pin-remove" onclick="togglePinWork('${wkey}','','','')">×</button>
-      </div>`;
-    }
-    const fig = FIGURES.find(f=>f.key===key);
-    if(!fig) return "";
-    return `<div class="pin-item" onclick="openDetail('${key}')">
-      <div><div class="pin-item-text">${fig.name}</div><div class="pin-item-figure">${fig.dates}</div></div>
-      <button class="pin-remove" onclick="event.stopPropagation();togglePinFig('${key}')">×</button>
-    </div>`;
-  }).join("");
-}
-
-function togglePinPanel(){
-  document.getElementById("pin-panel").classList.toggle("open");
-}
-
-// ══════════════════════════════
-// SEARCH
-// ══════════════════════════════
-function onSearch(val){
-  currentSearch = val.toLowerCase();
-  document.getElementById("search-clear").classList.toggle("vis", val.length > 0);
-  applyFilters();
-}
-function clearSearch(){
-  document.getElementById("search").value="";
-  document.getElementById("search-clear").classList.remove("vis");
-  currentSearch="";
-  applyFilters();
-}
-function applyFilters(){
-  let visible = 0;
-  document.querySelectorAll(".card").forEach(c=>{
-    const matchCat = currentFilter==="all" || c.dataset.cat.includes(currentFilter);
-    const matchSearch = !currentSearch || c.dataset.search.includes(currentSearch) || c.querySelector(".card-name").textContent.toLowerCase().includes(currentSearch);
-    const show = matchCat && matchSearch;
-    c.classList.toggle("gone", !show);
-    if(show) visible++;
-  });
-  const cnt = document.getElementById("search-count");
-  if(currentSearch) cnt.textContent = visible + " figure" + (visible>1?"s":"") + " trouvée" + (visible>1?"s":"");
-  else cnt.textContent = "";
-}
-
-document.querySelectorAll(".filt").forEach(btn => {
-  btn.addEventListener("click", () => {
-    document.querySelectorAll(".filt").forEach(b=>b.classList.remove("on"));
-    btn.classList.add("on");
-    currentFilter = btn.dataset.f;
-    applyFilters();
-  });
-});
 
 // ══════════════════════════════
 // DETAIL PAGE
@@ -723,89 +736,178 @@ function openDetail(key){
   const d = FIGURES.find(f=>f.key===key);
   if(!d) return;
   currentDetailKey = key;
-  document.getElementById("det-topbar-name").textContent = d.name;
-  const pb = document.getElementById("det-pin-btn");
-  pb.className = "det-pin" + (pinned.includes(key)?" pinned":"");
-  pb.textContent = pinned.includes(key) ? "✦ Épinglé" : "✦ Épingler";
   const img = IMGS[key] || "";
-  const worksHTML = d.works.map(w => {
+  const pos = d.photoPos || "top center";
+
+  // Construction des sections (id, label, html) — on ne met dans le tableau
+  // QUE les sections qui ont du contenu, le menu d'ancres s'adapte.
+  const sections = [];
+
+  // Portrait = ancien Portrait + Biographie fusionnés
+  const portraitHTML = `<div class="det-desc">${d.resume || d.desc}</div>${d.bio ? `<div class="det-bio">${d.bio}</div>` : ""}`;
+  sections.push({ id:"portrait", label:"Portrait", html: portraitHTML, hideTitle:true });
+
+  if(d.quotes && d.quotes.length){
+    const html = d.quotes.map(q=>`
+      <div class="det-quote">« ${q.text} »
+        <span class="det-quote-src">${q.source}${q.link ? ` · <a href="${q.link}" target="_blank" rel="noopener">Lire la source ↗</a>` : ""}</span>
+      </div>`).join("");
+    sections.push({ id:"citations", label:"Citations", html });
+  }
+
+  // À explorer = Œuvres + Recos fusionnés
+  const worksHTML = (d.works||[]).map(w => {
     const wkey = d.key+"::"+w.title;
     const done = checked[wkey] ? "done":"";
-    const pkey = "work::"+w.title+"__"+d.name;
-    const wpinned = pinned.includes("work::"+pkey) ? "pinned":"";
-    return `<div class="det-work ${done}" onclick="toggleDetWork('${d.key}','${w.title.replace(/'/g,"\'")}',this)">
+    return `<div class="det-work ${done}" onclick="toggleDetWork('${d.key}','${w.title.replace(/'/g,"\\'")}',this)">
       <div class="det-work-check">${done?"✓":""}</div>
       <div class="det-work-info">
         <div class="det-work-title">${w.title}</div>
         <div class="det-work-type">${w.type}</div>
       </div>
-      <button class="det-work-pin ${wpinned}" data-pin-work="${w.title}__${d.name}" onclick="event.stopPropagation();togglePinWork('${w.title}__${d.name}','${w.title.replace(/'/g,"\'")}','${w.type.replace(/'/g,"\'")}','${d.key}')" title="Épingler cette œuvre">${wpinned?"✦":"↑"}</button>
     </div>`;
   }).join("");
-  const quotesHTML = d.quotes.map(q=>`
-    <div class="det-quote">${q.text}
-      <span class="det-quote-src">  ${q.source}${q.link ? ` · <a href="${q.link}" target="_blank" rel="noopener">Lire la source ↗</a>` : ""}</span>
-    </div>`).join("");
-  const recoHTML = d.recos.map((r,i)=>{
-    const rkey = "work::"+r.title+"__"+d.name;
-    const rpinned = pinned.includes(rkey) ? "pinned":"";
-    return `<div class="reco-item" style="display:flex;align-items:flex-start;gap:12px;justify-content:space-between">
-      <div><div class="reco-title">${r.title}</div><div class="reco-type">${r.type}</div></div>
-      <button class="det-work-pin ${rpinned}" data-pin-work="${r.title}__${d.name}" onclick="event.stopPropagation();togglePinWork('${r.title.replace(/'/g,"\\'")}__${d.name}','${r.title.replace(/'/g,"\\'")}','${r.type.replace(/'/g,"\\'")}','${d.key}')" title="Épingler">${rpinned?"✦":"↑"}</button>
-    </div>`;
-  }).join("");
-  const connHTML = d.connections.map(k=>{
-    const fig = FIGURES.find(f=>f.key===k);
-    if(!fig) return "";
-    const desc = d.connectionDesc[k] || "";
-    const cimg = IMGS[k] || "";
-    return `<div class="conn-fig" onclick="openDetail('${k}')">
-      ${cimg ? `<img src="${cimg}" alt="${fig.name}">` : `<div style="width:36px;height:36px;border-radius:50%;background:${fig.eraColor}22;flex-shrink:0"></div>`}
-      <div><div class="conn-fig-name">${fig.name}</div>${desc ? `<div class="conn-fig-desc">${desc}</div>` : ""}</div>
-    </div>`;
-  }).join("");
-  const ytHTML = d.yt_link ? `<div>
-    <div class="det-sec-title">À voir</div>
-    <a class="det-yt-link" href="${d.yt_link}" target="_blank" rel="noopener">
-      <span class="det-yt-icon">▶</span>
-      <span>Ouvrir sur YouTube ↗</span>
-    </a>
-  </div>` : "";
-  document.getElementById("det-content").innerHTML = `
-    <div class="det-hero">
-      ${img ? `<img src="${img}" alt="${d.name}">` : `<div style="height:100%;background:${d.eraColor}"></div>`}
-      <div class="det-hero-overlay"></div>
-      <div class="det-hero-info">
-        <div class="det-hero-name">${d.name}</div>
-        <div class="det-hero-meta">${d.dates} · ${d.nation}</div>
+  const recosHTML = (d.recos||[]).map(r => {
+    const rkey = d.key+"::reco::"+r.title;
+    const done = checked[rkey] ? "done":"";
+    return `<div class="det-work ${done}" onclick="toggleDetWork('${d.key}','reco::${r.title.replace(/'/g,"\\'")}',this)">
+      <div class="det-work-check">${done?"✓":""}</div>
+      <div class="det-work-info">
+        <div class="det-work-title">${r.title}</div>
+        <div class="det-work-type">${r.type}</div>
       </div>
-    </div>
-    <div class="det-body">
-      <div><div class="det-sec-title">Portrait</div><div class="det-desc">${d.desc}</div></div>
-      <div><div class="det-sec-title">Citations</div>${quotesHTML}</div>
-      <div><div class="det-sec-title">Œuvres à explorer cocher ✓ · épingler ↑</div>${worksHTML}</div>
-      ${ytHTML}
-      <div><div class="det-sec-title">Pour aller plus loin</div>${recoHTML}</div>
-      <div><div class="det-sec-title">Connexions dans la constellation</div><div class="conn-figures">${connHTML}</div></div>
-      ${d.videos && d.videos.length ? `<div><div class="det-sec-title">Vidéos</div><div id="vid_${d.key}"></div></div>` : ''}
-      <div id="notes_${d.key}"></div>
     </div>`;
+  }).join("");
+  if(worksHTML || recosHTML){
+    sections.push({ id:"explorer", label:"À explorer", html: worksHTML + recosHTML });
+  }
+
+  if(d.yt_link){
+    sections.push({ id:"voir", label:"À voir",
+      html:`<a class="det-yt-link" href="${d.yt_link}" target="_blank" rel="noopener">
+              <span class="det-yt-icon">▶</span>
+              <span>Ouvrir sur YouTube ↗</span>
+            </a>` });
+  }
+
+  const involvedConns = MAP_CONNS.filter(c=>c.from===d.key || c.to===d.key);
+  if(involvedConns.length){
+    sections.push({ id:"constellation", label:"Constellation personnelle",
+      html:`<div class="det-mini-wrap">
+              <svg id="det-mini-svg" viewBox="0 0 1400 800" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+                <defs>
+                  <radialGradient id="mbg2" cx="50%" cy="50%" r="90%">
+                    <stop offset="0%" stop-color="#0d1224"/>
+                    <stop offset="55%" stop-color="#06091a"/>
+                    <stop offset="100%" stop-color="#020310"/>
+                  </radialGradient>
+                </defs>
+                <rect width="1400" height="800" fill="url(#mbg2)"/>
+              </svg>
+            </div>` });
+  }
+
+  if(d.videos && d.videos.length){
+    sections.push({ id:"videos", label:"Vidéos", html:`<div id="vid_${d.key}"></div>` });
+  }
+
+  sections.push({ id:"notes", label:"Notes", html:`<div id="notes_${d.key}"></div>` });
+
+  const anchorHTML = sections.map(s=>`<a class="det-anchor" data-target="${s.id}">${s.label}</a>`).join("");
+  const sectionsHTML = sections.map(s=>`
+    <section class="det-section" id="anchor-${s.id}" data-section="${s.id}">
+      ${s.hideTitle ? "" : `<div class="det-section-title">${s.label}</div>`}
+      ${s.html}
+    </section>`).join("");
+
+  // Galerie : photos réelles si dispo, sinon placeholders pour donner l'idée
+  const gallery = (d.gallery && d.gallery.length)
+    ? d.gallery.map(g=>`<div class="det-gallery-item"><img src="${g}" alt=""></div>`).join("")
+    : `
+      <div class="det-gallery-placeholder"><div class="det-gallery-placeholder-icon">✦</div><div class="det-gallery-placeholder-label">Œuvre majeure</div></div>
+      <div class="det-gallery-placeholder"><div class="det-gallery-placeholder-icon">⛬</div><div class="det-gallery-placeholder-label">Manuscrit / archive</div></div>
+      <div class="det-gallery-placeholder"><div class="det-gallery-placeholder-icon">◐</div><div class="det-gallery-placeholder-label">Portrait alternatif</div></div>`;
+
+  document.getElementById("page-detail").innerHTML = `
+    <header class="det-header">
+      <div class="det-header-top">
+        <div>
+          <div class="det-header-name">${d.name}</div>
+          <div class="det-header-meta">${formatDates(d.dates)}</div>
+        </div>
+      </div>
+      <nav class="det-anchors">${anchorHTML}</nav>
+    </header>
+    <div class="det-layout">
+      <main class="det-text" id="det-text">${sectionsHTML}</main>
+      <aside class="det-photos" id="det-photos">
+        <div class="det-photo-main">${img ? `<img src="${img}" alt="${d.name}" style="object-position:${pos}">` : `<div style="height:100%;background:${d.eraColor}"></div>`}</div>
+        ${gallery}
+      </aside>
+    </div>`;
+
   const page = document.getElementById("page-detail");
   page.classList.add("open");
-  page.scrollTop = 0;
-  document.body.style.overflow="hidden";
-  // Build video carousel if videos exist
-  if(d.videos && d.videos.length) {
-    setTimeout(() => buildVideoCarousel(d.videos, 'vid_'+d.key, d.key), 50);
+  document.body.style.overflow = "hidden";
+
+  if(d.videos && d.videos.length){
+    setTimeout(()=>buildVideoCarousel(d.videos, 'vid_'+d.key, d.key), 30);
   }
-  // Build notes
-  setTimeout(() => buildNotes('notes_'+d.key, d.key), 50);
+  setTimeout(()=>buildNotes('notes_'+d.key, d.key), 30);
+  if(involvedConns.length){
+    setTimeout(()=>{
+      const svg = document.getElementById("det-mini-svg");
+      if(svg) renderMiniConstellation(svg, d.key);
+    }, 30);
+  }
+
+  // Ancres : click → scroll smooth (titres toujours affichés, plus aucune disparition)
+  const textCol = document.getElementById("det-text");
+  let _suppressSpy = false;
+  function setActive(sectionId){
+    document.querySelectorAll(".det-anchor").forEach(a=>a.classList.toggle("on", a.dataset.target===sectionId));
+  }
+  document.querySelectorAll(".det-anchor").forEach(a=>{
+    a.addEventListener("click", e=>{
+      e.preventDefault();
+      const tid = a.dataset.target;
+      const target = document.getElementById("anchor-"+tid);
+      if(target){
+        _suppressSpy = true;
+        textCol.scrollTo({ top: target.offsetTop - 12, behavior: "smooth" });
+        setActive(tid);
+        setTimeout(()=>{ _suppressSpy = false; }, 700);
+      }
+    });
+  });
+  function updateActiveSection(){
+    if(_suppressSpy) return;
+    const sec = Array.from(document.querySelectorAll(".det-section"));
+    let active = sec[0];
+    const top = textCol.scrollTop;
+    sec.forEach(s=>{ if(s.offsetTop - top <= 80) active = s; });
+    setActive(active.dataset.section);
+  }
+  textCol.addEventListener("scroll", updateActiveSection, { passive:true });
+  setTimeout(updateActiveSection, 50);
+
+  document.title = d.name + " · La Constellation";
+  if (!_suppressHashPush) {
+    const targetHash = '#/' + d.key;
+    if (location.hash !== targetHash) {
+      history.pushState({key: d.key}, '', targetHash);
+    }
+  }
 }
 
 function closeDetail(){
   document.getElementById("page-detail").classList.remove("open");
   document.body.style.overflow="";
   currentDetailKey = null;
+  document.title = DEFAULT_TITLE;
+  if (!_suppressHashPush && location.hash) {
+    history.pushState({}, '', location.pathname + location.search);
+  }
 }
 
 function toggleDetWork(figKey, workTitle, el){
@@ -813,130 +915,738 @@ function toggleDetWork(figKey, workTitle, el){
   if(checked[key]){ delete checked[key]; el.classList.remove("done"); el.querySelector(".det-work-check").textContent=""; }
   else { checked[key]=true; el.classList.add("done"); el.querySelector(".det-work-check").textContent="✓"; }
   saveState();
-  // sync card
-  document.querySelectorAll(`.card[data-key="${figKey}"] .bk-work`).forEach(w=>{
-    if(w.querySelector(".bk-work-title")?.textContent === workTitle){
-      w.classList.toggle("done", !!checked[key]);
-      w.querySelector(".bk-work-check").textContent = checked[key] ? "✓" : "";
-    }
-  });
 }
 
 // ══════════════════════════════
 // SECTION NAV
 // ══════════════════════════════
 function showSec(id){
-  ["figures","frise","map","fils"].forEach(s=>{
+  ["figures","frise","map"].forEach(s=>{
     document.getElementById("sec-"+s).style.display = s===id?"block":"none";
   });
   document.querySelectorAll(".nav-btn").forEach((b,i)=>{
-    b.classList.toggle("on",["figures","frise","map","fils"][i]===id);
+    b.classList.toggle("on",["figures","frise","map"][i]===id);
   });
+  document.body.classList.toggle("on-map", id==="map");
+  document.body.classList.toggle("on-frise", id==="frise");
+  document.body.classList.toggle("on-figures", id==="figures");
   if(id==="map") buildMap();
   if(id==="frise") buildFrise();
 }
 
+// Détection du scroll global → marque body.scrolled (fond navbar opaque sur Figures)
+(function(){
+  function update(){
+    document.body.classList.toggle("scrolled", window.scrollY > 12);
+  }
+  window.addEventListener("scroll", update, { passive:true });
+  update();
+})();
+// onglet initial
+document.body.classList.add("on-figures");
+
 // ══════════════════════════════
-// BUILD MAP
+// BUILD MAP (constellation)
 // ══════════════════════════════
+const MAP_VIEW_W = 1400, MAP_VIEW_H = 800;
+const MAP_SCALE_X = MAP_VIEW_W / 1200;
+const MAP_SCALE_Y = MAP_VIEW_H / 650;
+function mapXY(d){ return { x: d.mapPos.x * MAP_SCALE_X, y: d.mapPos.y * MAP_SCALE_Y }; }
+
+// positionne un encart flottant pour qu'il reste dans le viewport
+function positionFloater(el, clientX, clientY){
+  el.style.display = "block";
+  const w = el.offsetWidth, h = el.offsetHeight;
+  let left = clientX + 18, top = clientY + 14;
+  if(left + w > window.innerWidth - 12) left = clientX - w - 18;
+  if(top + h > window.innerHeight - 12) top = clientY - h - 14;
+  if(left < 12) left = 12;
+  if(top < 12) top = 12;
+  el.style.left = left + "px";
+  el.style.top = top + "px";
+}
+
+// petit générateur pseudo-aléatoire (stable d'une session à l'autre)
+function mkRand(seed){
+  let s = seed;
+  return function(){ s = (s * 9301 + 49297) % 233280; return s / 233280; };
+}
+
+// Étoiles d'ambiance — vraies étoiles : petits points blancs de taille variable,
+// quelques unes avec spikes de diffraction
+function paintStars(starsG, opts = {}){
+  const W = opts.W || MAP_VIEW_W;
+  const H = opts.H || MAP_VIEW_H;
+  const small = opts.small || 240;
+  const bright = opts.bright || 18;
+  const spikes = opts.spikes || 6;
+  const r = mkRand(opts.seed || 9173);
+  const SVG_NS = "http://www.w3.org/2000/svg";
+  // étoiles fines
+  for(let i=0;i<small;i++){
+    const cx = r()*W, cy = r()*H;
+    const rad = r()*1.2 + 0.15;
+    const op = r()*0.55 + 0.18;
+    const c = document.createElementNS(SVG_NS,"circle");
+    c.setAttribute("cx",cx.toFixed(1)); c.setAttribute("cy",cy.toFixed(1));
+    c.setAttribute("r",rad.toFixed(2));
+    c.setAttribute("fill","#ffffff"); c.setAttribute("fill-opacity",op.toFixed(2));
+    starsG.appendChild(c);
+  }
+  // étoiles brillantes avec halo
+  for(let i=0;i<bright;i++){
+    const cx = r()*W, cy = r()*H;
+    const halo = document.createElementNS(SVG_NS,"circle");
+    halo.setAttribute("cx",cx.toFixed(1)); halo.setAttribute("cy",cy.toFixed(1));
+    halo.setAttribute("r","4"); halo.setAttribute("fill","#ffffff"); halo.setAttribute("fill-opacity","0.18");
+    halo.setAttribute("filter","url(#starblur2)");
+    starsG.appendChild(halo);
+    const c = document.createElementNS(SVG_NS,"circle");
+    c.setAttribute("cx",cx.toFixed(1)); c.setAttribute("cy",cy.toFixed(1));
+    c.setAttribute("r","1.4"); c.setAttribute("fill","#ffffff"); c.setAttribute("fill-opacity","0.95");
+    starsG.appendChild(c);
+  }
+  // étoiles à spikes de diffraction
+  for(let i=0;i<spikes;i++){
+    const cx = r()*W, cy = r()*H;
+    const len = 12 + r()*10;
+    const g = document.createElementNS(SVG_NS,"g");
+    g.setAttribute("transform",`translate(${cx.toFixed(1)},${cy.toFixed(1)})`);
+    [["M",-len,0,"L",len,0],["M",0,-len,"L",0,len]].forEach(d=>{
+      const ln = document.createElementNS(SVG_NS,"line");
+      ln.setAttribute("x1",d[1]); ln.setAttribute("y1",d[2]);
+      ln.setAttribute("x2",d[4]); ln.setAttribute("y2",d[5]);
+      ln.setAttribute("stroke","#ffffff"); ln.setAttribute("stroke-opacity","0.6");
+      ln.setAttribute("stroke-width","0.5"); ln.setAttribute("filter","url(#starblur)");
+      g.appendChild(ln);
+    });
+    const halo = document.createElementNS(SVG_NS,"circle");
+    halo.setAttribute("r","5"); halo.setAttribute("fill","#fff"); halo.setAttribute("fill-opacity","0.25"); halo.setAttribute("filter","url(#starblur2)");
+    g.appendChild(halo);
+    const c = document.createElementNS(SVG_NS,"circle");
+    c.setAttribute("r","1.6"); c.setAttribute("fill","#ffffff"); c.setAttribute("fill-opacity","1");
+    g.appendChild(c);
+    starsG.appendChild(g);
+  }
+}
+
+// Dépose une figure : petit point lumineux (étoile en croix) + nom
+function paintFigure(opts){
+  const { fig, x, y, incrustG, nodesG, focusKey, onClick, onHoverIn, onHoverOut } = opts;
+  const SVG_NS = "http://www.w3.org/2000/svg";
+  const isFocus = focusKey === fig.key;
+  // — noeud cliquable (étoile + nom)
+  const g = document.createElementNS(SVG_NS,"g");
+  g.setAttribute("transform",`translate(${x},${y})`);
+  g.style.cursor = "pointer";
+  // halo
+  const halo = document.createElementNS(SVG_NS,"circle");
+  halo.setAttribute("r","7"); halo.setAttribute("fill","#ffffff");
+  halo.setAttribute("fill-opacity", isFocus ? "0.55" : "0.32");
+  halo.setAttribute("filter","url(#starblur2)");
+  // spikes en croix
+  const spikes = document.createElementNS(SVG_NS,"g");
+  [[-9,0,9,0],[0,-9,0,9]].forEach(c=>{
+    const ln = document.createElementNS(SVG_NS,"line");
+    ln.setAttribute("x1",c[0]); ln.setAttribute("y1",c[1]);
+    ln.setAttribute("x2",c[2]); ln.setAttribute("y2",c[3]);
+    ln.setAttribute("stroke","#ffffff"); ln.setAttribute("stroke-opacity","0.7");
+    ln.setAttribute("stroke-width","0.7"); ln.setAttribute("filter","url(#starblur)");
+    spikes.appendChild(ln);
+  });
+  // coeur
+  const core = document.createElementNS(SVG_NS,"circle");
+  core.setAttribute("r","2.2"); core.setAttribute("fill","#ffffff"); core.setAttribute("fill-opacity","1");
+  // nom
+  const label = document.createElementNS(SVG_NS,"text");
+  label.setAttribute("y","26"); label.setAttribute("text-anchor","middle");
+  label.setAttribute("fill","#ffffff"); label.setAttribute("fill-opacity", isFocus ? "1" : "0.92");
+  label.setAttribute("font-family","Playfair Display,serif");
+  label.setAttribute("font-size", isFocus ? "15" : "14"); label.setAttribute("font-style","italic");
+  label.setAttribute("font-weight", isFocus ? "700" : "400");
+  label.setAttribute("paint-order","stroke"); label.setAttribute("stroke","#06091a");
+  label.setAttribute("stroke-width","3.5"); label.setAttribute("stroke-linejoin","round");
+  label.textContent = fig.name;
+  g.appendChild(halo); g.appendChild(spikes); g.appendChild(core); g.appendChild(label);
+  if(onHoverIn) g.addEventListener("mouseenter", onHoverIn);
+  if(onHoverOut) g.addEventListener("mouseleave", onHoverOut);
+  if(onClick) g.addEventListener("click", onClick);
+  nodesG.appendChild(g);
+  return { g, halo, core, label };
+}
+
+// Trace une connexion entre deux figures + interactivité tooltip
+function paintConnection(opts){
+  const { from, to, conn, connsG, withTooltip = true } = opts;
+  const SVG_NS = "http://www.w3.org/2000/svg";
+  const a = mapXY(from), b = mapXY(to);
+  const hit = document.createElementNS(SVG_NS,"line");
+  hit.setAttribute("x1",a.x); hit.setAttribute("y1",a.y);
+  hit.setAttribute("x2",b.x); hit.setAttribute("y2",b.y);
+  hit.setAttribute("stroke","transparent"); hit.setAttribute("stroke-width","18");
+  hit.style.cursor = withTooltip ? "pointer" : "default";
+  const line = document.createElementNS(SVG_NS,"line");
+  line.setAttribute("x1",a.x); line.setAttribute("y1",a.y);
+  line.setAttribute("x2",b.x); line.setAttribute("y2",b.y);
+  line.setAttribute("stroke","#ffffff"); line.setAttribute("stroke-width","1");
+  line.setAttribute("stroke-opacity","0.25"); line.style.pointerEvents = "none";
+  if(withTooltip){
+    const longDesc = (conn.descLong) || conn.desc;
+    const hover = e=>{
+      line.setAttribute("stroke-opacity","0.95"); line.setAttribute("stroke-width","1.8");
+      const tt = document.getElementById("conn-tooltip");
+      tt.innerHTML = `
+        <div class="ct-head">
+          <div class="ct-title"><span>${from.name}</span><em>×</em><span>${to.name}</span></div>
+        </div>
+        <div class="ct-desc">${longDesc}</div>`;
+      positionFloater(tt, e.clientX, e.clientY);
+    };
+    const move = e=>positionFloater(document.getElementById("conn-tooltip"), e.clientX, e.clientY);
+    const leave = ()=>{ line.setAttribute("stroke-opacity","0.25"); line.setAttribute("stroke-width","1"); document.getElementById("conn-tooltip").style.display="none"; };
+    hit.addEventListener("mouseenter", hover);
+    hit.addEventListener("mousemove", move);
+    hit.addEventListener("mouseleave", leave);
+  }
+  connsG.appendChild(line); connsG.appendChild(hit);
+}
+
+// Affiche l'encart hover figure (style verso de carte : photo + nom + dates)
+function showFigCard(fig, ev){
+  const fc = document.getElementById("conn-figcard");
+  const img = IMGS[fig.key] || "";
+  const pos = fig.photoPos || "top center";
+  fc.innerHTML = `
+    <div class="cfc-photo-wrap">
+      ${img?`<img src="${img}" alt="${fig.name}" style="object-position:${pos}">`:`<div style="background:${fig.eraColor};height:100%"></div>`}
+      <div class="cfc-overlay">
+        <div class="cfc-name">${fig.name}</div>
+        <div class="cfc-dates">${formatDates(fig.dates)}</div>
+      </div>
+    </div>`;
+  positionFloater(fc, ev.clientX, ev.clientY);
+}
+function hideFigCard(){ const fc = document.getElementById("conn-figcard"); if(fc) fc.style.display = "none"; }
+
 function buildMap(){
   const nodes = document.getElementById("map-nodes");
   const conns = document.getElementById("map-connections");
+  const stars = document.getElementById("map-stars");
+  const incrust = document.getElementById("map-incrust");
   if(nodes.children.length>0) return;
+  paintStars(stars);
   MAP_CONNS.forEach(conn=>{
     const from = FIGURES.find(f=>f.key===conn.from);
     const to = FIGURES.find(f=>f.key===conn.to);
     if(!from||!to) return;
-    const col = TC[conn.theme]||"#c4922a";
-    // Invisible thick hitarea
-    const hit = document.createElementNS("http://www.w3.org/2000/svg","line");
-    hit.setAttribute("x1",from.mapPos.x); hit.setAttribute("y1",from.mapPos.y);
-    hit.setAttribute("x2",to.mapPos.x); hit.setAttribute("y2",to.mapPos.y);
-    hit.setAttribute("stroke","transparent"); hit.setAttribute("stroke-width","14");
-    hit.style.cursor="pointer";
-    // Visible line
-    const line = document.createElementNS("http://www.w3.org/2000/svg","line");
-    line.setAttribute("x1",from.mapPos.x); line.setAttribute("y1",from.mapPos.y);
-    line.setAttribute("x2",to.mapPos.x); line.setAttribute("y2",to.mapPos.y);
-    line.setAttribute("stroke",col); line.setAttribute("stroke-width","1.5"); line.setAttribute("stroke-opacity","0.28");
-    line.style.pointerEvents="none";
-    const hover = e=>{
-      line.setAttribute("stroke-opacity","0.9"); line.setAttribute("stroke-width","2.5");
-      const tt = document.getElementById("conn-tooltip");
-      tt.style.display="block"; tt.style.left=e.clientX+14+"px"; tt.style.top=e.clientY-12+"px";
-      tt.innerHTML=`<strong>${from.name} → ${to.name}</strong>${conn.desc}`;
-    };
-    const move = e=>{ const tt=document.getElementById("conn-tooltip"); tt.style.left=e.clientX+14+"px"; tt.style.top=e.clientY-12+"px"; };
-    const leave = ()=>{ line.setAttribute("stroke-opacity","0.28"); line.setAttribute("stroke-width","1.5"); document.getElementById("conn-tooltip").style.display="none"; };
-    hit.addEventListener("mouseenter",hover); hit.addEventListener("mousemove",move); hit.addEventListener("mouseleave",leave);
-    conns.appendChild(line); conns.appendChild(hit);
+    paintConnection({ from, to, conn, connsG: conns });
   });
-  FIGURES.forEach(d=>{
-    const g = document.createElementNS("http://www.w3.org/2000/svg","g");
-    g.setAttribute("transform",`translate(${d.mapPos.x},${d.mapPos.y})`);
-    g.style.cursor="pointer";
-    const circle = document.createElementNS("http://www.w3.org/2000/svg","circle");
-    circle.setAttribute("r","11"); circle.setAttribute("fill",d.eraColor+"77"); circle.setAttribute("stroke",d.eraColor); circle.setAttribute("stroke-width","1.5");
-    const inner = document.createElementNS("http://www.w3.org/2000/svg","circle");
-    inner.setAttribute("r","4"); inner.setAttribute("fill","#e8d090");
-    const label = document.createElementNS("http://www.w3.org/2000/svg","text");
-    label.setAttribute("y","25"); label.setAttribute("text-anchor","middle"); label.setAttribute("fill","rgba(245,240,232,.75)"); label.setAttribute("font-family","Playfair Display,serif"); label.setAttribute("font-size","9"); label.setAttribute("font-style","italic");
-    label.textContent = d.name.split(" ").pop();
-    g.appendChild(circle); g.appendChild(inner); g.appendChild(label);
-    g.addEventListener("mouseenter",()=>{ circle.setAttribute("r","15"); inner.setAttribute("r","6"); });
-    g.addEventListener("mouseleave",()=>{ circle.setAttribute("r","11"); inner.setAttribute("r","4"); });
-    g.addEventListener("click",()=>{
-      showSec("figures");
-      setTimeout(()=>{ const c=document.querySelector(`.card[data-key="${d.key}"]`); if(c){ c.scrollIntoView({behavior:"smooth",block:"center"}); c.style.outline="2px solid var(--gold)"; setTimeout(()=>c.style.outline="",2200); } },300);
+  FIGURES.forEach(fig=>{
+    const { x, y } = mapXY(fig);
+    paintFigure({
+      fig, x, y, incrustG: incrust, nodesG: nodes,
+      onClick: ()=>{ hideFigCard(); openDetail(fig.key); },
+      onHoverIn: (e)=>showFigCard(fig, e),
+      onHoverOut: hideFigCard
     });
-    nodes.appendChild(g);
+  });
+}
+
+// Mini-constellation focalisée sur une figure — réutilise les mêmes helpers
+function renderMiniConstellation(svgEl, focusKey){
+  const SVG_NS = "http://www.w3.org/2000/svg";
+  svgEl.querySelectorAll("g[data-mini]").forEach(g=>g.remove());
+  const mkG = (id)=>{ const g = document.createElementNS(SVG_NS,"g"); g.setAttribute("data-mini",id); svgEl.appendChild(g); return g; };
+  const starsG = mkG("stars"), connsG = mkG("conns"), nodesG = mkG("nodes");
+  // figures impliquées
+  const involved = new Set([focusKey]);
+  const relevantConns = MAP_CONNS.filter(c => c.from===focusKey || c.to===focusKey);
+  relevantConns.forEach(c=>{ involved.add(c.from); involved.add(c.to); });
+  // calcule la bounding box des figures impliquées pour zoomer dessus
+  const xs = [], ys = [];
+  FIGURES.forEach(fig=>{
+    if(!involved.has(fig.key)) return;
+    const p = mapXY(fig);
+    xs.push(p.x); ys.push(p.y);
+  });
+  // Bbox brute des figures impliquées
+  const padX = 220, padY = 200;
+  let minX = Math.min(...xs) - padX;
+  let maxX = Math.max(...xs) + padX;
+  let minY = Math.min(...ys) - padY;
+  let maxY = Math.max(...ys) + padY;
+  // Normalisation : forcer un aspect 1.75 (= 1400/800) et une largeur minimum
+  // de 1100 pour que toutes les mini-maps aient la même taille apparente
+  const TARGET_ASPECT = MAP_VIEW_W / MAP_VIEW_H;
+  const MIN_VB_W = 1100;
+  let vbW = Math.max(MIN_VB_W, maxX - minX);
+  let vbH = vbW / TARGET_ASPECT;
+  // Recentrer la bbox dans la nouvelle viewBox
+  const cx = (minX + maxX) / 2;
+  const cy = (minY + maxY) / 2;
+  minX = cx - vbW / 2;
+  minY = cy - vbH / 2;
+  svgEl.setAttribute("viewBox", `${minX.toFixed(0)} ${minY.toFixed(0)} ${vbW.toFixed(0)} ${vbH.toFixed(0)}`);
+  // étoiles densifiées sur la zone visible
+  paintStars(starsG, { W: MAP_VIEW_W, H: MAP_VIEW_H, small: 140, bright: 10, spikes: 3, seed: 4321 });
+  // lignes + noeuds
+  relevantConns.forEach(conn=>{
+    const from = FIGURES.find(f=>f.key===conn.from);
+    const to = FIGURES.find(f=>f.key===conn.to);
+    if(from && to) paintConnection({ from, to, conn, connsG, withTooltip: true });
+  });
+  FIGURES.forEach(fig=>{
+    if(!involved.has(fig.key)) return;
+    const { x, y } = mapXY(fig);
+    paintFigure({
+      fig, x, y, nodesG,
+      focusKey,
+      onClick: ()=>{ hideFigCard(); openDetail(fig.key); },
+      onHoverIn: (e)=>showFigCard(fig, e),
+      onHoverOut: hideFigCard
+    });
   });
 }
 
 // ══════════════════════════════
 // BUILD FRISE
 // ══════════════════════════════
-const ERAS_FRISE = [
-  {key:"antiquite",label:"Antiquité",color:"#8b1a2a",figs:["sappho"]},
-  {key:"romantisme",label:"Romantisme",color:"#1a4a5a",figs:["blake"]},
-  {key:"finsiecle",label:"Fin de siècle",color:"#4a2060",figs:["baudelaire","rimbaud","wilde","hilma"]},
-  {key:"belleepoque",label:"Belle Époque",color:"#c4922a",figs:["barney","colette","vivien","nijinski"]},
-  {key:"surrealisme",label:"Surréalisme",color:"#2d6b54",figs:["carrington","varo","kahlo"]},
-  {key:"contemporain",label:"20e siècle",color:"#1a4a3a",figs:["woolf","patti","bowie","mapplethorpe","jarman","plath","pasolini"]},
+// Événements historiques choisis pour leur résonance avec les figures de la constellation
+const HISTORICAL_EVENTS = [
+  {year:1857, title:"Procès des Fleurs du Mal · Baudelaire condamné pour outrage à la morale publique"},
+  {year:1873, title:"Verlaine tire sur Rimbaud à Bruxelles"},
+  {year:1882, title:"Loi Ferry · obligation scolaire pour les filles en France"},
+  {year:1895, title:"Procès Oscar Wilde · deux ans de travaux forcés pour « grossière indécence »"},
+  {year:1897, title:"Incendie du Bazar de la Charité · fin symbolique d'une époque"},
+  {year:1907, title:"Colette embrasse Mathilde de Morny au Moulin Rouge · scandale"},
+  {year:1909, title:"Diaghilev fonde les Ballets Russes à Paris"},
+  {year:1912, title:"L'Après-midi d'un Faune de Nijinski · scandale international"},
+  {year:1914, title:"Première Guerre mondiale · effondrement de la Belle Époque"},
+  {year:1919, title:"Internement de Nijinski à Saint-Moritz"},
+  {year:1924, title:"Premier Manifeste du surréalisme par André Breton"},
+  {year:1929, title:"Une chambre à soi de Virginia Woolf"},
+  {year:1932, title:"Le Pur et l'Impur · Colette cartographie le désir queer"},
+  {year:1939, title:"Seconde Guerre mondiale · exils et internements (Carrington, Breton…)"},
+  {year:1941, title:"Suicide de Virginia Woolf dans l'Ouse"},
+  {year:1944, title:"En Bas · Carrington raconte son internement psychiatrique"},
+  {year:1947, title:"Mexique surréaliste · Carrington, Varo, Kahlo se côtoient"},
+  {year:1957, title:"Howl d'Allen Ginsberg · la beat generation officielle"},
+  {year:1963, title:"Suicide de Sylvia Plath · publication de La Cloche de détresse"},
+  {year:1968, title:"Mai 68 · soulèvement étudiant et ouvrier en France"},
+  {year:1969, title:"Émeutes de Stonewall · naissance du mouvement de libération gay"},
+  {year:1971, title:"Manifeste des 343 pour le droit à l'avortement"},
+  {year:1975, title:"Horses de Patti Smith · assassinat de Pasolini · Salò sort"},
+  {year:1976, title:"Naissance officielle du punk à New York et Londres"},
+  {year:1981, title:"Premiers cas de SIDA identifiés à Los Angeles"},
+  {year:1986, title:"Caravaggio de Derek Jarman · le film comme dispositif anachronique"},
+  {year:1989, title:"Mort de Robert Mapplethorpe du SIDA · chute du Mur"},
+  {year:1993, title:"Blue de Derek Jarman · 79 minutes d'écran bleu uni"},
+  {year:1994, title:"Mort de Derek Jarman du SIDA"},
+  {year:2002, title:"Première rétrospective majeure de Hilma af Klint (58 ans après sa mort)"},
+  {year:2011, title:"Mort de Leonora Carrington à 94 ans à Mexico"},
+  {year:2016, title:"Mort de David Bowie · sortie de Blackstar deux jours avant"},
 ];
+
+// Ères : peu nombreuses, sombres et saturées. Servent UNIQUEMENT à colorer le fond
+// et la couleur ton-sur-ton du texte. Les largeurs sont calculées plus bas
+// d'après la densité de contenu réelle (buckets).
+const FRISE_ERAS = [
+  {key:"antiquite",   y0:-700, y1:1600, bg:"#3e2e0a", text:"#d4b876"},
+  {key:"ancien_reg",  y0:1600, y1:1815, bg:"#1a1640", text:"#bcb8e0"},
+  {key:"long19e",     y0:1815, y1:1900, bg:"#3a0e1e", text:"#e6b8c4"},
+  {key:"debut20",     y0:1900, y1:1945, bg:"#0f2c2a", text:"#b8d8cc"},
+  {key:"apresguerre", y0:1945, y1:2030, bg:"#1f1a2a", text:"#c8c0d8"},
+];
+function eraOfYear(y){
+  for(const e of FRISE_ERAS){ if(y >= e.y0 && y < e.y1) return e; }
+  return FRISE_ERAS[FRISE_ERAS.length-1];
+}
+
+// Largeurs adaptées au contenu : on segmente la timeline en buckets de 10 ans
+// (1 siècle pour la période avant 1700) et on alloue de l'espace en fonction
+// du nombre d'items dans chaque bucket.
+const FRISE_BUCKETS = []; // {y0, y1, items[], width, x0, x1}
+function bucketIndex(year){
+  // mapping y → index ; buckets non uniformes selon densité prévue
+  if(year < -700) return 0;
+  if(year < 1700){
+    // 1 bucket par siècle de -700 à 1700 = 24 buckets
+    return Math.floor((year + 700) / 100);
+  }
+  // après 1700 : buckets de 10 ans → décalage à 24
+  return 24 + Math.floor((year - 1700) / 10);
+}
+function bucketRange(idx){
+  if(idx < 24){
+    const y0 = -700 + idx * 100;
+    return { y0, y1: y0 + 100 };
+  }
+  const y0 = 1700 + (idx - 24) * 10;
+  return { y0, y1: y0 + 10 };
+}
+
+// Construction dynamique : on collectera les items et les buckets ensuite,
+// car le buildFrise doit connaître figures + events + works avant de calculer.
+
+// Œuvres majeures à projeter sur la frise (~30 jalons)
+const KEY_WORKS = [
+  {year:1857, figKey:"baudelaire", title:"Les Fleurs du Mal"},
+  {year:1873, figKey:"rimbaud", title:"Une saison en enfer"},
+  {year:1886, figKey:"rimbaud", title:"Illuminations"},
+  {year:1891, figKey:"wilde", title:"Le Portrait de Dorian Gray"},
+  {year:1893, figKey:"blake", title:"Le Mariage du Ciel et de l'Enfer"},
+  {year:1895, figKey:"wilde", title:"L'Importance d'être Constant"},
+  {year:1903, figKey:"vivien", title:"Sapho (traduction)"},
+  {year:1904, figKey:"vivien", title:"Une femme m'apparut"},
+  {year:1910, figKey:"colette", title:"La Vagabonde"},
+  {year:1910, figKey:"barney", title:"Éparpillements"},
+  {year:1912, figKey:"nijinski", title:"L'Après-midi d'un Faune"},
+  {year:1913, figKey:"nijinski", title:"Le Sacre du printemps"},
+  {year:1915, figKey:"hilma", title:"Tableaux pour le Temple"},
+  {year:1925, figKey:"woolf", title:"Mrs Dalloway"},
+  {year:1928, figKey:"woolf", title:"Orlando"},
+  {year:1929, figKey:"woolf", title:"Une chambre à soi"},
+  {year:1932, figKey:"colette", title:"Le Pur et l'Impur"},
+  {year:1939, figKey:"kahlo", title:"Les Deux Fridas"},
+  {year:1944, figKey:"carrington", title:"En Bas"},
+  {year:1944, figKey:"kahlo", title:"La Colonne brisée"},
+  {year:1957, figKey:"varo", title:"La Création des oiseaux"},
+  {year:1961, figKey:"pasolini", title:"Accattone"},
+  {year:1963, figKey:"plath", title:"La Cloche de détresse"},
+  {year:1964, figKey:"pasolini", title:"L'Évangile selon saint Matthieu"},
+  {year:1965, figKey:"plath", title:"Ariel"},
+  {year:1968, figKey:"pasolini", title:"Théorème"},
+  {year:1972, figKey:"bowie", title:"Ziggy Stardust", yt:"https://www.youtube.com/watch?v=na8xgu-KLAk", desc:"L'album où Bowie invente Ziggy Stardust, alien glam déchu : la persona qui révolutionne le rapport scène/identité dans la pop. Concept-album sur un messie rock voué à l'échec, mêlant science-fiction, transgression sexuelle et apocalypse. Pochette tirée par Brian Ward dans Heddon Street à Londres. Influence directe sur le punk, le glam, et tout le 20e siècle de la performance pop."},
+  {year:1975, figKey:"patti", title:"Horses"},
+  {year:1975, figKey:"pasolini", title:"Salò"},
+  {year:1977, figKey:"bowie", title:"Heroes"},
+  {year:1986, figKey:"jarman", title:"Caravaggio"},
+  {year:1986, figKey:"mapplethorpe", title:"Black Book"},
+  {year:1988, figKey:"mapplethorpe", title:"Autoportrait à la canne"},
+  {year:1993, figKey:"jarman", title:"Blue"},
+  {year:2010, figKey:"patti", title:"Just Kids"},
+  {year:2016, figKey:"bowie", title:"Blackstar"},
+];
+
+function parseYears(d){
+  const ancient = /av\. J\.-C\./.test(d);
+  const nums = d.match(/\d+/g) || [];
+  if(ancient){
+    return {born:-(parseInt(nums[0]||"600")), died:-(parseInt(nums[1]||"570")), ancient:true};
+  }
+  return {born:parseInt(nums[0]||"1900"), died:nums[1] ? parseInt(nums[1]) : (new Date()).getFullYear(), ancient:false};
+}
+
+// Module-level state pour yearToX (rempli par buildFrise) :
+let FRISE_BUCKET_WIDTHS = [];
+let FRISE_BUCKET_OFFSETS = [];
+let FRISE_TOTAL_W = 0;
+
+function yearToX(year){
+  const idx = bucketIndex(year);
+  if(idx < 0) return 0;
+  if(idx >= FRISE_BUCKET_WIDTHS.length) return FRISE_TOTAL_W;
+  const { y0, y1 } = bucketRange(idx);
+  const ratio = (year - y0) / (y1 - y0);
+  return FRISE_BUCKET_OFFSETS[idx] + ratio * FRISE_BUCKET_WIDTHS[idx];
+}
 
 function buildFrise(){
   const track = document.getElementById("friseTrack");
   if(track.children.length>0) return;
-  ERAS_FRISE.forEach(era=>{
-    const eraFigs = era.figs.map(k=>FIGURES.find(f=>f.key===k)).filter(Boolean);
-    const above = eraFigs.filter((_,i)=>i%2===0);
-    const below = eraFigs.filter((_,i)=>i%2===1);
-    const div = document.createElement("div");
-    div.className="frise-era";
-    div.style.minWidth = Math.max(160, eraFigs.length*90+40)+"px";
-    div.innerHTML=`
-      <div class="frise-era-label" style="color:${era.color}">${era.label}</div>
-      <div class="frise-dot" style="border-color:${era.color}"></div>
-      <div class="frise-above">${above.map(f=>`
-        <div class="frise-fig" onclick="openDetail('${f.key}')">
-          ${IMGS[f.key]?`<img src="${IMGS[f.key]}" alt="${f.name}">`:`<div style="width:34px;height:34px;border-radius:50%;background:${f.eraColor}22;flex-shrink:0"></div>`}
-          <div class="frise-fig-name">${f.name}</div>
-        </div>`).join("")}</div>
-      <div class="frise-below">${below.map(f=>`
-        <div class="frise-fig" onclick="openDetail('${f.key}')">
-          ${IMGS[f.key]?`<img src="${IMGS[f.key]}" alt="${f.name}">`:`<div style="width:34px;height:34px;border-radius:50%;background:${f.eraColor}22;flex-shrink:0"></div>`}
-          <div class="frise-fig-name">${f.name}</div>
-        </div>`).join("")}</div>`;
-    track.appendChild(div);
+
+  // 1) Collecte de tous les items à afficher avec leur année et leur type
+  const figs = FIGURES.map(f => Object.assign({}, f, parseYears(f.dates)));
+  const allItems = [];
+  figs.forEach(f => allItems.push({ type:"fig", year:f.born, data:f, w:190, h:280 }));
+  HISTORICAL_EVENTS.forEach(ev => allItems.push({ type:"event", year:ev.year, data:ev, w:230, h:80 }));
+  KEY_WORKS.forEach(w => allItems.push({ type:"work", year:w.year, data:w, w:150, h:60 }));
+
+  // 2) Buckets de 100 ans pour < 1700, 10 ans pour ≥ 1700
+  // Range total : -700 → 2030
+  const N_BUCKETS = 24 + Math.ceil((2030 - 1700) / 10); // 24 + 33 = 57
+  const counts = new Array(N_BUCKETS).fill(0);
+  allItems.forEach(it => {
+    const idx = bucketIndex(it.year);
+    if(idx >= 0 && idx < N_BUCKETS){
+      // figures comptent x3 (espace nécessaire pour la photo)
+      counts[idx] += (it.type === "fig" ? 3 : 1);
+    }
   });
-  // Drag to scroll
+
+  // 3) Largeur par bucket : minimum + bonus par item
+  const MIN_PRE1700 = 60;    // bucket vide pré-1700 = 60px
+  const MIN_POST1700 = 90;   // bucket vide post-1700 = 90px (déjà 10x plus dense)
+  const PX_PER_COUNT = 110;
+  FRISE_BUCKET_WIDTHS = counts.map((c, i)=>{
+    const min = (i < 24) ? MIN_PRE1700 : MIN_POST1700;
+    return min + c * PX_PER_COUNT;
+  });
+  FRISE_BUCKET_OFFSETS = [];
+  let cur = 0;
+  for(let i = 0; i < N_BUCKETS; i++){
+    FRISE_BUCKET_OFFSETS.push(cur);
+    cur += FRISE_BUCKET_WIDTHS[i];
+  }
+  FRISE_TOTAL_W = cur;
+  track.style.width = FRISE_TOTAL_W + "px";
+
+  // 4) Fond sombre saturé : gradient lissé entre les 5 ères avec stops aux midpoints
+  const eraStops = FRISE_ERAS.map(e => {
+    const midYear = (e.y0 + e.y1) / 2;
+    const midX = yearToX(midYear);
+    const pct = (midX / FRISE_TOTAL_W * 100).toFixed(2);
+    return `${e.bg} ${pct}%`;
+  });
+  // étendre la couleur des ères extrêmes jusqu'aux bords pour éviter les coupes brutes
+  const firstBg = FRISE_ERAS[0].bg;
+  const lastBg = FRISE_ERAS[FRISE_ERAS.length-1].bg;
+  track.style.background = `linear-gradient(to right, ${firstBg} 0%, ${eraStops.join(", ")}, ${lastBg} 100%)`;
+
+  // 5) Axe horizontal au milieu
+  const axis = document.createElement("div");
+  axis.className = "frise-axis";
+  track.appendChild(axis);
+
+  // 6) Bande de dates en haut (UNE seule ligne, années + ticks)
+  const dates = document.createElement("div");
+  dates.className = "frise-dates-strip";
+  track.appendChild(dates);
+  // Pré-1700 : un libellé par siècle visible
+  for(let y = -700; y < 1700; y += 100){
+    const x = yearToX(y);
+    if(x === 0 && y !== -700) continue;
+    const tick = document.createElement("div");
+    tick.className = "frise-date-tick";
+    tick.style.left = x + "px";
+    track.appendChild(tick);
+    if(y % 200 === 0 || y >= 1500){
+      const lb = document.createElement("div");
+      lb.className = "frise-date";
+      lb.style.left = x + "px";
+      lb.style.top = "14px";
+      lb.textContent = y < 0 ? Math.abs(y)+" av." : y;
+      track.appendChild(lb);
+    }
+  }
+  // Post-1700 : un libellé tous les 20 ans
+  for(let y = 1700; y <= 2030; y += 10){
+    const x = yearToX(y);
+    const tick = document.createElement("div");
+    tick.className = "frise-date-tick";
+    tick.style.left = x + "px";
+    track.appendChild(tick);
+    if(y % 20 === 0){
+      const lb = document.createElement("div");
+      lb.className = "frise-date";
+      lb.style.left = x + "px";
+      lb.style.top = "14px";
+      lb.textContent = y;
+      track.appendChild(lb);
+    }
+  }
+
+  // 7) Alterne haut/bas + assigne une lane selon collision
+  // Trie par x croissant pour le packing
+  allItems.forEach(it => { it.x = yearToX(it.year); });
+  allItems.sort((a, b) => a.x - b.x);
+  // alternance par type pour éviter que tout s'entasse côté pair
+  const sideCounter = { fig:0, event:0, work:0 };
+  const lanesAbove = {fig:[], event:[], work:[]};
+  const lanesBelow = {fig:[], event:[], work:[]};
+  // Lane max par type pour rester dans la viewport (figures grosses → 0)
+  const MAX_LANE = { fig: 0, event: 3, work: 3 };
+  allItems.forEach(it => {
+    const sideArr = (sideCounter[it.type]++ % 2 === 0) ? "above" : "below";
+    it.side = sideArr;
+    const lanes = (sideArr === "above" ? lanesAbove : lanesBelow)[it.type];
+    let lane = 0;
+    const halfW = it.w / 2;
+    const maxLane = MAX_LANE[it.type];
+    while(lane < lanes.length && lanes[lane] > it.x - halfW && lane < maxLane){ lane++; }
+    if(lane >= lanes.length) lanes.push(0);
+    // Si on est encore en collision au lane max, nudge horizontalement
+    if(lanes[lane] > it.x - halfW){
+      it.x = lanes[lane] + halfW + 6;
+    }
+    lanes[lane] = it.x + halfW + (it.type === "fig" ? 30 : 14);
+    it.lane = lane;
+  });
+
+  // 8) Rendu : pour chaque item, calcule top/bottom selon lane
+  const AXIS_Y_PCT = 50;          // axe au milieu
+  const LANE_GAP_FIG = 40;        // gap supplémentaire entre figures
+  const LANE_GAP_OTHER = 20;
+  const FIG_OFFSET = 25;          // distance axe → 1ʳᵉ lane figure
+  const EVT_OFFSET = 15;
+  const WORK_OFFSET = 12;
+
+  function topFor(it){
+    const era = eraOfYear(it.year);
+    if(it.type === "fig"){
+      const offset = FIG_OFFSET + it.lane * (it.h + LANE_GAP_FIG);
+      return { era, css: (it.side === "above" ? `top:calc(${AXIS_Y_PCT}% - ${offset + it.h}px)` : `top:calc(${AXIS_Y_PCT}% + ${offset}px)`) };
+    } else if(it.type === "event"){
+      const offset = EVT_OFFSET + it.lane * (it.h + LANE_GAP_OTHER);
+      return { era, css: (it.side === "above" ? `top:calc(${AXIS_Y_PCT}% - ${offset + it.h}px)` : `top:calc(${AXIS_Y_PCT}% + ${offset}px)`) };
+    } else {
+      const offset = WORK_OFFSET + it.lane * (it.h + LANE_GAP_OTHER);
+      return { era, css: (it.side === "above" ? `top:calc(${AXIS_Y_PCT}% - ${offset + it.h}px)` : `top:calc(${AXIS_Y_PCT}% + ${offset}px)`) };
+    }
+  }
+
+  function showTip(headHTML, bodyHTML, ev){
+    const tt = document.getElementById("frise-tooltip");
+    tt.innerHTML = `<div class="frise-tt-head">${headHTML}</div><div class="frise-tt-body">${bodyHTML}</div>`;
+    positionFloater(tt, ev.clientX, ev.clientY);
+  }
+  function hideTip(){ const tt = document.getElementById("frise-tooltip"); if(tt) tt.style.display = "none"; }
+
+  allItems.forEach(it => {
+    const { era, css } = topFor(it);
+    if(it.type === "fig"){
+      const f = it.data;
+      if(!f.ancient){
+        const xEnd = yearToX(Math.min(f.died, 2030));
+        const life = document.createElement("div");
+        life.className = "frise-life";
+        life.style.left = it.x + "px";
+        life.style.width = Math.max(2, xEnd - it.x) + "px";
+        life.style.color = era.text;
+        track.appendChild(life);
+      }
+      const div = document.createElement("div");
+      div.className = "frise-fig";
+      div.style.cssText = `left:${it.x}px;${css};color:${era.text}`;
+      div.onclick = () => openDetail(f.key);
+      const img = IMGS[f.key] || "";
+      const pos = f.photoPos || "top center";
+      div.innerHTML = `
+        ${img?`<img class="frise-fig-photo" src="${img}" alt="${f.name}" style="object-position:${pos}">`:`<div class="frise-fig-photo" style="background:${era.text}22"></div>`}
+        <div class="frise-fig-name">${f.name}</div>
+        <div class="frise-fig-dates">${formatDates(f.dates)}</div>`;
+      div.addEventListener("mouseenter", e => {
+        const resume = f.resume || f.desc || "";
+        showTip(`${f.name} <span style="opacity:.6;font-weight:400">— ${formatDates(f.dates)}</span>`, resume, e);
+      });
+      div.addEventListener("mousemove", e => positionFloater(document.getElementById("frise-tooltip"), e.clientX, e.clientY));
+      div.addEventListener("mouseleave", hideTip);
+      track.appendChild(div);
+    } else if(it.type === "event"){
+      const ev = it.data;
+      const div = document.createElement("div");
+      div.className = "frise-event";
+      div.style.cssText = `left:${it.x}px;${css};color:${era.text}`;
+      div.innerHTML = `
+        <div class="frise-event-year">${ev.year}</div>
+        <div class="frise-event-title">${ev.title}</div>`;
+      div.addEventListener("mouseenter", e => {
+        showTip(`${ev.year} — ${ev.title}`, ev.desc || "Événement historique de la même époque que les figures de la constellation.", e);
+      });
+      div.addEventListener("mousemove", e => positionFloater(document.getElementById("frise-tooltip"), e.clientX, e.clientY));
+      div.addEventListener("mouseleave", hideTip);
+      track.appendChild(div);
+    } else {
+      const w = it.data;
+      const fig = FIGURES.find(f => f.key === w.figKey);
+      if(!fig) return;
+      const div = document.createElement("div");
+      div.className = "frise-work";
+      div.style.cssText = `left:${it.x}px;${css};color:${era.text}`;
+      const ytBtn = w.yt ? `<a class="frise-work-yt" href="#" onclick="event.preventDefault();event.stopPropagation();openFriseVideo('${w.yt}');return false;" title="Voir la vidéo">▶</a>` : "";
+      div.innerHTML = `
+        <div class="frise-work-title">${w.title}</div>
+        <div class="frise-work-fig">${fig.name} · ${w.year}</div>
+        ${ytBtn}`;
+      div.addEventListener("mouseenter", e => {
+        const body = w.desc || `Œuvre majeure de ${fig.name}, ${w.year}.`;
+        showTip(`${w.title} <span style="opacity:.6;font-weight:400">— ${fig.name}</span>`, body, e);
+      });
+      div.addEventListener("mousemove", e => positionFloater(document.getElementById("frise-tooltip"), e.clientX, e.clientY));
+      div.addEventListener("mouseleave", hideTip);
+      div.addEventListener("click", () => openDetail(fig.key));
+      track.appendChild(div);
+    }
+  });
+
+  setupFriseScroll();
+}
+
+// Modal vidéo YouTube : ouvre via la petite icône ▶ sur les œuvres de la frise
+function openFriseVideo(url){
+  const m = url.match(/(?:v=|youtu\.be\/)([\w-]{11})/);
+  if(!m) return;
+  const id = m[1];
+  const modal = document.getElementById("frise-video-modal");
+  const iframe = document.getElementById("frise-video-iframe");
+  iframe.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
+  modal.classList.add("open");
+}
+function closeFriseVideo(){
+  const modal = document.getElementById("frise-video-modal");
+  const iframe = document.getElementById("frise-video-iframe");
+  modal.classList.remove("open");
+  iframe.src = "";
+}
+// fermer la modal au clic en dehors et avec Escape
+document.addEventListener("click", e => {
+  const modal = document.getElementById("frise-video-modal");
+  if(modal && modal.classList.contains("open") && e.target === modal) closeFriseVideo();
+});
+document.addEventListener("keydown", e => {
+  if(e.key === "Escape"){
+    const modal = document.getElementById("frise-video-modal");
+    if(modal && modal.classList.contains("open")) closeFriseVideo();
+  }
+});
+
+function setupFriseScroll(){
   const scroll = document.getElementById("friseScroll");
-  let down=false,startX,sl;
-  scroll.addEventListener("mousedown",e=>{down=true;startX=e.pageX-scroll.offsetLeft;sl=scroll.scrollLeft});
-  scroll.addEventListener("mouseleave",()=>down=false);
-  scroll.addEventListener("mouseup",()=>down=false);
-  scroll.addEventListener("mousemove",e=>{if(!down)return;e.preventDefault();scroll.scrollLeft=sl-(e.pageX-scroll.offsetLeft-startX)});
+  if(scroll._setup) return;
+  scroll._setup = true;
+
+  // Drag-to-scroll
+  let down=false, startX=0, sl=0;
+  scroll.addEventListener("mousedown", e=>{ down=true; startX=e.pageX-scroll.offsetLeft; sl=scroll.scrollLeft; });
+  scroll.addEventListener("mouseleave", ()=>{ down=false; });
+  scroll.addEventListener("mouseup", ()=>{ down=false; });
+  scroll.addEventListener("mousemove", e=>{ if(!down) return; e.preventDefault(); scroll.scrollLeft = sl - (e.pageX - scroll.offsetLeft - startX); });
+
+  // Wheel: vertical → horizontal
+  scroll.addEventListener("wheel", e=>{
+    if(Math.abs(e.deltaY) > Math.abs(e.deltaX)){
+      e.preventDefault();
+      scroll.scrollLeft += e.deltaY;
+    }
+  }, { passive:false });
+
+  // Clavier : scroll fluide en boucle rAF tant qu'une flèche est maintenue
+  scroll.setAttribute("tabindex","0");
+  const held = new Set();
+  let running = false;
+  const SPEED = 16; // px par frame
+  function loop(){
+    if(held.has("ArrowRight") || held.has("d")) scroll.scrollLeft += SPEED;
+    if(held.has("ArrowLeft")  || held.has("a")) scroll.scrollLeft -= SPEED;
+    if(held.size > 0) requestAnimationFrame(loop);
+    else running = false;
+  }
+  scroll.addEventListener("keydown", e=>{
+    if(["ArrowRight","ArrowLeft","d","a"].includes(e.key)){
+      e.preventDefault();
+      held.add(e.key);
+      if(!running){ running = true; requestAnimationFrame(loop); }
+    } else if(e.key==="PageDown"){
+      scroll.scrollLeft += scroll.clientWidth * 0.85; e.preventDefault();
+    } else if(e.key==="PageUp"){
+      scroll.scrollLeft -= scroll.clientWidth * 0.85; e.preventDefault();
+    } else if(e.key==="Home"){ scroll.scrollLeft = 0; e.preventDefault(); }
+      else if(e.key==="End"){ scroll.scrollLeft = scroll.scrollWidth; e.preventDefault(); }
+  });
+  scroll.addEventListener("keyup", e=>{ held.delete(e.key); });
+  scroll.addEventListener("blur", ()=>{ held.clear(); });
+
+  setTimeout(()=>scroll.focus(), 100);
 }
 
 // ══════════════════════════════
@@ -950,8 +1660,31 @@ const io = new IntersectionObserver(es=>{
 // INIT
 // ══════════════════════════════
 buildCards();
-renderPins();
 setTimeout(()=>document.querySelectorAll(".reveal").forEach(el=>io.observe(el)),100);
+
+// ══════════════════════════════
+// HERO SPLASH — apparaît plein écran à l'ouverture, s'efface après quelques secondes
+// ══════════════════════════════
+(function heroSplash(){
+  const hero = document.getElementById("hero-splash");
+  if(!hero) return;
+  // si on arrive sur une fiche en deep link, pas de splash
+  if(location.hash && location.hash.match(/^#\//)){ hero.remove(); return; }
+  document.body.classList.add("splash-on");
+  setTimeout(()=>{
+    hero.classList.add("fade-out");
+    setTimeout(()=>{ hero.remove(); document.body.classList.remove("splash-on"); }, 1100);
+  }, 2600);
+  // skip si l'utilisateur clique/touche/scrolle
+  const skip = ()=>{
+    hero.classList.add("fade-out");
+    setTimeout(()=>{ hero.remove(); document.body.classList.remove("splash-on"); }, 700);
+    window.removeEventListener("click", skip); window.removeEventListener("keydown", skip); window.removeEventListener("wheel", skip);
+  };
+  window.addEventListener("click", skip);
+  window.addEventListener("keydown", skip);
+  window.addEventListener("wheel", skip, {passive:true});
+})();
 
 // ══ VIDEO CAROUSEL ══
 function buildVideoCarousel(videos, containerId, figKey) {
@@ -973,19 +1706,13 @@ function buildVideoCarousel(videos, containerId, figKey) {
     }).join('');
   }
 
-  function dotsHTML() {
-    return videos.map(function(_, i) {
-      return '<div class="vid-dot' + (i===0?' on':'') + '" data-idx="' + i + '"></div>';
-    }).join('');
-  }
-
   container.innerHTML = '<div class="vid-carousel">'
     + '<div class="vid-track" id="vtrack_' + containerId + '">' + slidesHTML() + '</div></div>'
     + (videos.length > 1
       ? '<div class="vid-nav">'
-        + '<button class="vid-nav-btn" id="vprev_' + containerId + '">&#8249;</button>'
-        + '<div class="vid-dots" id="vdots_' + containerId + '">' + dotsHTML() + '</div>'
-        + '<button class="vid-nav-btn" id="vnext_' + containerId + '">&#8250;</button>'
+        + '<button class="vid-nav-btn" id="vprev_' + containerId + '" aria-label="Précédent">&#8249;</button>'
+        + '<div class="vid-counter" id="vcount_' + containerId + '">1 sur ' + videos.length + '</div>'
+        + '<button class="vid-nav-btn" id="vnext_' + containerId + '" aria-label="Suivant">&#8250;</button>'
         + '</div>'
       : '');
 
@@ -993,9 +1720,8 @@ function buildVideoCarousel(videos, containerId, figKey) {
     cur = ((n % videos.length) + videos.length) % videos.length;
     var track = document.getElementById('vtrack_' + containerId);
     if(track) track.style.transform = 'translateX(-' + (cur*100) + '%)';
-    document.querySelectorAll('#vdots_'+containerId+' .vid-dot').forEach(function(d,i){
-      d.classList.toggle('on', i===cur);
-    });
+    var counter = document.getElementById('vcount_'+containerId);
+    if(counter) counter.textContent = (cur+1) + ' sur ' + videos.length;
   }
 
   if(videos.length > 1) {
@@ -1003,47 +1729,175 @@ function buildVideoCarousel(videos, containerId, figKey) {
     var next = document.getElementById('vnext_'+containerId);
     if(prev) prev.onclick = function(e){ e.preventDefault(); go(cur-1); };
     if(next) next.onclick = function(e){ e.preventDefault(); go(cur+1); };
-    document.querySelectorAll('#vdots_'+containerId+' .vid-dot').forEach(function(d){
-      d.onclick = function(){ go(parseInt(d.dataset.idx)); };
-    });
   }
 }
 
 // ══ NOTES ══
-function buildNotes(containerId, figKey) {
+function buildNotes(containerId, figKey){
   const container = document.getElementById(containerId);
   if(!container) return;
-  var storageKey = 'notes::' + figKey;
-  var saved = localStorage.getItem(storageKey) || '';
-  container.innerHTML = '<div class="notes-section">'
-    + '<div class="notes-label">'
-    + '<span>&#10022; &nbsp; Mes notes</span>'
-    + '<span class="notes-saved" id="nsaved_' + figKey + '">Sauvegarde\u0301</span>'
-    + '</div>'
-    + '<textarea class="notes-area" id="narea_' + figKey + '" '
-    + 'placeholder="Ce qui me touche, les connexions que je vois, les questions que \u00e7a soul\u00e8ve\u2026">'
-    + saved.replace(/</g,'&lt;').replace(/>/g,'&gt;')
-    + '</textarea></div>';
-  var timer;
-  var area = document.getElementById('narea_' + figKey);
-  if(area) {
-    area.addEventListener('input', function() {
-      clearTimeout(timer);
-      timer = setTimeout(function() {
-        localStorage.setItem(storageKey, area.value);
-        var s = document.getElementById('nsaved_' + figKey);
-        if(s){ s.classList.add('show'); setTimeout(function(){ s.classList.remove('show'); }, 2000); }
-      }, 800);
+  const storageKey = 'notes-list::' + figKey;
+  // Migration : si l'ancien blob string existe, on le convertit en premi\u00e8re note
+  const legacy = localStorage.getItem('notes::' + figKey);
+  let notes = [];
+  try { notes = JSON.parse(localStorage.getItem(storageKey) || '[]'); } catch(_){ notes = []; }
+  if(legacy && notes.length === 0){
+    notes = [{ text: legacy, ts: Date.now() }];
+    localStorage.setItem(storageKey, JSON.stringify(notes));
+    localStorage.removeItem('notes::' + figKey);
+  }
+  let editMode = false;
+  let editingIdx = -1;
+  function persist(){ localStorage.setItem(storageKey, JSON.stringify(notes)); }
+  function fmtDate(ts){
+    const d = new Date(ts);
+    return d.toLocaleDateString('fr-FR', { day:'2-digit', month:'short', year:'numeric' });
+  }
+  function escapeHtml(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  function renderItem(n, i){
+    if(i === editingIdx){
+      return `
+        <div class="note-item editing" data-i="${i}">
+          <div class="note-date">${fmtDate(n.ts)}</div>
+          <textarea class="note-edit-area" data-i="${i}">${escapeHtml(n.text)}</textarea>
+          <div class="note-actions visible">
+            <button class="note-btn note-save" data-i="${i}" title="Enregistrer (Entr\u00e9e)">\u2713</button>
+            <button class="note-btn note-cancel" data-i="${i}" title="Annuler (\u00c9chap)">\u21a9</button>
+          </div>
+        </div>`;
+    }
+    return `
+      <div class="note-item" data-i="${i}">
+        <div class="note-date">${fmtDate(n.ts)}</div>
+        <div class="note-text">${escapeHtml(n.text).replace(/\n/g,"<br>")}</div>
+        <div class="note-actions">
+          <button class="note-btn note-edit" data-i="${i}" title="Modifier">\u270e</button>
+          <button class="note-btn note-del" data-i="${i}" title="Supprimer">\u00d7</button>
+        </div>
+      </div>`;
+  }
+
+  function render(){
+    const itemsHTML = notes.map(renderItem).join('');
+    container.innerHTML = `
+      <div class="notes-toolbar">
+        <button class="notes-edit-toggle ${editMode?'on':''}" id="nedit_${figKey}" title="${editMode?'Terminer':'Modifier'}">\u270e</button>
+      </div>
+      <div class="notes-list ${editMode?'editing':''}">${itemsHTML}</div>
+      <div class="notes-input">
+        <textarea class="notes-area" id="narea_${figKey}" placeholder="Ce qui te touche, les connexions que tu vois, les questions que \u00e7a soul\u00e8ve\u2026"></textarea>
+        <button class="notes-validate" id="nvalid_${figKey}" title="Valider">\u21b5</button>
+      </div>`;
+
+    const area = document.getElementById('narea_'+figKey);
+    const validBtn = document.getElementById('nvalid_'+figKey);
+    const editToggle = document.getElementById('nedit_'+figKey);
+
+    function submit(){
+      const txt = (area.value || '').trim();
+      if(!txt) return;
+      notes.push({ text: txt, ts: Date.now() });
+      persist();
+      render();
+    }
+    if(validBtn) validBtn.addEventListener('click', submit);
+    if(area){
+      area.addEventListener('keydown', e=>{
+        // Entrée valide, Shift+Entrée saute une ligne, Cmd/Ctrl+Entrée valide aussi
+        if(e.key === 'Enter' && !e.shiftKey){
+          e.preventDefault();
+          submit();
+        }
+      });
+    }
+    if(editToggle){
+      editToggle.addEventListener('click', ()=>{
+        editMode = !editMode;
+        if(!editMode) editingIdx = -1;
+        render();
+      });
+    }
+
+    // Boutons par note : ouvrir l'\u00e9dition inline
+    container.querySelectorAll('.note-edit').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        editingIdx = parseInt(btn.dataset.i);
+        render();
+        const ta = container.querySelector('.note-edit-area[data-i="'+editingIdx+'"]');
+        if(ta){ ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); }
+      });
+    });
+    container.querySelectorAll('.note-del').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const i = parseInt(btn.dataset.i);
+        if(confirm("Supprimer cette note ?")){
+          notes.splice(i,1); persist();
+          if(editingIdx === i) editingIdx = -1;
+          render();
+        }
+      });
+    });
+    container.querySelectorAll('.note-save').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const i = parseInt(btn.dataset.i);
+        const ta = container.querySelector('.note-edit-area[data-i="'+i+'"]');
+        const newText = (ta.value || '').trim();
+        if(newText){
+          notes[i].text = newText;
+          notes[i].ts = Date.now();
+          persist();
+        }
+        editingIdx = -1;
+        render();
+      });
+    });
+    container.querySelectorAll('.note-cancel').forEach(btn=>{
+      btn.addEventListener('click', ()=>{ editingIdx = -1; render(); });
+    });
+    container.querySelectorAll('.note-edit-area').forEach(ta=>{
+      ta.addEventListener('keydown', e=>{
+        if(e.key === 'Enter' && !e.shiftKey){
+          e.preventDefault();
+          const i = parseInt(ta.dataset.i);
+          const sv = container.querySelector('.note-save[data-i="'+i+'"]');
+          if(sv) sv.click();
+        } else if(e.key === 'Escape'){
+          editingIdx = -1; render();
+        }
+      });
     });
   }
+  render();
 }
+
+// ══════════════════════════════
+// HASH ROUTING — chaque figure = une URL partageable
+// ══════════════════════════════
+function _syncFromHash(){
+  _suppressHashPush = true;
+  const m = location.hash.match(/^#\/(.+)$/);
+  if (m) {
+    const key = decodeURIComponent(m[1]);
+    if (FIGURES.find(f => f.key === key)) {
+      openDetail(key);
+    } else if (currentDetailKey) {
+      closeDetail();
+    }
+  } else if (currentDetailKey) {
+    closeDetail();
+  }
+  _suppressHashPush = false;
+}
+window.addEventListener('popstate', _syncFromHash);
+window.addEventListener('load', _syncFromHash);
 
 </script>
 
 <!-- MANIFESTE PAGE -->
 <div id="page-manifeste" style="position:fixed;inset:0;background:var(--ivory);z-index:9500;overflow-y:auto;display:none;flex-direction:column">
   <div style="background:var(--ink);color:var(--ivory);padding:14px 32px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;position:sticky;top:0;z-index:10">
-    <button onclick="document.getElementById('page-manifeste').style.display='none';document.body.style.overflow=''" style="background:none;border:none;color:rgba(245,240,232,.7);font-family:'Josefin Sans',sans-serif;font-weight:300;font-size:13px;letter-spacing:.2em;cursor:pointer;text-transform:uppercase">← Retour</button>
+    <button onclick="document.getElementById('page-manifeste').style.display='none';document.body.style.overflow=''" style="background:none;border:none;color:rgba(244,241,236,.7);font-family:'Josefin Sans',sans-serif;font-weight:300;font-size:13px;letter-spacing:.2em;cursor:pointer;text-transform:uppercase">← Retour</button>
     <div style="font-family:'Playfair Display',serif;font-style:italic;font-size:1.1rem;color:var(--gold2)">Mon Rappel</div>
     <div style="width:80px"></div>
   </div>
@@ -1070,8 +1924,8 @@ function buildNotes(containerId, figKey) {
         <div style="font-family:'Josefin Sans',sans-serif;font-weight:100;font-size:11px;letter-spacing:.35em;color:var(--fog);text-transform:uppercase;margin-bottom:16px">Le monstre intérieur</div>
         <div style="display:flex;flex-direction:column;gap:10px">
           <div style="background:var(--carmine);color:white;padding:14px 20px;font-family:'Playfair Display',serif;font-size:1rem;font-style:italic">Peur</div>
-          <div style="background:#3d1a28;color:rgba(245,240,232,.85);padding:14px 20px;font-family:'Playfair Display',serif;font-size:1rem;font-style:italic">Honte</div>
-          <div style="background:#2a1a38;color:rgba(245,240,232,.85);padding:14px 20px;font-family:'Playfair Display',serif;font-size:1rem;font-style:italic">Doute</div>
+          <div style="background:#3d1a28;color:rgba(244,241,236,.85);padding:14px 20px;font-family:'Playfair Display',serif;font-size:1rem;font-style:italic">Honte</div>
+          <div style="background:#2a1a38;color:rgba(244,241,236,.85);padding:14px 20px;font-family:'Playfair Display',serif;font-size:1rem;font-style:italic">Doute</div>
         </div>
       </div>
 
