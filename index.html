@@ -85,6 +85,7 @@ body.on-figures.scrolled .navbar{background:var(--ivory)}
 .nav-btn:hover{color:var(--mist)}
 .nav-btn.on{color:var(--ink)}
 /* Variante Constellation : navbar par-dessus le ciel, texte clair */
+body.on-map{background:#06091a}
 body.on-map .navbar{background:transparent;position:fixed;top:0;left:0;right:0}
 body.on-map .nav-btn{color:rgba(244,241,236,.5)}
 body.on-map .nav-btn:hover{color:rgba(244,241,236,.85)}
@@ -127,16 +128,47 @@ body.on-frise .frise-scroll{height:100vh}
 .card:hover .card-resume{opacity:1;transform:translateY(0)}
 
 /* ══════ DETAIL PAGE — layout 2 colonnes avec ancres ══════ */
-/* On laisse l'espace de la navbar en haut pour qu'elle reste visible et navigable */
-#page-detail{position:fixed;top:54px;left:0;right:0;bottom:0;background:var(--ivory);z-index:880;display:none;flex-direction:column}
+/* Couvre TOUT (top:0), la navbar globale flotte par-dessus grâce à son z-index plus élevé */
+#page-detail{position:fixed;inset:0;background:var(--ivory);z-index:880;display:none;flex-direction:column}
 #page-detail.open{display:flex}
-.det-header{flex-shrink:0;padding:26px 64px 0 64px;border-bottom:1px solid var(--ivory2);background:var(--ivory)}
+/* Marge en haut pour ne pas passer sous la navbar fixe */
+.det-header{flex-shrink:0;padding:64px 64px 0 64px;border-bottom:1px solid var(--ivory2);background:var(--ivory)}
 .det-header-top{display:flex;align-items:flex-start;justify-content:space-between;gap:24px}
-.det-header-name{font-family:"Playfair Display",serif;font-size:clamp(1.8rem,4vw,2.6rem);font-weight:900;color:var(--ink);line-height:1.05;letter-spacing:.01em}
-.det-header-meta{font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:13px;letter-spacing:.28em;color:var(--mist);text-transform:uppercase;margin-top:10px}
-.det-anchors{margin-top:18px;display:flex;flex-wrap:wrap;gap:0;overflow-x:auto;scrollbar-width:none}
+.det-header-top{display:flex;align-items:flex-start;justify-content:space-between;gap:24px}
+.det-header-name{font-family:"Playfair Display",serif;font-size:clamp(1.7rem,3.6vw,2.4rem);font-weight:900;color:var(--ink);line-height:1.05;letter-spacing:.01em;display:inline-block}
+.det-edit-btn{background:none;border:1px solid var(--ivory2);color:var(--mist);font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:11px;letter-spacing:.22em;padding:8px 14px;cursor:pointer;text-transform:uppercase;border-radius:3px;transition:all .2s;align-self:flex-start;margin-top:6px}
+.det-edit-btn:hover{color:var(--ink);border-color:var(--ink)}
+.det-edit-controls{display:flex;gap:8px;align-self:flex-start;margin-top:6px}
+.det-edit-cancel,.det-edit-save{background:none;border:1px solid var(--ivory2);color:var(--mist);font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:11px;letter-spacing:.22em;padding:8px 14px;cursor:pointer;text-transform:uppercase;border-radius:3px;transition:all .2s}
+.det-edit-cancel:hover{color:var(--carmine);border-color:var(--carmine)}
+.det-edit-save{background:var(--ink);color:var(--ivory);border-color:var(--ink)}
+.det-edit-save:hover{background:var(--ink2);border-color:var(--ink2)}
+.det-header.editing{background:rgba(168,161,147,.08)}
+/* ── Mode édition : champs et boutons ── */
+.ed-portrait{width:100%;min-height:120px;padding:14px 16px;background:rgba(255,255,255,.6);border:1px solid var(--ivory2);font-family:"Cormorant Garamond",serif;font-size:17px;color:var(--ink);line-height:1.7;resize:vertical;outline:none;margin-bottom:18px}
+.ed-portrait.ed-bio{min-height:200px;font-size:16px}
+.ed-portrait:focus{border-color:var(--mist);background:rgba(255,255,255,.85)}
+.ed-work{position:relative;padding-right:36px}
+.ed-work-title,.ed-work-type{display:block;width:100%;padding:5px 8px;background:transparent;border:none;border-bottom:1px dashed var(--ivory2);font-family:"Playfair Display",serif;font-style:italic;font-size:16px;color:var(--ink);outline:none;margin-bottom:2px}
+.ed-work-type{font-family:"Josefin Sans",sans-serif;font-style:normal;font-weight:400;font-size:12px;letter-spacing:.08em;color:var(--mist);text-transform:none}
+.ed-work-title:focus,.ed-work-type:focus{border-bottom-color:var(--mist);background:rgba(0,0,0,.02)}
+.ed-del{position:absolute;top:14px;right:0;background:none;border:1px solid var(--ivory2);color:var(--fog);width:24px;height:24px;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;border-radius:3px;transition:all .2s;line-height:1;padding:0}
+.ed-del:hover{color:var(--carmine);border-color:var(--carmine)}
+.ed-add{display:inline-block;margin-top:14px;background:none;border:1px dashed var(--mist);color:var(--mist);font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:11px;letter-spacing:.22em;padding:8px 16px;cursor:pointer;text-transform:uppercase;border-radius:3px;transition:all .2s;margin-right:8px}
+.ed-add:hover{color:var(--ink);border-color:var(--ink);border-style:solid}
+.ed-video{position:relative;display:flex;flex-direction:column;gap:6px;padding:12px 36px 12px 0;border-bottom:1px solid var(--ivory2)}
+.ed-video-id,.ed-video-title{width:100%;padding:6px 10px;background:rgba(255,255,255,.6);border:1px solid var(--ivory2);font-family:"Cormorant Garamond",serif;font-size:14px;outline:none}
+.ed-video-id:focus,.ed-video-title:focus{border-color:var(--mist)}
+.ed-video .ed-del{top:14px}
+.ed-gal-item{position:relative;margin-top:14px}
+.ed-gal-item img{width:100%;display:block;filter:grayscale(.4) contrast(1.04)}
+.ed-gal-item .ed-del{top:8px;right:8px;background:rgba(255,255,255,.85)}
+.ed-gal-item .ed-del:hover{background:rgba(255,255,255,1)}
+.ed-gallery-list .ed-add{display:block;margin:14px 0 0;width:100%;text-align:center}
+.det-header-meta{font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:13px;letter-spacing:.28em;color:var(--mist);text-transform:uppercase;margin-top:6px}
+.det-anchors{margin-top:10px;display:flex;flex-wrap:wrap;gap:0;overflow-x:auto;scrollbar-width:none}
 .det-anchors::-webkit-scrollbar{display:none}
-.det-anchor{position:relative;display:inline-flex;align-items:center;font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:11.5px;letter-spacing:.22em;color:var(--fog);text-transform:uppercase;padding:14px 0 16px;margin-right:36px;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:color .2s,border-color .25s;text-decoration:none}
+.det-anchor{position:relative;display:inline-flex;align-items:center;font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:11.5px;letter-spacing:.22em;color:var(--fog);text-transform:uppercase;padding:10px 0 12px;margin-right:32px;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:color .2s,border-color .25s;text-decoration:none}
 .det-anchor:hover{color:var(--mist)}
 .det-anchor.on{color:var(--ink);border-bottom-color:var(--ink)}
 .det-layout{flex:1;display:grid;grid-template-columns:1fr 420px;gap:0;overflow:hidden;min-height:0}
@@ -146,9 +178,9 @@ body.on-frise .frise-scroll{height:100vh}
 .det-photo-main img{width:100%;height:100%;object-fit:cover;object-position:top center;filter:grayscale(.35) contrast(1.05)}
 .det-gallery-item{margin-top:14px}
 .det-gallery-item img{width:100%;display:block;filter:grayscale(.4) contrast(1.04)}
-.det-section{padding:70px 0 24px;border-top:1px solid transparent;scroll-margin-top:18px}
+.det-section{padding:54px 0 20px;border-top:1px solid transparent;scroll-margin-top:18px;position:relative}
 .det-section:first-of-type{padding-top:0}
-.det-section-title{font-family:"Josefin Sans",sans-serif;font-weight:700;font-size:11.5px;letter-spacing:.42em;color:var(--ink);text-transform:uppercase;margin-bottom:24px;padding-bottom:12px;border-bottom:1px solid var(--ivory2)}
+.det-section-title{display:flex;align-items:center;justify-content:space-between;font-family:"Josefin Sans",sans-serif;font-weight:700;font-size:11.5px;letter-spacing:.42em;color:var(--ink);text-transform:uppercase;margin-bottom:22px;padding-bottom:12px;border-bottom:1px solid var(--ivory2)}
 .det-mini-wrap{background:#06091a;overflow:hidden;height:560px;width:100%}
 .det-mini-wrap svg{width:100%;height:100%;display:block}
 .det-gallery-placeholder{margin-top:14px;aspect-ratio:4/5;background:linear-gradient(135deg,var(--ivory2),var(--paper));border:1px solid var(--ivory2);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;position:relative;overflow:hidden}
@@ -202,12 +234,12 @@ body.on-frise .frise-scroll{height:100vh}
 .frise-scroll{overflow-x:auto;overflow-y:hidden;cursor:grab;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.3) rgba(0,0,0,.3);background:#0a0a0a;outline:none;height:100vh}
 .frise-scroll:active{cursor:grabbing}
 .frise-track{position:relative;min-width:max-content;height:100%}
-/* Ligne de dates : abaissée sous la navbar pour rester visible */
-.frise-dates-strip{position:absolute;top:54px;left:0;right:0;height:36px;display:flex;align-items:center;background:rgba(0,0,0,.35);backdrop-filter:blur(2px);z-index:5;pointer-events:none}
-.frise-date{position:absolute;font-family:"Josefin Sans",sans-serif;font-weight:700;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.65);transform:translateX(-50%);white-space:nowrap}
-.frise-date-tick{position:absolute;top:54px;width:1px;height:8px;background:rgba(255,255,255,.3);transform:translateX(-.5px)}
-/* Pas d'axe horizontal au milieu (retiré pour un rendu moins scolaire) */
-.frise-axis{display:none}
+/* Bande de dates : large ruban sous la navbar, dates écrites DEDANS */
+.frise-dates-strip{position:absolute;top:54px;left:0;right:0;height:44px;background:rgba(0,0,0,.45);backdrop-filter:blur(3px);z-index:5;pointer-events:none;border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08)}
+.frise-date{position:absolute;top:50%;font-family:"Josefin Sans",sans-serif;font-weight:700;font-size:11.5px;letter-spacing:.26em;text-transform:uppercase;color:rgba(255,255,255,.78);transform:translate(-50%,-50%);white-space:nowrap}
+.frise-date-tick{position:absolute;top:78px;width:1px;height:8px;background:rgba(255,255,255,.35);transform:translateX(-.5px)}
+/* Plus aucune ligne horizontale au milieu */
+.frise-axis,.frise-life{display:none}
 /* Figures : texte/photo seuls, pas de ligne ni de dot vers un axe */
 .frise-fig{position:absolute;width:190px;cursor:pointer;display:flex;flex-direction:column;align-items:center;text-align:center;transition:transform .25s;z-index:4;transform:translateX(-50%)}
 .frise-fig:hover{transform:translateX(-50%) translateY(-2px)}
@@ -318,10 +350,9 @@ footer strong{display:block;font-family:"Playfair Display",serif;font-size:1.15r
 .vid-counter{font-family:"Josefin Sans",sans-serif;font-weight:300;font-size:11.5px;letter-spacing:.3em;color:var(--fog);text-transform:uppercase}
 
 /* NOTES */
-/* Toolbar des notes : flotte en haut à droite de la section sans chevaucher le titre */
-#anchor-notes{position:relative}
-.notes-toolbar{position:absolute;top:78px;right:0;display:flex;gap:4px;z-index:2}
-.notes-edit-toggle{background:none;border:1px solid var(--ivory2);color:var(--fog);font-size:13px;cursor:pointer;padding:4px 9px;transition:color .2s,background .2s,border-color .2s;border-radius:3px;line-height:1}
+/* Toolbar des notes : intégrée dans la ligne du titre de section */
+.notes-toolbar{display:flex;gap:4px}
+.notes-edit-toggle{background:none;border:1px solid var(--ivory2);color:var(--fog);font-size:12px;cursor:pointer;padding:3px 8px;transition:color .2s,background .2s,border-color .2s;border-radius:3px;line-height:1}
 .notes-edit-toggle:hover{color:var(--ink);border-color:var(--mist)}
 .notes-edit-toggle.on{color:var(--ivory);background:var(--ink);border-color:var(--ink)}
 .notes-list{display:flex;flex-direction:column;gap:14px;margin-bottom:18px}
@@ -680,13 +711,50 @@ const GALLERIES = {
 };
 FIGURES.forEach(f => { if(GALLERIES[f.key]) f.gallery = GALLERIES[f.key].map(p => encodeURI(p)); });
 
+// Overrides utilisateur stockés en localStorage (mode édition de la fiche)
+FIGURES.forEach(f => {
+  try {
+    const o = JSON.parse(localStorage.getItem('override::' + f.key) || '{}');
+    Object.assign(f, o);
+  } catch(_){}
+});
+
 // ══════════════════════════════
 // STATE
 // ══════════════════════════════
 let checked = JSON.parse(localStorage.getItem("c-checked") || "{}");
 let currentDetailKey = null;
 let _suppressHashPush = false;
+let editMode = false;       // mode édition de la fiche figure
+let editingDraft = null;    // copie de travail pendant l'édition
 const DEFAULT_TITLE = "La Constellation Atlas des Âmes Libres";
+
+// Helpers du mode édition
+function enterEditMode(){
+  const d = FIGURES.find(f=>f.key===currentDetailKey);
+  if(!d) return;
+  editMode = true;
+  editingDraft = JSON.parse(JSON.stringify({
+    resume: d.resume || d.desc || "",
+    bio: d.bio || "",
+    works: d.works || [],
+    recos: d.recos || [],
+    videos: d.videos || [],
+    gallery: d.gallery || []
+  }));
+  openDetail(currentDetailKey);
+}
+function exitEditMode(save){
+  if(save && editingDraft){
+    const key = currentDetailKey;
+    localStorage.setItem('override::' + key, JSON.stringify(editingDraft));
+    const f = FIGURES.find(x=>x.key===key);
+    if(f) Object.assign(f, editingDraft);
+  }
+  editMode = false;
+  editingDraft = null;
+  openDetail(currentDetailKey);
+}
 
 function saveState(){
   localStorage.setItem("c-checked", JSON.stringify(checked));
@@ -739,47 +807,61 @@ function openDetail(key){
   const img = IMGS[key] || "";
   const pos = d.photoPos || "top center";
 
-  // Construction des sections (id, label, html) — on ne met dans le tableau
-  // QUE les sections qui ont du contenu, le menu d'ancres s'adapte.
+  // En mode édition, on lit/écrit dans editingDraft pour conserver les
+  // modifications jusqu'à la validation
+  const src = editMode && editingDraft ? editingDraft : d;
+  const E = editMode; // raccourci pour le rendu
+
+  const escAttr = s => (s||"").replace(/"/g,'&quot;').replace(/</g,'&lt;');
+
+  // Construction des sections
   const sections = [];
 
-  // Portrait = ancien Portrait + Biographie fusionnés
-  const portraitHTML = `<div class="det-desc">${d.resume || d.desc}</div>${d.bio ? `<div class="det-bio">${d.bio}</div>` : ""}`;
+  // Portrait = resume + bio fusionnés
+  const portraitHTML = E
+    ? `<textarea class="ed-portrait" data-field="resume" placeholder="Résumé court">${escAttr(src.resume || src.desc || "")}</textarea>
+       <textarea class="ed-portrait ed-bio" data-field="bio" placeholder="Biographie complète (HTML autorisé)">${escAttr(src.bio || "")}</textarea>`
+    : `<div class="det-desc">${src.resume || src.desc}</div>${src.bio ? `<div class="det-bio">${src.bio}</div>` : ""}`;
   sections.push({ id:"portrait", label:"Portrait", html: portraitHTML, hideTitle:true });
 
-  if(d.quotes && d.quotes.length){
-    const html = d.quotes.map(q=>`
+  if((d.quotes && d.quotes.length) || E){
+    const html = (d.quotes || []).map(q=>`
       <div class="det-quote">« ${q.text} »
         <span class="det-quote-src">${q.source}${q.link ? ` · <a href="${q.link}" target="_blank" rel="noopener">Lire la source ↗</a>` : ""}</span>
       </div>`).join("");
-    sections.push({ id:"citations", label:"Citations", html });
+    if(html) sections.push({ id:"citations", label:"Citations", html });
   }
 
   // À explorer = Œuvres + Recos fusionnés
-  const worksHTML = (d.works||[]).map(w => {
-    const wkey = d.key+"::"+w.title;
+  const renderWorkItem = (item, listName, i) => {
+    const wkey = d.key+"::"+(listName==="recos"?"reco::":"")+item.title;
     const done = checked[wkey] ? "done":"";
-    return `<div class="det-work ${done}" onclick="toggleDetWork('${d.key}','${w.title.replace(/'/g,"\\'")}',this)">
+    if(E){
+      return `<div class="det-work ed-work" data-list="${listName}" data-i="${i}">
+        <div class="det-work-check">${done?"✓":""}</div>
+        <div class="det-work-info">
+          <input class="ed-work-title" value="${escAttr(item.title)}" placeholder="Titre" />
+          <input class="ed-work-type" value="${escAttr(item.type)}" placeholder="Description (type, année, éditeur…)" />
+        </div>
+        <button class="ed-del" data-list="${listName}" data-i="${i}" title="Supprimer">×</button>
+      </div>`;
+    }
+    return `<div class="det-work ${done}" onclick="toggleDetWork('${d.key}','${(listName==='recos'?'reco::':'')+item.title.replace(/'/g,"\\'")}',this)">
       <div class="det-work-check">${done?"✓":""}</div>
       <div class="det-work-info">
-        <div class="det-work-title">${w.title}</div>
-        <div class="det-work-type">${w.type}</div>
+        <div class="det-work-title">${item.title}</div>
+        <div class="det-work-type">${item.type}</div>
       </div>
     </div>`;
-  }).join("");
-  const recosHTML = (d.recos||[]).map(r => {
-    const rkey = d.key+"::reco::"+r.title;
-    const done = checked[rkey] ? "done":"";
-    return `<div class="det-work ${done}" onclick="toggleDetWork('${d.key}','reco::${r.title.replace(/'/g,"\\'")}',this)">
-      <div class="det-work-check">${done?"✓":""}</div>
-      <div class="det-work-info">
-        <div class="det-work-title">${r.title}</div>
-        <div class="det-work-type">${r.type}</div>
-      </div>
-    </div>`;
-  }).join("");
-  if(worksHTML || recosHTML){
-    sections.push({ id:"explorer", label:"À explorer", html: worksHTML + recosHTML });
+  };
+  const worksHTML = (src.works||[]).map((w,i)=>renderWorkItem(w,"works",i)).join("");
+  const recosHTML = (src.recos||[]).map((r,i)=>renderWorkItem(r,"recos",i)).join("");
+  const addBtns = E
+    ? `<button class="ed-add" data-list="works">+ Ajouter une œuvre</button>
+       <button class="ed-add" data-list="recos">+ Ajouter une ressource</button>`
+    : "";
+  if(worksHTML || recosHTML || E){
+    sections.push({ id:"explorer", label:"À explorer", html: worksHTML + recosHTML + addBtns });
   }
 
   if(d.yt_link){
@@ -807,11 +889,24 @@ function openDetail(key){
             </div>` });
   }
 
-  if(d.videos && d.videos.length){
-    sections.push({ id:"videos", label:"Vidéos", html:`<div id="vid_${d.key}"></div>` });
+  if((src.videos && src.videos.length) || E){
+    let vidContent;
+    if(E){
+      vidContent = `<div class="ed-video-list">${(src.videos||[]).map((v,i)=>`
+        <div class="ed-video" data-i="${i}">
+          <input class="ed-video-id" value="${escAttr(v.id||"")}" placeholder="ID YouTube ou URL" data-i="${i}" />
+          <input class="ed-video-title" value="${escAttr(v.title||"")}" placeholder="Titre" data-i="${i}" />
+          <button class="ed-del" data-list="videos" data-i="${i}" title="Supprimer">×</button>
+        </div>`).join("")}
+        <button class="ed-add" data-list="videos">+ Ajouter une vidéo</button>
+      </div>`;
+    } else {
+      vidContent = `<div id="vid_${d.key}"></div>`;
+    }
+    sections.push({ id:"videos", label:"Vidéos", html: vidContent });
   }
 
-  sections.push({ id:"notes", label:"Notes", html:`<div id="notes_${d.key}"></div>` });
+  sections.push({ id:"notes", label:"Notes", html:`<div id="notes_${d.key}"></div>`, hideTitle:true });
 
   const anchorHTML = sections.map(s=>`<a class="det-anchor" data-target="${s.id}">${s.label}</a>`).join("");
   const sectionsHTML = sections.map(s=>`
@@ -820,21 +915,37 @@ function openDetail(key){
       ${s.html}
     </section>`).join("");
 
-  // Galerie : photos réelles si dispo, sinon placeholders pour donner l'idée
-  const gallery = (d.gallery && d.gallery.length)
-    ? d.gallery.map(g=>`<div class="det-gallery-item"><img src="${g}" alt=""></div>`).join("")
-    : `
+  // Galerie
+  let galleryHTML;
+  if(E){
+    galleryHTML = `<div class="ed-gallery-list">${(src.gallery||[]).map((g,i)=>`
+      <div class="ed-gal-item" data-i="${i}">
+        <img src="${g}" alt="" />
+        <button class="ed-del" data-list="gallery" data-i="${i}" title="Supprimer">×</button>
+      </div>`).join("")}
+      <button class="ed-add" data-list="gallery">+ Ajouter une image (URL)</button>
+    </div>`;
+  } else if(src.gallery && src.gallery.length){
+    galleryHTML = src.gallery.map(g=>`<div class="det-gallery-item"><img src="${g}" alt=""></div>`).join("");
+  } else {
+    galleryHTML = `
       <div class="det-gallery-placeholder"><div class="det-gallery-placeholder-icon">✦</div><div class="det-gallery-placeholder-label">Œuvre majeure</div></div>
       <div class="det-gallery-placeholder"><div class="det-gallery-placeholder-icon">⛬</div><div class="det-gallery-placeholder-label">Manuscrit / archive</div></div>
       <div class="det-gallery-placeholder"><div class="det-gallery-placeholder-icon">◐</div><div class="det-gallery-placeholder-label">Portrait alternatif</div></div>`;
+  }
+
+  const editControls = E
+    ? `<div class="det-edit-controls"><button class="det-edit-cancel" onclick="exitEditMode(false)">Annuler</button><button class="det-edit-save" onclick="exitEditMode(true)">Valider</button></div>`
+    : `<button class="det-edit-btn" onclick="enterEditMode()" title="Modifier cette fiche">✎ Modifier</button>`;
 
   document.getElementById("page-detail").innerHTML = `
-    <header class="det-header">
+    <header class="det-header ${E?'editing':''}">
       <div class="det-header-top">
         <div>
           <div class="det-header-name">${d.name}</div>
           <div class="det-header-meta">${formatDates(d.dates)}</div>
         </div>
+        ${editControls}
       </div>
       <nav class="det-anchors">${anchorHTML}</nav>
     </header>
@@ -842,9 +953,64 @@ function openDetail(key){
       <main class="det-text" id="det-text">${sectionsHTML}</main>
       <aside class="det-photos" id="det-photos">
         <div class="det-photo-main">${img ? `<img src="${img}" alt="${d.name}" style="object-position:${pos}">` : `<div style="height:100%;background:${d.eraColor}"></div>`}</div>
-        ${gallery}
+        ${galleryHTML}
       </aside>
     </div>`;
+
+  // Câblage du mode édition
+  if(E){
+    const text = document.getElementById("det-text");
+    text.querySelectorAll('.ed-portrait').forEach(t=>{
+      t.addEventListener('input', e => { editingDraft[t.dataset.field] = t.value; });
+    });
+    text.querySelectorAll('.ed-work-title, .ed-work-type').forEach(inp=>{
+      inp.addEventListener('input', e=>{
+        const row = inp.closest('.ed-work');
+        const list = row.dataset.list, i = +row.dataset.i;
+        const field = inp.classList.contains('ed-work-title') ? 'title' : 'type';
+        editingDraft[list][i][field] = inp.value;
+      });
+    });
+    text.querySelectorAll('.ed-video-id, .ed-video-title').forEach(inp=>{
+      inp.addEventListener('input', e=>{
+        const i = +inp.dataset.i;
+        const field = inp.classList.contains('ed-video-id') ? 'id' : 'title';
+        let val = inp.value;
+        if(field === 'id'){
+          const m = val.match(/(?:v=|youtu\.be\/|embed\/)([\w-]{11})/);
+          if(m) val = m[1];
+        }
+        editingDraft.videos[i][field] = val;
+      });
+    });
+    document.querySelectorAll('.ed-del').forEach(b=>{
+      b.addEventListener('click', e=>{
+        const list = b.dataset.list, i = +b.dataset.i;
+        editingDraft[list].splice(i,1);
+        openDetail(currentDetailKey);
+      });
+    });
+    document.querySelectorAll('.ed-add').forEach(b=>{
+      b.addEventListener('click', e=>{
+        const list = b.dataset.list;
+        if(!editingDraft[list]) editingDraft[list] = [];
+        if(list === "works" || list === "recos"){
+          editingDraft[list].push({ title:"", type:"", done:false });
+        } else if(list === "videos"){
+          const url = prompt("URL YouTube ou ID :", "");
+          if(!url) return;
+          const m = url.match(/(?:v=|youtu\.be\/|embed\/)([\w-]{11})/);
+          const id = m ? m[1] : url;
+          editingDraft[list].push({ id, title:"" });
+        } else if(list === "gallery"){
+          const url = prompt("URL de l'image (ou chemin relatif) :", "");
+          if(!url) return;
+          editingDraft[list].push(url);
+        }
+        openDetail(currentDetailKey);
+      });
+    });
+  }
 
   const page = document.getElementById("page-detail");
   page.classList.add("open");
@@ -921,6 +1087,9 @@ function toggleDetWork(figKey, workTitle, el){
 // SECTION NAV
 // ══════════════════════════════
 function showSec(id){
+  // Si une fiche détail est ouverte, on la ferme d'abord pour que le clic
+  // sur un onglet du menu navigue réellement vers la nouvelle section.
+  if(currentDetailKey){ closeDetail(); }
   ["figures","frise","map"].forEach(s=>{
     document.getElementById("sec-"+s).style.display = s===id?"block":"none";
   });
@@ -1247,15 +1416,17 @@ const HISTORICAL_EVENTS = [
   {year:2016, title:"Mort de David Bowie · sortie de Blackstar deux jours avant"},
 ];
 
-// Ères : peu nombreuses, sombres et saturées. Servent UNIQUEMENT à colorer le fond
-// et la couleur ton-sur-ton du texte. Les largeurs sont calculées plus bas
-// d'après la densité de contenu réelle (buckets).
+// Dégradé en 8 couleurs (bleu nuit → bleu foncé → violet → bordeaux → rose foncé
+// → vieux rose → orangé → jaune). Servent à colorer le fond + la couleur de texte.
 const FRISE_ERAS = [
-  {key:"antiquite",   y0:-700, y1:1600, bg:"#3e2e0a", text:"#d4b876"},
-  {key:"ancien_reg",  y0:1600, y1:1815, bg:"#1a1640", text:"#bcb8e0"},
-  {key:"long19e",     y0:1815, y1:1900, bg:"#3a0e1e", text:"#e6b8c4"},
-  {key:"debut20",     y0:1900, y1:1945, bg:"#0f2c2a", text:"#b8d8cc"},
-  {key:"apresguerre", y0:1945, y1:2030, bg:"#1f1a2a", text:"#c8c0d8"},
+  {key:"antiquite",   y0:-700, y1:1300, bg:"#0a1530", text:"#c6d4f0"},
+  {key:"mi_ma",       y0:1300, y1:1650, bg:"#1a356e", text:"#cad6f0"},
+  {key:"ancien_reg",  y0:1650, y1:1800, bg:"#3a2474", text:"#d8c6f0"},
+  {key:"19e",         y0:1800, y1:1880, bg:"#601c30", text:"#f0c6d0"},
+  {key:"finsiecle",   y0:1880, y1:1920, bg:"#a03856", text:"#26060e"},
+  {key:"debut20",     y0:1920, y1:1960, bg:"#c47286", text:"#3a0e1c"},
+  {key:"60_70",       y0:1960, y1:2000, bg:"#d8773c", text:"#3a1808"},
+  {key:"contemporain",y0:2000, y1:2030, bg:"#d8b820", text:"#3a3008"},
 ];
 function eraOfYear(y){
   for(const e of FRISE_ERAS){ if(y >= e.y0 && y < e.y1) return e; }
@@ -1454,8 +1625,8 @@ function buildFrise(){
   const sideCounter = { fig:0, event:0, work:0 };
   const lanesAbove = {fig:[], event:[], work:[]};
   const lanesBelow = {fig:[], event:[], work:[]};
-  // Lane max par type pour rester dans la viewport (figures grosses → 0)
-  const MAX_LANE = { fig: 0, event: 3, work: 3 };
+  // Lane max par type. Events/works ont plus de profondeur verticale pour éviter chevauchement.
+  const MAX_LANE = { fig: 0, event: 5, work: 5 };
   allItems.forEach(it => {
     const sideArr = (sideCounter[it.type]++ % 2 === 0) ? "above" : "below";
     it.side = sideArr;
@@ -1463,35 +1634,44 @@ function buildFrise(){
     let lane = 0;
     const halfW = it.w / 2;
     const maxLane = MAX_LANE[it.type];
-    while(lane < lanes.length && lanes[lane] > it.x - halfW && lane < maxLane){ lane++; }
+    const reqGap = it.type === "fig" ? 24 : 14;
+    while(lane < lanes.length && lanes[lane] > it.x - halfW - reqGap && lane < maxLane){ lane++; }
     if(lane >= lanes.length) lanes.push(0);
     // Si on est encore en collision au lane max, nudge horizontalement
-    if(lanes[lane] > it.x - halfW){
-      it.x = lanes[lane] + halfW + 6;
+    if(lanes[lane] > it.x - halfW - reqGap){
+      it.x = lanes[lane] + halfW + reqGap;
     }
-    lanes[lane] = it.x + halfW + (it.type === "fig" ? 30 : 14);
+    lanes[lane] = it.x + halfW + reqGap;
     it.lane = lane;
   });
 
   // 8) Rendu : pour chaque item, calcule top/bottom selon lane
-  const AXIS_Y_PCT = 50;          // axe au milieu
-  const LANE_GAP_FIG = 40;        // gap supplémentaire entre figures
-  const LANE_GAP_OTHER = 20;
-  const FIG_OFFSET = 25;          // distance axe → 1ʳᵉ lane figure
-  const EVT_OFFSET = 15;
-  const WORK_OFFSET = 12;
+  // Centre vertical du contenu (sous le ruban de dates de 98px)
+  const CENTER_TOP_PX = 98 + 22;  // dates strip (54+44) + petit buffer
+  const FIG_AXIS_OFFSET = 70;     // distance entre centre vertical et 1re lane figure
+  const EVT_AXIS_OFFSET = 30;
+  const WORK_AXIS_OFFSET = 30;
+  const LANE_GAP_FIG = 30;
+  const LANE_GAP_EVT = 22;
+  const LANE_GAP_WK  = 22;
 
   function topFor(it){
     const era = eraOfYear(it.year);
     if(it.type === "fig"){
-      const offset = FIG_OFFSET + it.lane * (it.h + LANE_GAP_FIG);
-      return { era, css: (it.side === "above" ? `top:calc(${AXIS_Y_PCT}% - ${offset + it.h}px)` : `top:calc(${AXIS_Y_PCT}% + ${offset}px)`) };
+      const offset = FIG_AXIS_OFFSET + it.lane * (it.h + LANE_GAP_FIG);
+      return { era, css: (it.side === "above"
+        ? `top:calc(50% - ${offset + it.h}px + ${CENTER_TOP_PX/2}px)`
+        : `top:calc(50% + ${offset}px + ${CENTER_TOP_PX/2}px)`) };
     } else if(it.type === "event"){
-      const offset = EVT_OFFSET + it.lane * (it.h + LANE_GAP_OTHER);
-      return { era, css: (it.side === "above" ? `top:calc(${AXIS_Y_PCT}% - ${offset + it.h}px)` : `top:calc(${AXIS_Y_PCT}% + ${offset}px)`) };
+      const offset = EVT_AXIS_OFFSET + it.lane * (it.h + LANE_GAP_EVT);
+      return { era, css: (it.side === "above"
+        ? `top:calc(50% - ${offset + it.h}px + ${CENTER_TOP_PX/2}px)`
+        : `top:calc(50% + ${offset}px + ${CENTER_TOP_PX/2}px)`) };
     } else {
-      const offset = WORK_OFFSET + it.lane * (it.h + LANE_GAP_OTHER);
-      return { era, css: (it.side === "above" ? `top:calc(${AXIS_Y_PCT}% - ${offset + it.h}px)` : `top:calc(${AXIS_Y_PCT}% + ${offset}px)`) };
+      const offset = WORK_AXIS_OFFSET + it.lane * (it.h + LANE_GAP_WK);
+      return { era, css: (it.side === "above"
+        ? `top:calc(50% - ${offset + it.h}px + ${CENTER_TOP_PX/2}px)`
+        : `top:calc(50% + ${offset}px + ${CENTER_TOP_PX/2}px)`) };
     }
   }
 
@@ -1781,8 +1961,10 @@ function buildNotes(containerId, figKey){
   function render(){
     const itemsHTML = notes.map(renderItem).join('');
     container.innerHTML = `
-      <div class="notes-toolbar">
-        <button class="notes-edit-toggle ${editMode?'on':''}" id="nedit_${figKey}" title="${editMode?'Terminer':'Modifier'}">\u270e</button>
+      <div class="det-section-title">Notes
+        <div class="notes-toolbar">
+          <button class="notes-edit-toggle ${editMode?'on':''}" id="nedit_${figKey}" title="${editMode?'Terminer':'Modifier'}">\u270e</button>
+        </div>
       </div>
       <div class="notes-list ${editMode?'editing':''}">${itemsHTML}</div>
       <div class="notes-input">
