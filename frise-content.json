@@ -1,0 +1,303 @@
+{
+  "_doc": "Fichier de contenu enrichi pour la frise. Tu peux ajouter/modifier ici les longs textes, liens, images et vidéos pour chaque événement et œuvre. Chaque entrée est matchée avec son équivalent dans index.html (HISTORICAL_EVENTS / KEY_WORKS) par (year + title pour les événements, year + figKey + title pour les œuvres). Les champs vides sont OK, ils ne s'affichent pas. Format des liens : {url, label}. Format des images : chemins relatifs ou URLs. Format des vidéos : URLs YouTube complètes (l'ID est extrait automatiquement).",
+
+  "events": [
+    {
+      "year": 1857,
+      "title": "Procès des Fleurs du Mal · Baudelaire condamné pour outrage à la morale publique",
+      "long": "",
+      "links": [],
+      "images": [],
+      "videos": []
+    },
+    {
+      "year": 1873,
+      "title": "Verlaine tire sur Rimbaud à Bruxelles",
+      "long": "",
+      "links": [],
+      "images": [],
+      "videos": []
+    },
+    {
+      "year": 1882,
+      "title": "Loi Ferry · obligation scolaire pour les filles en France",
+      "long": "",
+      "links": [],
+      "images": [],
+      "videos": []
+    },
+    {
+      "year": 1895,
+      "title": "Procès Oscar Wilde · deux ans de travaux forcés pour « grossière indécence »",
+      "long": "",
+      "links": [],
+      "images": [],
+      "videos": []
+    },
+    {
+      "year": 1897,
+      "title": "Incendie du Bazar de la Charité · fin symbolique d'une époque",
+      "long": "",
+      "links": [],
+      "images": [],
+      "videos": []
+    },
+    {
+      "year": 1907,
+      "title": "Colette embrasse Mathilde de Morny au Moulin Rouge · scandale",
+      "long": "",
+      "links": [],
+      "images": [],
+      "videos": []
+    },
+    {
+      "year": 1909,
+      "title": "Diaghilev fonde les Ballets Russes à Paris",
+      "long": "",
+      "links": [],
+      "images": [],
+      "videos": []
+    },
+    {
+      "year": 1912,
+      "title": "L'Après-midi d'un Faune de Nijinski · scandale international",
+      "long": "",
+      "links": [],
+      "images": [],
+      "videos": []
+    },
+    {
+      "year": 1914,
+      "title": "Première Guerre mondiale · effondrement de la Belle Époque",
+      "long": "",
+      "links": [],
+      "images": [],
+      "videos": []
+    },
+    {
+      "year": 1919,
+      "title": "Internement de Nijinski à Saint-Moritz",
+      "long": "",
+      "links": [],
+      "images": [],
+      "videos": []
+    },
+    {
+      "year": 1924,
+      "title": "Premier Manifeste du surréalisme par André Breton",
+      "long": "",
+      "links": [],
+      "images": [],
+      "videos": []
+    },
+    {
+      "year": 1929,
+      "title": "Une chambre à soi de Virginia Woolf",
+      "long": "",
+      "links": [],
+      "images": [],
+      "videos": []
+    },
+    {
+      "year": 1932,
+      "title": "Le Pur et l'Impur · Colette cartographie le désir queer",
+      "long": "",
+      "links": [],
+      "images": [],
+      "videos": []
+    },
+    {
+      "year": 1939,
+      "title": "Seconde Guerre mondiale · exils et internements (Carrington, Breton…)",
+      "long": "",
+      "links": [],
+      "images": [],
+      "videos": []
+    },
+    {
+      "year": 1941,
+      "title": "Suicide de Virginia Woolf dans l'Ouse",
+      "long": "",
+      "links": [],
+      "images": [],
+      "videos": []
+    },
+    {
+      "year": 1944,
+      "title": "En Bas · Carrington raconte son internement psychiatrique",
+      "long": "",
+      "links": [],
+      "images": [],
+      "videos": []
+    },
+    {
+      "year": 1947,
+      "title": "Mexique surréaliste · Carrington, Varo, Kahlo se côtoient",
+      "long": "",
+      "links": [],
+      "images": [],
+      "videos": []
+    },
+    {
+      "year": 1957,
+      "title": "Howl d'Allen Ginsberg · la beat generation officielle",
+      "long": "",
+      "links": [],
+      "images": [],
+      "videos": []
+    },
+    {
+      "year": 1963,
+      "title": "Suicide de Sylvia Plath · publication de La Cloche de détresse",
+      "long": "",
+      "links": [],
+      "images": [],
+      "videos": []
+    },
+    {
+      "year": 1968,
+      "title": "Mai 68 · soulèvement étudiant et ouvrier en France",
+      "long": "",
+      "links": [],
+      "images": [],
+      "videos": []
+    },
+    {
+      "year": 1969,
+      "title": "Émeutes de Stonewall · naissance du mouvement de libération gay",
+      "long": "",
+      "links": [],
+      "images": [],
+      "videos": []
+    },
+    {
+      "year": 1971,
+      "title": "Manifeste des 343 pour le droit à l'avortement",
+      "long": "",
+      "links": [],
+      "images": [],
+      "videos": []
+    },
+    {
+      "year": 1975,
+      "title": "Horses de Patti Smith · assassinat de Pasolini · Salò sort",
+      "long": "",
+      "links": [],
+      "images": [],
+      "videos": []
+    },
+    {
+      "year": 1976,
+      "title": "Naissance officielle du punk à New York et Londres",
+      "long": "",
+      "links": [],
+      "images": [],
+      "videos": []
+    },
+    {
+      "year": 1981,
+      "title": "Premiers cas de SIDA identifiés à Los Angeles",
+      "long": "",
+      "links": [],
+      "images": [],
+      "videos": []
+    },
+    {
+      "year": 1986,
+      "title": "Caravaggio de Derek Jarman · le film comme dispositif anachronique",
+      "long": "",
+      "links": [],
+      "images": [],
+      "videos": []
+    },
+    {
+      "year": 1989,
+      "title": "Mort de Robert Mapplethorpe du SIDA · chute du Mur",
+      "long": "",
+      "links": [],
+      "images": [],
+      "videos": []
+    },
+    {
+      "year": 1993,
+      "title": "Blue de Derek Jarman · 79 minutes d'écran bleu uni",
+      "long": "",
+      "links": [],
+      "images": [],
+      "videos": []
+    },
+    {
+      "year": 1994,
+      "title": "Mort de Derek Jarman du SIDA",
+      "long": "",
+      "links": [],
+      "images": [],
+      "videos": []
+    },
+    {
+      "year": 2002,
+      "title": "Première rétrospective majeure de Hilma af Klint (58 ans après sa mort)",
+      "long": "",
+      "links": [],
+      "images": [],
+      "videos": []
+    },
+    {
+      "year": 2011,
+      "title": "Mort de Leonora Carrington à 94 ans à Mexico",
+      "long": "",
+      "links": [],
+      "images": [],
+      "videos": []
+    },
+    {
+      "year": 2016,
+      "title": "Mort de David Bowie · sortie de Blackstar deux jours avant",
+      "long": "",
+      "links": [],
+      "images": [],
+      "videos": []
+    }
+  ],
+
+  "works": [
+    { "year": 1857, "figKey": "baudelaire", "title": "Les Fleurs du Mal", "long": "", "links": [], "images": [], "videos": [], "yt": "" },
+    { "year": 1873, "figKey": "rimbaud", "title": "Une saison en enfer", "long": "", "links": [], "images": [], "videos": [], "yt": "" },
+    { "year": 1886, "figKey": "rimbaud", "title": "Illuminations", "long": "", "links": [], "images": [], "videos": [], "yt": "" },
+    { "year": 1891, "figKey": "wilde", "title": "Le Portrait de Dorian Gray", "long": "", "links": [], "images": [], "videos": [], "yt": "" },
+    { "year": 1893, "figKey": "blake", "title": "Le Mariage du Ciel et de l'Enfer", "long": "", "links": [], "images": [], "videos": [], "yt": "" },
+    { "year": 1895, "figKey": "wilde", "title": "L'Importance d'être Constant", "long": "", "links": [], "images": [], "videos": [], "yt": "" },
+    { "year": 1903, "figKey": "vivien", "title": "Sapho (traduction)", "long": "", "links": [], "images": [], "videos": [], "yt": "" },
+    { "year": 1904, "figKey": "vivien", "title": "Une femme m'apparut", "long": "", "links": [], "images": [], "videos": [], "yt": "" },
+    { "year": 1910, "figKey": "colette", "title": "La Vagabonde", "long": "", "links": [], "images": [], "videos": [], "yt": "" },
+    { "year": 1910, "figKey": "barney", "title": "Éparpillements", "long": "", "links": [], "images": [], "videos": [], "yt": "" },
+    { "year": 1912, "figKey": "nijinski", "title": "L'Après-midi d'un Faune", "long": "", "links": [], "images": [], "videos": [], "yt": "" },
+    { "year": 1913, "figKey": "nijinski", "title": "Le Sacre du printemps", "long": "", "links": [], "images": [], "videos": [], "yt": "" },
+    { "year": 1915, "figKey": "hilma", "title": "Tableaux pour le Temple", "long": "", "links": [], "images": [], "videos": [], "yt": "" },
+    { "year": 1925, "figKey": "woolf", "title": "Mrs Dalloway", "long": "", "links": [], "images": [], "videos": [], "yt": "" },
+    { "year": 1928, "figKey": "woolf", "title": "Orlando", "long": "", "links": [], "images": [], "videos": [], "yt": "" },
+    { "year": 1929, "figKey": "woolf", "title": "Une chambre à soi", "long": "", "links": [], "images": [], "videos": [], "yt": "" },
+    { "year": 1932, "figKey": "colette", "title": "Le Pur et l'Impur", "long": "", "links": [], "images": [], "videos": [], "yt": "" },
+    { "year": 1939, "figKey": "kahlo", "title": "Les Deux Fridas", "long": "", "links": [], "images": [], "videos": [], "yt": "" },
+    { "year": 1944, "figKey": "carrington", "title": "En Bas", "long": "", "links": [], "images": [], "videos": [], "yt": "" },
+    { "year": 1944, "figKey": "kahlo", "title": "La Colonne brisée", "long": "", "links": [], "images": [], "videos": [], "yt": "" },
+    { "year": 1957, "figKey": "varo", "title": "La Création des oiseaux", "long": "", "links": [], "images": [], "videos": [], "yt": "" },
+    { "year": 1961, "figKey": "pasolini", "title": "Accattone", "long": "", "links": [], "images": [], "videos": [], "yt": "" },
+    { "year": 1963, "figKey": "plath", "title": "La Cloche de détresse", "long": "", "links": [], "images": [], "videos": [], "yt": "" },
+    { "year": 1964, "figKey": "pasolini", "title": "L'Évangile selon saint Matthieu", "long": "", "links": [], "images": [], "videos": [], "yt": "" },
+    { "year": 1965, "figKey": "plath", "title": "Ariel", "long": "", "links": [], "images": [], "videos": [], "yt": "" },
+    { "year": 1968, "figKey": "pasolini", "title": "Théorème", "long": "", "links": [], "images": [], "videos": [], "yt": "" },
+    { "year": 1972, "figKey": "bowie", "title": "Ziggy Stardust",
+      "long": "L'album où Bowie invente Ziggy Stardust, alien glam déchu : la persona qui révolutionne le rapport scène/identité dans la pop. Concept-album sur un messie rock voué à l'échec, mêlant science-fiction, transgression sexuelle et apocalypse. Pochette tirée par Brian Ward dans Heddon Street à Londres. Influence directe sur le punk, le glam, et tout le 20e siècle de la performance pop.",
+      "links": [], "images": [], "videos": [], "yt": "https://www.youtube.com/watch?v=na8xgu-KLAk" },
+    { "year": 1975, "figKey": "patti", "title": "Horses", "long": "", "links": [], "images": [], "videos": [], "yt": "" },
+    { "year": 1975, "figKey": "pasolini", "title": "Salò", "long": "", "links": [], "images": [], "videos": [], "yt": "" },
+    { "year": 1977, "figKey": "bowie", "title": "Heroes", "long": "", "links": [], "images": [], "videos": [], "yt": "" },
+    { "year": 1986, "figKey": "jarman", "title": "Caravaggio", "long": "", "links": [], "images": [], "videos": [], "yt": "" },
+    { "year": 1986, "figKey": "mapplethorpe", "title": "Black Book", "long": "", "links": [], "images": [], "videos": [], "yt": "" },
+    { "year": 1988, "figKey": "mapplethorpe", "title": "Autoportrait à la canne", "long": "", "links": [], "images": [], "videos": [], "yt": "" },
+    { "year": 1993, "figKey": "jarman", "title": "Blue", "long": "", "links": [], "images": [], "videos": [], "yt": "" },
+    { "year": 2010, "figKey": "patti", "title": "Just Kids", "long": "", "links": [], "images": [], "videos": [], "yt": "" },
+    { "year": 2016, "figKey": "bowie", "title": "Blackstar", "long": "", "links": [], "images": [], "videos": [], "yt": "" }
+  ]
+}

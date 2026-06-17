@@ -85,8 +85,9 @@ body.on-figures.scrolled .navbar{background:var(--ivory)}
 .nav-btn:hover{color:var(--mist)}
 .nav-btn.on{color:var(--ink)}
 /* Variante Constellation : navbar par-dessus le ciel, texte clair */
-body.on-map{background:#06091a}
+body.on-map{background:radial-gradient(circle at center 50vh,#0d1224 0%,#06091a 55%,#020310 100%);background-attachment:fixed}
 body.on-map .navbar{background:transparent;position:fixed;top:0;left:0;right:0}
+body.on-map #sec-map{position:absolute;top:0;left:0;right:0;bottom:0}
 body.on-map .nav-btn{color:rgba(244,241,236,.5)}
 body.on-map .nav-btn:hover{color:rgba(244,241,236,.85)}
 body.on-map .nav-btn.on{color:#ffffff;text-shadow:0 1px 8px rgba(0,0,0,.55)}
@@ -143,7 +144,7 @@ body.on-frise .frise-scroll{height:100vh}
 .det-edit-cancel:hover{color:var(--carmine);border-color:var(--carmine)}
 .det-edit-save{background:var(--ink);color:var(--ivory);border-color:var(--ink)}
 .det-edit-save:hover{background:var(--ink2);border-color:var(--ink2)}
-.det-header.editing{background:rgba(168,161,147,.08)}
+/* Mode édition garde la même couleur de fond, pas de tint visuelle */
 /* ── Mode édition : champs et boutons ── */
 .ed-portrait{width:100%;min-height:120px;padding:14px 16px;background:rgba(255,255,255,.6);border:1px solid var(--ivory2);font-family:"Cormorant Garamond",serif;font-size:17px;color:var(--ink);line-height:1.7;resize:vertical;outline:none;margin-bottom:18px}
 .ed-portrait.ed-bio{min-height:200px;font-size:16px}
@@ -162,9 +163,19 @@ body.on-frise .frise-scroll{height:100vh}
 .ed-video .ed-del{top:14px}
 .ed-gal-item{position:relative;margin-top:14px}
 .ed-gal-item img{width:100%;display:block;filter:grayscale(.4) contrast(1.04)}
-.ed-gal-item .ed-del{top:8px;right:8px;background:rgba(255,255,255,.85)}
+.ed-gal-item .ed-del{position:static;background:rgba(255,255,255,.9)}
 .ed-gal-item .ed-del:hover{background:rgba(255,255,255,1)}
+.ed-gal-actions{position:absolute;top:8px;right:8px;display:flex;gap:6px}
+.ed-gal-cover{background:rgba(255,255,255,.9);border:1px solid var(--ivory2);color:var(--fog);width:26px;height:26px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;border-radius:3px;transition:all .2s;line-height:1;padding:0}
+.ed-gal-cover:hover{color:var(--gold);border-color:var(--gold)}
+.ed-gal-item.is-cover{outline:3px solid var(--ink);outline-offset:-3px}
+.ed-gal-item.is-cover .ed-gal-cover{background:var(--ink);color:#fff;border-color:var(--ink)}
 .ed-gallery-list .ed-add{display:block;margin:14px 0 0;width:100%;text-align:center}
+/* Citations en mode édition */
+.ed-quote{position:relative;padding:12px 36px 14px 0;border-bottom:1px solid var(--ivory2);margin-bottom:14px}
+.ed-quote-text{width:100%;min-height:60px;padding:8px 12px;background:rgba(255,255,255,.6);border:1px solid var(--ivory2);font-family:"Playfair Display",serif;font-style:italic;font-size:1.05rem;color:var(--ink);outline:none;resize:vertical;margin-bottom:6px}
+.ed-quote-source,.ed-quote-link{width:100%;padding:6px 10px;background:rgba(255,255,255,.6);border:1px solid var(--ivory2);font-family:"Cormorant Garamond",serif;font-size:13px;outline:none;margin-bottom:4px}
+.ed-quote-text:focus,.ed-quote-source:focus,.ed-quote-link:focus{border-color:var(--mist)}
 .det-header-meta{font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:13px;letter-spacing:.28em;color:var(--mist);text-transform:uppercase;margin-top:6px}
 .det-anchors{margin-top:10px;display:flex;flex-wrap:wrap;gap:0;overflow-x:auto;scrollbar-width:none}
 .det-anchors::-webkit-scrollbar{display:none}
@@ -234,15 +245,14 @@ body.on-frise .frise-scroll{height:100vh}
 .frise-scroll{overflow-x:auto;overflow-y:hidden;cursor:grab;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.3) rgba(0,0,0,.3);background:#0a0a0a;outline:none;height:100vh}
 .frise-scroll:active{cursor:grabbing}
 .frise-track{position:relative;min-width:max-content;height:100%}
-/* Bande de dates : large ruban sous la navbar, dates écrites DEDANS */
-.frise-dates-strip{position:absolute;top:54px;left:0;right:0;height:44px;background:rgba(0,0,0,.45);backdrop-filter:blur(3px);z-index:5;pointer-events:none;border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08)}
-.frise-date{position:absolute;top:50%;font-family:"Josefin Sans",sans-serif;font-weight:700;font-size:11.5px;letter-spacing:.26em;text-transform:uppercase;color:rgba(255,255,255,.78);transform:translate(-50%,-50%);white-space:nowrap}
-.frise-date-tick{position:absolute;top:78px;width:1px;height:8px;background:rgba(255,255,255,.35);transform:translateX(-.5px)}
+/* Bande de dates : large ruban sous la navbar, dates ET ticks ÉCRITS DEDANS */
+.frise-dates-strip{position:absolute;top:54px;left:0;right:0;height:44px;background:rgba(0,0,0,.5);backdrop-filter:blur(3px);z-index:5;pointer-events:none;border-bottom:1px solid rgba(255,255,255,.12)}
+.frise-date{position:absolute;top:67px;font-family:"Josefin Sans",sans-serif;font-weight:700;font-size:11.5px;letter-spacing:.26em;text-transform:uppercase;color:rgba(255,255,255,.85);transform:translateX(-50%);white-space:nowrap;z-index:6;pointer-events:none}
+.frise-date-tick{position:absolute;top:88px;width:1px;height:8px;background:rgba(255,255,255,.42);transform:translateX(-.5px);z-index:6;pointer-events:none}
 /* Plus aucune ligne horizontale au milieu */
 .frise-axis,.frise-life{display:none}
 /* Figures : texte/photo seuls, pas de ligne ni de dot vers un axe */
-.frise-fig{position:absolute;width:190px;cursor:pointer;display:flex;flex-direction:column;align-items:center;text-align:center;transition:transform .25s;z-index:4;transform:translateX(-50%)}
-.frise-fig:hover{transform:translateX(-50%) translateY(-2px)}
+.frise-fig{position:absolute;width:190px;cursor:pointer;display:flex;flex-direction:column;align-items:center;text-align:center;z-index:4;transform:translateX(-50%)}
 .frise-fig-photo{width:170px;height:200px;object-fit:cover;object-position:top center;display:block;margin-bottom:10px;mix-blend-mode:screen;filter:contrast(1.18) saturate(1.4) brightness(1.05);-webkit-mask-image:radial-gradient(ellipse 72% 78% at center,#000 45%,transparent 100%);mask-image:radial-gradient(ellipse 72% 78% at center,#000 45%,transparent 100%);transition:filter .35s}
 .frise-fig:hover .frise-fig-photo{filter:contrast(1.25) saturate(1.55) brightness(1.15)}
 .frise-fig-name{font-family:"Playfair Display",serif;font-style:italic;font-size:17px;font-weight:800;line-height:1.15;margin-bottom:4px}
@@ -342,12 +352,10 @@ footer strong{display:block;font-family:"Playfair Display",serif;font-size:1.15r
 .vid-slide:hover .vid-overlay{opacity:1}
 .vid-play-icon{width:60px;height:60px;background:rgba(168,161,147,.92);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:var(--ink);padding-left:4px}
 .vid-caption{font-family:"Playfair Display",serif;font-style:italic;font-size:14px;color:var(--ivory);text-align:center;padding:0 20px;text-shadow:0 1px 4px rgba(0,0,0,.6)}
-.vid-nav{display:flex;justify-content:space-between;align-items:center;padding:14px 4px 0;background:transparent}
-.vid-nav-btn{background:none;border:none;color:var(--mist);width:36px;height:36px;cursor:pointer;font-size:1.4rem;font-family:"Josefin Sans",sans-serif;font-weight:300;transition:color .2s,transform .2s;display:flex;align-items:center;justify-content:center}
-.vid-nav-btn:hover{color:var(--ink);transform:translateX(0)}
-.vid-nav-btn:first-child:hover{transform:translateX(-3px)}
-.vid-nav-btn:last-child:hover{transform:translateX(3px)}
-.vid-counter{font-family:"Josefin Sans",sans-serif;font-weight:300;font-size:11.5px;letter-spacing:.3em;color:var(--fog);text-transform:uppercase}
+.vid-nav{display:flex;justify-content:space-between;align-items:center;padding:6px 4px 0;background:transparent;gap:6px}
+.vid-nav-btn{background:none;border:none;color:var(--ink);width:42px;height:42px;cursor:pointer;font-size:2rem;font-family:"Josefin Sans",sans-serif;font-weight:700;transition:color .2s;display:flex;align-items:center;justify-content:center;line-height:1}
+.vid-nav-btn:hover{color:var(--ink2)}
+.vid-counter{font-family:"Josefin Sans",sans-serif;font-weight:700;font-size:13px;letter-spacing:.32em;color:var(--ink2);text-transform:uppercase}
 
 /* NOTES */
 /* Toolbar des notes : intégrée dans la ligne du titre de section */
@@ -719,6 +727,10 @@ FIGURES.forEach(f => {
   } catch(_){}
 });
 
+// Helper : récupère le portrait à utiliser dans cartes / frise / constellation
+// (la photo de couverture override remplace le portrait par défaut quand elle est définie)
+function getPortrait(f){ return (f && f.cover) || IMGS[f && f.key] || ""; }
+
 // ══════════════════════════════
 // STATE
 // ══════════════════════════════
@@ -737,10 +749,12 @@ function enterEditMode(){
   editingDraft = JSON.parse(JSON.stringify({
     resume: d.resume || d.desc || "",
     bio: d.bio || "",
+    quotes: d.quotes || [],
     works: d.works || [],
     recos: d.recos || [],
     videos: d.videos || [],
-    gallery: d.gallery || []
+    gallery: d.gallery || [],
+    cover: d.cover || ""
   }));
   openDetail(currentDetailKey);
 }
@@ -750,6 +764,14 @@ function exitEditMode(save){
     localStorage.setItem('override::' + key, JSON.stringify(editingDraft));
     const f = FIGURES.find(x=>x.key===key);
     if(f) Object.assign(f, editingDraft);
+    // Rebuild des sections qui montrent la cover/portrait
+    const grid = document.getElementById("grid");
+    if(grid){ buildCards(); }
+    // Constellation et frise se reconstruisent à la prochaine ouverture de leur onglet
+    const nodes = document.getElementById("map-nodes");
+    if(nodes) nodes.innerHTML = "";
+    const friseTrack = document.getElementById("friseTrack");
+    if(friseTrack) friseTrack.innerHTML = "";
   }
   editMode = false;
   editingDraft = null;
@@ -775,8 +797,9 @@ function formatDates(s){
 
 function buildCards(){
   const grid = document.getElementById("grid");
+  grid.innerHTML = "";
   FIGURES.forEach(d => {
-    const img = IMGS[d.key] || "";
+    const img = getPortrait(d);
     const pos = d.photoPos || "top center";
     const photoStyle = img ? `background-image:url('${img}');background-position:${pos}` : `background:linear-gradient(135deg,${d.eraColor}66,${d.eraColor}22)`;
     const resume = d.resume || d.desc;
@@ -804,7 +827,7 @@ function openDetail(key){
   const d = FIGURES.find(f=>f.key===key);
   if(!d) return;
   currentDetailKey = key;
-  const img = IMGS[key] || "";
+  const img = getPortrait(d);
   const pos = d.photoPos || "top center";
 
   // En mode édition, on lit/écrit dans editingDraft pour conserver les
@@ -824,11 +847,22 @@ function openDetail(key){
     : `<div class="det-desc">${src.resume || src.desc}</div>${src.bio ? `<div class="det-bio">${src.bio}</div>` : ""}`;
   sections.push({ id:"portrait", label:"Portrait", html: portraitHTML, hideTitle:true });
 
-  if((d.quotes && d.quotes.length) || E){
-    const html = (d.quotes || []).map(q=>`
-      <div class="det-quote">« ${q.text} »
-        <span class="det-quote-src">${q.source}${q.link ? ` · <a href="${q.link}" target="_blank" rel="noopener">Lire la source ↗</a>` : ""}</span>
-      </div>`).join("");
+  if((src.quotes && src.quotes.length) || E){
+    let html;
+    if(E){
+      html = (src.quotes || []).map((q,i)=>`
+        <div class="ed-quote" data-i="${i}">
+          <textarea class="ed-quote-text" placeholder="Texte de la citation" data-i="${i}">${escAttr(q.text||"")}</textarea>
+          <input class="ed-quote-source" placeholder="Source (œuvre, éditeur, année)" value="${escAttr(q.source||"")}" data-i="${i}" />
+          <input class="ed-quote-link" placeholder="Lien (URL optionnel)" value="${escAttr(q.link||"")}" data-i="${i}" />
+          <button class="ed-del" data-list="quotes" data-i="${i}" title="Supprimer">×</button>
+        </div>`).join("") + `<button class="ed-add" data-list="quotes">+ Ajouter une citation</button>`;
+    } else {
+      html = (src.quotes || []).map(q=>`
+        <div class="det-quote">« ${q.text} »
+          <span class="det-quote-src">${q.source}${q.link ? ` · <a href="${q.link}" target="_blank" rel="noopener">Lire la source ↗</a>` : ""}</span>
+        </div>`).join("");
+    }
     if(html) sections.push({ id:"citations", label:"Citations", html });
   }
 
@@ -915,18 +949,27 @@ function openDetail(key){
       ${s.html}
     </section>`).join("");
 
-  // Galerie
+  // Photo principale = cover override si défini, sinon portrait IMGS
+  const mainPhoto = (src.cover) || img;
+  // Galerie (la cover est mise EN PREMIER, suivie du reste)
   let galleryHTML;
   if(E){
-    galleryHTML = `<div class="ed-gallery-list">${(src.gallery||[]).map((g,i)=>`
-      <div class="ed-gal-item" data-i="${i}">
+    galleryHTML = `<div class="ed-gallery-list">${(src.gallery||[]).map((g,i)=>{
+      const isCover = src.cover === g;
+      return `<div class="ed-gal-item ${isCover?'is-cover':''}" data-i="${i}">
         <img src="${g}" alt="" />
-        <button class="ed-del" data-list="gallery" data-i="${i}" title="Supprimer">×</button>
-      </div>`).join("")}
+        <div class="ed-gal-actions">
+          <button class="ed-gal-cover" data-i="${i}" title="${isCover?'Couverture actuelle':'Définir comme couverture'}">${isCover?'★':'☆'}</button>
+          <button class="ed-del" data-list="gallery" data-i="${i}" title="Supprimer">×</button>
+        </div>
+      </div>`;
+    }).join("")}
       <button class="ed-add" data-list="gallery">+ Ajouter une image (URL)</button>
     </div>`;
   } else if(src.gallery && src.gallery.length){
-    galleryHTML = src.gallery.map(g=>`<div class="det-gallery-item"><img src="${g}" alt=""></div>`).join("");
+    // En mode lecture, on dédouble la cover dans la galerie pour qu'elle apparaisse en premier
+    const galArr = src.cover ? [src.cover, ...src.gallery.filter(g=>g!==src.cover)] : src.gallery;
+    galleryHTML = galArr.map(g=>`<div class="det-gallery-item"><img src="${g}" alt=""></div>`).join("");
   } else {
     galleryHTML = `
       <div class="det-gallery-placeholder"><div class="det-gallery-placeholder-icon">✦</div><div class="det-gallery-placeholder-label">Œuvre majeure</div></div>
@@ -952,7 +995,7 @@ function openDetail(key){
     <div class="det-layout">
       <main class="det-text" id="det-text">${sectionsHTML}</main>
       <aside class="det-photos" id="det-photos">
-        <div class="det-photo-main">${img ? `<img src="${img}" alt="${d.name}" style="object-position:${pos}">` : `<div style="height:100%;background:${d.eraColor}"></div>`}</div>
+        <div class="det-photo-main">${mainPhoto ? `<img src="${mainPhoto}" alt="${d.name}" style="object-position:${pos}">` : `<div style="height:100%;background:${d.eraColor}"></div>`}</div>
         ${galleryHTML}
       </aside>
     </div>`;
@@ -983,6 +1026,23 @@ function openDetail(key){
         editingDraft.videos[i][field] = val;
       });
     });
+    text.querySelectorAll('.ed-quote-text, .ed-quote-source, .ed-quote-link').forEach(inp=>{
+      inp.addEventListener('input', e=>{
+        const i = +inp.dataset.i;
+        const field = inp.classList.contains('ed-quote-text') ? 'text'
+                    : inp.classList.contains('ed-quote-source') ? 'source' : 'link';
+        editingDraft.quotes[i][field] = inp.value;
+      });
+    });
+    // Sélecteur de cover photo : ★ sur la galerie
+    document.querySelectorAll('.ed-gal-cover').forEach(b=>{
+      b.addEventListener('click', e=>{
+        const i = +b.dataset.i;
+        const url = editingDraft.gallery[i];
+        editingDraft.cover = (editingDraft.cover === url) ? "" : url;
+        openDetail(currentDetailKey);
+      });
+    });
     document.querySelectorAll('.ed-del').forEach(b=>{
       b.addEventListener('click', e=>{
         const list = b.dataset.list, i = +b.dataset.i;
@@ -996,6 +1056,8 @@ function openDetail(key){
         if(!editingDraft[list]) editingDraft[list] = [];
         if(list === "works" || list === "recos"){
           editingDraft[list].push({ title:"", type:"", done:false });
+        } else if(list === "quotes"){
+          editingDraft[list].push({ text:"", source:"", link:"" });
         } else if(list === "videos"){
           const url = prompt("URL YouTube ou ID :", "");
           if(!url) return;
@@ -1283,7 +1345,7 @@ function paintConnection(opts){
 // Affiche l'encart hover figure (style verso de carte : photo + nom + dates)
 function showFigCard(fig, ev){
   const fc = document.getElementById("conn-figcard");
-  const img = IMGS[fig.key] || "";
+  const img = getPortrait(fig);
   const pos = fig.photoPos || "top center";
   fc.innerHTML = `
     <div class="cfc-photo-wrap">
@@ -1625,54 +1687,54 @@ function buildFrise(){
   const sideCounter = { fig:0, event:0, work:0 };
   const lanesAbove = {fig:[], event:[], work:[]};
   const lanesBelow = {fig:[], event:[], work:[]};
-  // Lane max par type. Events/works ont plus de profondeur verticale pour éviter chevauchement.
-  const MAX_LANE = { fig: 0, event: 5, work: 5 };
+  // Lane assignment UNIFIÉ par côté (tous types confondus) pour éviter les
+  // collisions cross-type (event vs work par exemple). Chaque lane stocke son
+  // right-edge ET la hauteur max des items déjà placés dedans.
+  const unifiedAbove = [];   // [{right, maxH}]
+  const unifiedBelow = [];
+  // Les figures restent cappées au lane 0 (sinon elles dépassent la viewport)
+  // mais events/works peuvent aller jusqu'à 6 lanes.
+  const MAX_LANE = { fig: 0, event: 6, work: 6 };
   allItems.forEach(it => {
     const sideArr = (sideCounter[it.type]++ % 2 === 0) ? "above" : "below";
     it.side = sideArr;
-    const lanes = (sideArr === "above" ? lanesAbove : lanesBelow)[it.type];
+    const lanes = sideArr === "above" ? unifiedAbove : unifiedBelow;
     let lane = 0;
     const halfW = it.w / 2;
     const maxLane = MAX_LANE[it.type];
-    const reqGap = it.type === "fig" ? 24 : 14;
-    while(lane < lanes.length && lanes[lane] > it.x - halfW - reqGap && lane < maxLane){ lane++; }
-    if(lane >= lanes.length) lanes.push(0);
-    // Si on est encore en collision au lane max, nudge horizontalement
-    if(lanes[lane] > it.x - halfW - reqGap){
-      it.x = lanes[lane] + halfW + reqGap;
+    const reqGap = it.type === "fig" ? 24 : 18;
+    while(lane < lanes.length && lanes[lane].right > it.x - halfW - reqGap && lane < maxLane){
+      lane++;
     }
-    lanes[lane] = it.x + halfW + reqGap;
+    if(lane >= lanes.length) lanes.push({ right: 0, maxH: 0 });
+    // Si on est encore en collision (lane max), nudge horizontalement
+    if(lanes[lane].right > it.x - halfW - reqGap){
+      it.x = lanes[lane].right + halfW + reqGap;
+    }
+    lanes[lane].right = it.x + halfW + reqGap;
+    lanes[lane].maxH = Math.max(lanes[lane].maxH, it.h);
     it.lane = lane;
   });
 
-  // 8) Rendu : pour chaque item, calcule top/bottom selon lane
-  // Centre vertical du contenu (sous le ruban de dates de 98px)
-  const CENTER_TOP_PX = 98 + 22;  // dates strip (54+44) + petit buffer
-  const FIG_AXIS_OFFSET = 70;     // distance entre centre vertical et 1re lane figure
-  const EVT_AXIS_OFFSET = 30;
-  const WORK_AXIS_OFFSET = 30;
-  const LANE_GAP_FIG = 30;
-  const LANE_GAP_EVT = 22;
-  const LANE_GAP_WK  = 22;
+  // 8) Rendu : calcule l'offset cumulatif depuis le centre en sommant la hauteur
+  // max de chaque lane précédente (de 0 à lane-1). Ça garantit qu'aucune lane
+  // ne chevauche la suivante peu importe les types qu'elles contiennent.
+  const CENTER_TOP_PX = 98 + 22;  // strip dates (54+44) + buffer
+  const LANE_GAP = 22;            // gap vertical entre 2 lanes
+  const FIG_BASE = 70;            // distance centre → 1re lane pour figures
+  const OTHER_BASE = 28;          // distance centre → 1re lane pour event/work
 
   function topFor(it){
     const era = eraOfYear(it.year);
-    if(it.type === "fig"){
-      const offset = FIG_AXIS_OFFSET + it.lane * (it.h + LANE_GAP_FIG);
-      return { era, css: (it.side === "above"
-        ? `top:calc(50% - ${offset + it.h}px + ${CENTER_TOP_PX/2}px)`
-        : `top:calc(50% + ${offset}px + ${CENTER_TOP_PX/2}px)`) };
-    } else if(it.type === "event"){
-      const offset = EVT_AXIS_OFFSET + it.lane * (it.h + LANE_GAP_EVT);
-      return { era, css: (it.side === "above"
-        ? `top:calc(50% - ${offset + it.h}px + ${CENTER_TOP_PX/2}px)`
-        : `top:calc(50% + ${offset}px + ${CENTER_TOP_PX/2}px)`) };
-    } else {
-      const offset = WORK_AXIS_OFFSET + it.lane * (it.h + LANE_GAP_WK);
-      return { era, css: (it.side === "above"
-        ? `top:calc(50% - ${offset + it.h}px + ${CENTER_TOP_PX/2}px)`
-        : `top:calc(50% + ${offset}px + ${CENTER_TOP_PX/2}px)`) };
+    const lanes = it.side === "above" ? unifiedAbove : unifiedBelow;
+    const base = it.type === "fig" ? FIG_BASE : OTHER_BASE;
+    let cum = base;
+    for(let i = 0; i < it.lane; i++){
+      cum += lanes[i].maxH + LANE_GAP;
     }
+    return { era, css: (it.side === "above"
+      ? `top:calc(50% - ${cum + it.h}px + ${CENTER_TOP_PX/2}px)`
+      : `top:calc(50% + ${cum}px + ${CENTER_TOP_PX/2}px)`) };
   }
 
   function showTip(headHTML, bodyHTML, ev){
@@ -1699,7 +1761,7 @@ function buildFrise(){
       div.className = "frise-fig";
       div.style.cssText = `left:${it.x}px;${css};color:${era.text}`;
       div.onclick = () => openDetail(f.key);
-      const img = IMGS[f.key] || "";
+      const img = getPortrait(f);
       const pos = f.photoPos || "top center";
       div.innerHTML = `
         ${img?`<img class="frise-fig-photo" src="${img}" alt="${f.name}" style="object-position:${pos}">`:`<div class="frise-fig-photo" style="background:${era.text}22"></div>`}
@@ -1721,7 +1783,8 @@ function buildFrise(){
         <div class="frise-event-year">${ev.year}</div>
         <div class="frise-event-title">${ev.title}</div>`;
       div.addEventListener("mouseenter", e => {
-        showTip(`${ev.year} — ${ev.title}`, ev.desc || "Événement historique de la même époque que les figures de la constellation.", e);
+        const body = ev.long || ev.desc || "<em>À enrichir dans frise-content.json</em>";
+        showTip(`${ev.year} — ${ev.title}`, body, e);
       });
       div.addEventListener("mousemove", e => positionFloater(document.getElementById("frise-tooltip"), e.clientX, e.clientY));
       div.addEventListener("mouseleave", hideTip);
@@ -1739,8 +1802,8 @@ function buildFrise(){
         <div class="frise-work-fig">${fig.name} · ${w.year}</div>
         ${ytBtn}`;
       div.addEventListener("mouseenter", e => {
-        const body = w.desc || `Œuvre majeure de ${fig.name}, ${w.year}.`;
-        showTip(`${w.title} <span style="opacity:.6;font-weight:400">— ${fig.name}</span>`, body, e);
+        const body = w.long || w.desc || `<em>À enrichir dans frise-content.json</em>`;
+        showTip(`${w.title} <span style="opacity:.6;font-weight:400">— ${fig.name} · ${w.year}</span>`, body, e);
       });
       div.addEventListener("mousemove", e => positionFloater(document.getElementById("frise-tooltip"), e.clientX, e.clientY));
       div.addEventListener("mouseleave", hideTip);
@@ -1841,6 +1904,29 @@ const io = new IntersectionObserver(es=>{
 // ══════════════════════════════
 buildCards();
 setTimeout(()=>document.querySelectorAll(".reveal").forEach(el=>io.observe(el)),100);
+
+// Charge le contenu enrichi de la frise (si présent) et fusionne avec les arrays
+// HISTORICAL_EVENTS / KEY_WORKS. L'utilisateur édite ce fichier pour ajouter
+// long, links, images, videos sur chaque événement/œuvre.
+(function loadFriseContent(){
+  fetch("frise-content.json", { cache:"no-cache" })
+    .then(r => r.ok ? r.json() : null)
+    .then(data => {
+      if(!data) return;
+      (data.events || []).forEach(ext => {
+        const m = HISTORICAL_EVENTS.find(e => e.year === ext.year && e.title === ext.title);
+        if(m){ Object.assign(m, { long: ext.long, links: ext.links, images: ext.images, videos: ext.videos }); }
+      });
+      (data.works || []).forEach(ext => {
+        const m = KEY_WORKS.find(w => w.year === ext.year && w.figKey === ext.figKey && w.title === ext.title);
+        if(m){ Object.assign(m, { long: ext.long, links: ext.links, images: ext.images, videos: ext.videos, yt: ext.yt || m.yt }); }
+      });
+      // Reconstruit la frise si elle est déjà affichée
+      const ft = document.getElementById("friseTrack");
+      if(ft && ft.children.length > 0){ ft.innerHTML = ""; buildFrise(); }
+    })
+    .catch(_ => {});
+})();
 
 // ══════════════════════════════
 // HERO SPLASH — apparaît plein écran à l'ouverture, s'efface après quelques secondes
