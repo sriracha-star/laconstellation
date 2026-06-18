@@ -1,21 +1,94 @@
 {
-  "_doc": "Fichier des œuvres affichées dans l'onglet Œuvres. Tu peux le remplir directement ici ou via le mode édition du front (qui sauvegarde en localStorage). Chaque entrée : title (obligatoire), type ('film', 'poème', 'peinture', 'chanson', 'sculpture', 'tarot', etc.), author (créateur·rice), year, image (URL de couverture), gallery (liste {url, caption} pour carousel comme le tarot de Carrington), short (description courte), long (contexte / explication / impact, peut contenir du HTML), notes (champ libre).",
+  "_doc": "Œuvres affichées dans l'onglet Œuvres. Chaque entrée : title, type (catégorie libre comme 'poème', 'film', 'peinture', 'tarot'), author, figKey (clé de la figure liée), year, image (URL couverture), gallery (liste de {url, caption}), short (description courte), long (contexte/explication/impact, peut contenir du HTML), yt (URL YouTube optionnelle), notes (libre). Tu peux aussi éditer depuis le mode édition du front, qui sauvegarde en localStorage.",
 
   "oeuvres": [
     {
-      "title": "Le Tarot de Leonora Carrington",
-      "type": "tarot · peinture",
-      "author": "Leonora Carrington",
-      "year": 1955,
+      "title": "Aube",
+      "type": "Poème",
+      "author": "Arthur Rimbaud",
+      "figKey": "rimbaud",
+      "year": 1886,
       "image": "",
+      "gallery": [],
+      "short": "Un des Illuminations de Rimbaud, écrit avant ses vingt ans. Une marche à l'aube qui devient enlèvement mystique de la déesse-aurore.",
+      "long": "<p>J'ai embrassé l'aube d'été.</p><p>Rien ne bougeait encore au front des palais. L'eau était morte. Les camps d'ombres ne quittaient pas la route du bois. J'ai marché, réveillant les haleines vives et tièdes, et les pierreries regardèrent, et les ailes se levèrent sans bruit.</p><p>La première entreprise fut, dans le sentier déjà empli de frais et blêmes éclats, une fleur qui me dit son nom.</p><p>Je ris au wasserfall blond qui s'échevela à travers les sapins : à la cime argentée je reconnus la déesse.</p><p>Alors je levai un à un les voiles. Dans l'allée, en agitant les bras. Par la plaine, où je l'ai dénoncée au coq. À la grand'ville elle fuyait parmi les clochers et les dômes, et courant comme un mendiant sur les quais de marbre, je la chassais.</p><p>En haut de la route, près d'un bois de lauriers, je l'ai entourée avec ses voiles amassés, et j'ai senti un peu son immense corps. L'aube et l'enfant tombèrent au bas du bois.</p><p>Au réveil il était midi.</p><p><em>— Arthur Rimbaud, Illuminations</em></p>",
+      "yt": "",
+      "notes": ""
+    },
+
+    {
+      "title": "L'Éternelle vengeance",
+      "type": "Poème",
+      "author": "Renée Vivien",
+      "figKey": "vivien",
+      "year": 1901,
+      "image": "",
+      "gallery": [],
+      "short": "Tiré d'Études et Préludes (1901). Vivien réécrit le mythe de Dalila en faisant de l'esclave un instrument de vengeance lucide.",
+      "long": "<p>Dalila, courtisane au front mystérieux,<br>Aux mains de sortilège et de ruse, aux longs yeux<br>Où luttaient le soleil, l'orage et la nuée,<br>Rêvait :</p><p>« Je suis l'esclave et la prostituée,<br>La fleur que l'on effeuille au festin du désir,<br>La musique d'une heure et le chant d'un loisir,<br>Ce qui charme, ce qu'on enlace et qu'on oublie.<br><br>Mon corps sans volupté se pâme et ploie et plie<br>Au signe impérieux des passagers amants.<br>Parmi ces inconnus qui, repus et dormants,<br>Après la laide nuit dont l'ombre pleure encore,<br>De leur souffle lascif souillent l'air de l'aurore,<br>C'est toi le plus haï, Samson, fils d'Israël !<br>Mon sourire passif répond à ton appel,<br>Mon corps, divin éclair et baiser sans empreinte,<br>A rempli de parfums ta détestable étreinte :<br>Mais, malgré les aveux et les sanglots surpris,<br>Ne crois pas que ma haine ait moins d'âpres mépris,<br>Car, dans le lit léger des feintes allégresses,<br>Dans l'amère moiteur des cruelles caresses,<br>J'ai préparé le piège où tu succomberas,<br>Moi, le contentement bestial de tes bras ! »</p><p>Elle le supplia sur la couche d'ivoire<br>« Astre sanglant, dis-moi le secret de ta gloire. »</p><p>Mais l'amant de ses nuits sans amour lui mentit.<br>Et la soif des vaincus la brûla sans répit.</p><p>Elle fut le regard et l'ouïe et l'attente,<br>La chaude obsession qui ravit et tourmente,<br>Et, patient péril aux froids destins pareil,<br>Sa vengeance épia le souffle du sommeil.</p><p>Un soir que la Beauté brillait plus claire en elle,<br>Par l'enveloppement de l'humide prunelle,<br>Par le geste des bras défaillant et livré<br>Torturé tendrement, — savamment enivré<br>De souples seins, de flancs fiévreux, de lèvres lasses,<br>De murmures mourants et de musiques basses,<br>Sous les yeux de la femme, implacablement doux,<br>Dans l'ombre et dans l'odeur de ses ardents genoux,<br>Sans souvenir, cédant à l'éternelle amorce,<br>L'homme lui soupira le secret de sa force.</p><p><em>— Renée Vivien, Études et Préludes (1901)</em></p>",
+      "yt": "",
+      "notes": ""
+    },
+
+    {
+      "title": "L'Après-midi d'un Faune",
+      "type": "Danse",
+      "author": "Vaslav Nijinski",
+      "figKey": "nijinski",
+      "year": 1912,
+      "image": "",
+      "gallery": [],
+      "short": "La chorégraphie scandaleuse de Nijinski sur Debussy, créée au Théâtre du Châtelet le 29 mai 1912. Reconstitution digitale par Christian Comte.",
+      "long": "<p>Premier ballet chorégraphié par Vaslav Nijinski pour les Ballets Russes de Diaghilev, sur le <em>Prélude à l'après-midi d'un faune</em> de Claude Debussy (1894). Onze minutes de mouvements hiératiques, de profil, qui rompent radicalement avec le ballet classique : les danseurs n'évoluent plus dans l'espace, ils <em>habitent</em> des plans bidimensionnels, comme une frise grecque animée.</p><p>Le scandale vient de la scène finale, où le faune (Nijinski lui-même) se couche sur le foulard abandonné par la nymphe et mime un orgasme. La presse parisienne crie à l'obscénité ; <em>Le Figaro</em> refuse de publier la critique d'Henri Gauthier-Villars (Willy). Rodin défend le ballet dans <em>Le Matin</em>.</p><p>La vidéo montre la reconstitution digitale réalisée par Christian Comte d'après les photographies de l'époque, le manuscrit chorégraphique de Nijinski (le seul qu'il ait jamais écrit lisiblement) et les esquisses de Léon Bakst pour les costumes.</p>",
+      "yt": "https://www.youtube.com/watch?v=Vxs8MrPZUIg",
+      "notes": ""
+    },
+
+    {
+      "title": "Station To Station — Live 1978",
+      "type": "Musique",
+      "author": "David Bowie",
+      "figKey": "bowie",
+      "year": 1978,
+      "image": "",
+      "gallery": [],
+      "short": "Une des versions live définitives de Station To Station, captée pendant la tournée Isolar II de 1978. Bowie au sommet de sa période Berlin.",
+      "long": "<p>Station To Station, d'abord chanson titre de l'album de 1976 (le dernier de la période Los Angeles, à la frontière entre le Thin White Duke et la trilogie berlinoise), devient en live une cathédrale industrielle de dix minutes. Le riff descendant du début — emprunté à Kraftwerk — annonce les expérimentations électroniques que Bowie poursuivra avec Brian Eno sur <em>Low</em>, <em>Heroes</em> et <em>Lodger</em>.</p><p>Cette captation de 1978 (Isolar II Tour) est portée par Adrian Belew à la guitare et Sean Mayes aux claviers. La voix de Bowie passe du registre de crooner glacé au chant déclamatoire, traversant les références ésotériques du texte (l'arbre kabbalistique, le Thin White Duke, la cocaïne magique). C'est l'une des performances qui définit ce que peut être le concert rock pris au sérieux comme rituel.</p>",
+      "yt": "https://www.youtube.com/watch?v=bnEc91KRKrc",
+      "notes": ""
+    },
+
+    {
+      "title": "Caravaggio",
+      "type": "Cinéma",
+      "author": "Derek Jarman",
+      "figKey": "jarman",
+      "year": 1986,
+      "image": "",
+      "gallery": [],
+      "short": "Le film de Jarman sur Caravage, tourné dans un seul entrepôt londonien, avec ses anachronismes assumés (machines à écrire, calculatrices). Premier rôle de Tilda Swinton.",
+      "long": "<p>Jarman travaille à <em>Caravaggio</em> pendant sept ans avant de le tourner, entièrement dans un entrepôt désaffecté de Limehouse à Londres, faute de moyens pour aller à Rome. Cette contrainte devient sa marque : pas de reconstitution historique, mais des tableaux vivants éclairés à la bougie, des costumes mêlant Renaissance et années 80, des machines à écrire et des couteaux à cran d'arrêt dans la même scène.</p><p>Le film traverse la vie de Caravage par flashbacks depuis son lit de mort à Porto Ercole : la rencontre avec le cardinal Del Monte, l'amour pour Ranuccio (Sean Bean), la jalousie de Lena (Tilda Swinton, ses débuts au cinéma), le meurtre, la fuite. C'est aussi un film sur la création picturale : on voit Caravage composer ses toiles en direct, en disposant ses modèles dans la lumière.</p><p>Trame métaphorique du film de Jarman lui-même : un peintre baroque, queer, blasphématoire, qui meurt jeune.</p>",
+      "yt": "https://www.youtube.com/watch?v=w5RsX8nbR7k",
+      "notes": ""
+    },
+
+    {
+      "title": "Le Tarot de Leonora Carrington",
+      "type": "Beaux-arts · Tarot",
+      "author": "Leonora Carrington",
+      "figKey": "carrington",
+      "year": 1955,
+      "image": "Oeuvres/Beaux-arts/Tarot%20de%20Leonora%20Carrington/The%20Fool.jpg",
       "gallery": [
-        { "url": "", "caption": "Le Magicien" },
-        { "url": "", "caption": "La Papesse" },
-        { "url": "", "caption": "L'Impératrice" },
-        { "url": "", "caption": "L'Empereur" }
+        { "url": "Oeuvres/Beaux-arts/Tarot%20de%20Leonora%20Carrington/The%20Fool.jpg", "caption": "Le Fou" },
+        { "url": "Oeuvres/Beaux-arts/Tarot%20de%20Leonora%20Carrington/The%20Moon.jpg", "caption": "La Lune" },
+        { "url": "Oeuvres/Beaux-arts/Tarot%20de%20Leonora%20Carrington/The%20Sun.jpg", "caption": "Le Soleil" },
+        { "url": "Oeuvres/Beaux-arts/Tarot%20de%20Leonora%20Carrington/The%20Star.jpg", "caption": "L'Étoile" },
+        { "url": "Oeuvres/Beaux-arts/Tarot%20de%20Leonora%20Carrington/Unknown.jpg", "caption": "Carte inconnue" }
       ],
-      "short": "Une série de 22 cartes peintes par Carrington dans les années 1950, redécouvertes en 2018 et exposées pour la première fois en 2021 à Madrid.",
-      "long": "",
+      "short": "Un jeu de tarot peint par Carrington dans les années 1950, longtemps oublié, retrouvé et exposé pour la première fois en 2018.",
+      "long": "<p>Vers 1955, à Mexico, Leonora Carrington peint un jeu de tarot complet. Elle pratique alors avec Remedios Varo l'astrologie, l'alchimie et le tarot comme outils quotidiens — pas comme métaphores. Les arcanes sont peintes à la détrempe sur du papier doré, avec un soin de miniaturiste : chaque carte est un petit tableau autonome, peuplé d'animaux hybrides, d'architectures impossibles, de figures vêtues comme des moines médiévaux.</p><p>Le jeu reste dans sa famille pendant six décennies. Il n'est exposé publiquement qu'en 2018 lors de la rétrospective <em>Aún hay tiempo</em> à Madrid, puis en 2021 à la galerie Gallery Wendi Norris de San Francisco. Il est désormais reconnu comme une œuvre majeure et un manuel d'iconographie personnelle pour décoder ses toiles plus connues.</p><p>Les cartes ici présentes : Le Fou, La Lune, Le Soleil, L'Étoile, plus une cinquième non identifiée.</p>",
+      "yt": "",
       "notes": ""
     }
   ]

@@ -91,19 +91,19 @@ body.splash-on{overflow:hidden}
 /* ══════ NAV ══════ */
 .navbar{position:sticky;top:0;z-index:900;background:transparent;display:flex;align-items:stretch;overflow-x:visible;scrollbar-width:none;transition:background .25s ease}
 .nav-item{position:relative;display:flex;align-items:stretch}
-.nav-dropdown{position:absolute;top:100%;left:0;background:var(--ivory);border:1px solid var(--ivory2);min-width:240px;max-height:min(70vh,520px);overflow-y:auto;box-shadow:0 18px 60px rgba(0,0,0,.18);display:none;flex-direction:column;z-index:950}
+.nav-dropdown{position:absolute;top:100%;left:24px;background:var(--ivory);border:1px solid var(--ivory2);min-width:220px;max-height:min(70vh,520px);overflow-y:auto;box-shadow:0 18px 60px rgba(0,0,0,.18);display:none;flex-direction:column;z-index:950;scrollbar-width:none}
+.nav-dropdown::-webkit-scrollbar{display:none}
 .nav-item:hover .nav-dropdown{display:flex}
-.nav-dropdown-item{font-family:"Cormorant Garamond",serif;font-size:15px;font-style:italic;color:var(--ink2);padding:9px 18px;cursor:pointer;text-align:left;transition:background .2s;display:flex;align-items:center;justify-content:space-between;gap:10px;white-space:nowrap;border:none;background:none}
+.nav-dropdown-item{font-family:"Cormorant Garamond",serif;font-size:16px;font-style:italic;color:var(--ink2);padding:10px 20px;cursor:pointer;text-align:left;transition:background .2s;display:block;white-space:nowrap;border:none;background:none}
 .nav-dropdown-item:hover{background:rgba(10,10,10,.05);color:var(--ink)}
-.nav-dropdown-dates{font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:10px;letter-spacing:.18em;color:var(--fog);text-transform:uppercase}
 .navbar::-webkit-scrollbar{display:none}
 /* Fond ivoire opaque (sans démarcation) dès que la page a scrollé sur Figures */
 body.on-figures.scrolled .navbar,body.on-oeuvres.scrolled .navbar,body.on-detail .navbar{background:var(--ivory)}
 /* Sur une fiche détail, la navbar prend toujours l'UI claire pour rester lisible */
-body.on-detail .navbar{background:var(--ivory);position:fixed;top:0;left:0;right:0;border-bottom:1px solid var(--ivory2)}
-body.on-detail .nav-btn{color:var(--fog);text-shadow:none}
-body.on-detail .nav-btn:hover{color:var(--mist)}
-body.on-detail .nav-btn.on{color:var(--ink);text-shadow:none}
+body.on-detail .navbar,body.on-detail.on-map .navbar,body.on-detail.on-frise .navbar{background:var(--ivory)!important;position:fixed;top:0;left:0;right:0;border-bottom:1px solid var(--ivory2)}
+body.on-detail .nav-btn,body.on-detail.on-map .nav-btn,body.on-detail.on-frise .nav-btn{color:var(--fog)!important;text-shadow:none!important;font-weight:600}
+body.on-detail .nav-btn:hover,body.on-detail.on-map .nav-btn:hover,body.on-detail.on-frise .nav-btn:hover{color:var(--mist)!important}
+body.on-detail .nav-btn.on,body.on-detail.on-map .nav-btn.on,body.on-detail.on-frise .nav-btn.on{color:var(--ink)!important;text-shadow:none!important}
 /* Œuvres : même UI que Figures, avec quelques accents propres */
 #sec-oeuvres{display:none}
 .oeuvres-grid{margin-top:0}
@@ -113,6 +113,10 @@ body.on-detail .nav-btn.on{color:var(--ink);text-shadow:none}
 .oeuvre-type{font-family:"Josefin Sans",sans-serif;font-weight:700;font-size:10px;letter-spacing:.32em;color:rgba(244,241,236,.92);text-transform:uppercase;margin-bottom:10px;text-shadow:0 1px 6px rgba(0,0,0,.6)}
 .oeuvre-del{position:absolute;top:10px;right:10px;background:rgba(255,255,255,.92);border:none;width:30px;height:30px;cursor:pointer;font-size:18px;line-height:1;border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:2;transition:all .2s;color:var(--carmine)}
 .oeuvre-del:hover{background:#fff;color:var(--carmine2)}
+.oeuvre-video{width:100%;aspect-ratio:16/9;background:#000;margin-bottom:8px}
+.oeuvre-video iframe{width:100%;height:100%;border:none;display:block}
+.oeuvre-figlink{background:none;border:1px solid var(--ivory2);color:var(--ink);font-family:"Cormorant Garamond",serif;font-style:italic;font-size:16px;padding:12px 18px;cursor:pointer;transition:all .2s;border-radius:3px}
+.oeuvre-figlink:hover{background:var(--ink);color:var(--ivory);border-color:var(--ink)}
 .nav-btn{position:relative;background:none;border:none;color:var(--fog);font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:13px;letter-spacing:.28em;padding:18px 28px;cursor:pointer;white-space:nowrap;transition:color .2s;text-transform:uppercase}
 .nav-btn:hover{color:var(--mist)}
 .nav-btn.on{color:var(--ink)}
@@ -209,7 +213,7 @@ body.on-frise .frise-scroll{height:100vh}
 .ed-quote-source,.ed-quote-link{width:100%;padding:6px 10px;background:rgba(255,255,255,.6);border:1px solid var(--ivory2);font-family:"Cormorant Garamond",serif;font-size:13px;outline:none;margin-bottom:4px}
 .ed-quote-text:focus,.ed-quote-source:focus,.ed-quote-link:focus{border-color:var(--mist)}
 .det-header-meta{font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:13px;letter-spacing:.28em;color:var(--mist);text-transform:uppercase;margin-top:0}
-.det-anchors{margin-top:36px;display:flex;flex-wrap:wrap;gap:0;overflow-x:auto;scrollbar-width:none}
+.det-anchors{margin-top:56px;display:flex;flex-wrap:wrap;gap:0;overflow-x:auto;scrollbar-width:none}
 .det-anchors::-webkit-scrollbar{display:none}
 .det-anchor{position:relative;display:inline-flex;align-items:center;font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:11.5px;letter-spacing:.22em;color:var(--fog);text-transform:uppercase;padding:10px 0 12px;margin-right:32px;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:color .2s,border-color .25s;text-decoration:none}
 .det-anchor:hover{color:var(--mist)}
@@ -1090,9 +1094,22 @@ function openDetail(key){
     }).join("")}
       <button class="ed-add" data-list="gallery">+ Ajouter une image (URL)</button>
     </div>`;
-  } else if(src.gallery && src.gallery.length){
-    // En mode lecture, on dédouble la cover dans la galerie pour qu'elle apparaisse en premier
-    const galArr = src.cover ? [src.cover, ...src.gallery.filter(g=>galURL(g)!==src.cover)] : src.gallery;
+  } else if((src.gallery && src.gallery.length) || src.cover){
+    // En mode lecture : si une cover override est définie, on garde aussi le
+    // portrait original dans la galerie (juste démoté). La cover s'affiche
+    // déjà en grand via mainPhoto, la galerie liste le RESTE des images.
+    const originalPortrait = IMGS[d.key] || "";
+    let galArr;
+    if(src.cover){
+      // L'original (s'il existe et qu'il n'est pas la cover) en tête de galerie
+      galArr = [];
+      if(originalPortrait && originalPortrait !== src.cover){
+        galArr.push(originalPortrait);
+      }
+      galArr.push(...(src.gallery || []).filter(g => galURL(g) !== src.cover));
+    } else {
+      galArr = src.gallery || [];
+    }
     galleryHTML = galArr.map(g=>{
       const url = galURL(g);
       const cap = galCap(g);
@@ -1244,7 +1261,8 @@ function openDetail(key){
       const target = document.getElementById("anchor-"+tid);
       if(target){
         _suppressSpy = true;
-        textCol.scrollTo({ top: target.offsetTop - 12, behavior: "smooth" });
+        // On scroll AVANT le titre, pour qu'il soit toujours visible en haut
+        textCol.scrollTo({ top: Math.max(0, target.offsetTop - 80), behavior: "smooth" });
         setActive(tid);
         setTimeout(()=>{ _suppressSpy = false; }, 700);
       }
@@ -1313,10 +1331,18 @@ function showSec(id){
   document.body.classList.toggle("on-frise", id==="frise");
   document.body.classList.toggle("on-figures", id==="figures");
   document.body.classList.toggle("on-oeuvres", id==="oeuvres");
+  document.body.classList.remove("on-detail"); // au cas où ça ne se serait pas nettoyé
   if(id==="map") buildMap();
   if(id==="frise") buildFrise();
   if(id==="oeuvres") buildOeuvres();
-  // Reset scroll en haut pour éviter d'arriver milieu-page après navigation
+  // Defensive : si on revient sur Figures, force toutes les cards à être visibles
+  // (au cas où l'IntersectionObserver n'aurait pas révélé certaines après display:none)
+  if(id==="figures"){
+    document.querySelectorAll("#grid .card.reveal").forEach(c => c.classList.add("vis"));
+  }
+  if(id==="oeuvres"){
+    document.querySelectorAll("#oeuvres-grid .card.reveal").forEach(c => c.classList.add("vis"));
+  }
   window.scrollTo(0, 0);
 }
 
@@ -2069,10 +2095,7 @@ function buildNavDropdown(){
   if(!dd) return;
   const sorted = FIGURES.slice().sort((a,b) => a.name.localeCompare(b.name, 'fr'));
   dd.innerHTML = sorted.map(f => `
-    <button class="nav-dropdown-item" onclick="openDetail('${f.key}')">
-      <span>${f.name}</span>
-      <span class="nav-dropdown-dates">${formatDates(f.dates)}</span>
-    </button>`).join("");
+    <button class="nav-dropdown-item" onclick="openDetail('${f.key}')">${f.name}</button>`).join("");
 }
 
 // ══════════════════════════════
@@ -2080,18 +2103,34 @@ function buildNavDropdown(){
 // ══════════════════════════════
 let OEUVRES = [];
 function loadOeuvres(){
-  // Chargement depuis localStorage en priorité (édits persistants)
-  try {
-    const stored = JSON.parse(localStorage.getItem('oeuvres-list') || 'null');
-    if(stored && Array.isArray(stored)){ OEUVRES = stored; return Promise.resolve(); }
-  } catch(_){}
-  // Sinon depuis oeuvres.json (template)
+  // On charge d'abord depuis oeuvres.json (toujours frais), puis on merge avec
+  // d'éventuelles œuvres ajoutées par l'utilisateur en localStorage.
   return fetch("oeuvres.json", { cache:"no-cache" })
     .then(r => r.ok ? r.json() : null)
-    .then(data => { OEUVRES = (data && data.oeuvres) || []; })
+    .then(data => {
+      const base = (data && data.oeuvres) || [];
+      let extras = [];
+      try {
+        const stored = JSON.parse(localStorage.getItem('oeuvres-user') || '[]');
+        if(Array.isArray(stored)) extras = stored;
+      } catch(_){}
+      OEUVRES = [...base, ...extras];
+    })
     .catch(_ => { OEUVRES = []; });
 }
-function persistOeuvres(){ localStorage.setItem('oeuvres-list', JSON.stringify(OEUVRES)); }
+function persistOeuvres(){
+  // On sauvegarde uniquement les œuvres "user" (ajoutées via le mode édition),
+  // pas celles du JSON de base qui sont toujours rechargées à frais.
+  // Pour simplifier : tout ce qui n'est pas dans le JSON initial.
+  fetch("oeuvres.json", { cache:"no-cache" })
+    .then(r => r.ok ? r.json() : { oeuvres:[] })
+    .then(data => {
+      const baseTitles = new Set((data.oeuvres || []).map(o => o.title + "::" + (o.author || "")));
+      const userOnes = OEUVRES.filter(o => !baseTitles.has((o.title || "") + "::" + (o.author || "")));
+      localStorage.setItem('oeuvres-user', JSON.stringify(userOnes));
+    })
+    .catch(() => { localStorage.setItem('oeuvres-user', JSON.stringify(OEUVRES)); });
+}
 
 let oeuvresEditMode = false;
 function buildOeuvres(){
@@ -2160,6 +2199,17 @@ function openOeuvre(i){
   const galArr = (o.gallery && o.gallery.length) ? o.gallery : (o.image ? [o.image] : []);
   const mainImg = galArr.length ? galURL(galArr[0]) : "";
   const galHTML = galArr.slice(1).map(g=>`<div class="det-gallery-item"><img src="${galURL(g)}" alt="">${galCap(g)?`<div class="det-gal-caption">${galCap(g)}</div>`:""}</div>`).join("");
+  // Vidéo embeddée si yt présent
+  let videoHTML = "";
+  if(o.yt){
+    const m = o.yt.match(/(?:v=|youtu\.be\/|embed\/)([\w-]{11})/);
+    const vid = m ? m[1] : o.yt;
+    videoHTML = `<section class="det-section">
+      <div class="oeuvre-video"><iframe src="https://www.youtube.com/embed/${vid}?rel=0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe></div>
+    </section>`;
+  }
+  // Lien vers la figure liée
+  const figLink = o.figKey ? `<button class="oeuvre-figlink" onclick="openDetail('${o.figKey}')">Voir la figure : ${(FIGURES.find(f=>f.key===o.figKey)||{}).name || o.figKey} →</button>` : "";
   const page = document.getElementById("page-detail");
   page.innerHTML = `
     <header class="det-header">
@@ -2174,10 +2224,12 @@ function openOeuvre(i){
     <div class="det-layout">
       <main class="det-text">
         <section class="det-section"><div class="det-desc">${o.short || ""}</div>${o.long ? `<div class="det-bio">${o.long}</div>` : ""}</section>
+        ${videoHTML}
+        ${figLink ? `<section class="det-section">${figLink}</section>` : ""}
         <section class="det-section"><div class="det-section-title">Notes</div><div id="oeuvre-notes-${i}"></div></section>
       </main>
       <aside class="det-photos">
-        <div class="det-photo-main">${mainImg ? `<img src="${mainImg}" alt="">` : `<div style="background:#3a3a45;height:100%"></div>`}</div>
+        ${mainImg ? `<div class="det-photo-main"><img src="${mainImg}" alt=""></div>` : ""}
         ${galHTML}
       </aside>
     </div>`;
