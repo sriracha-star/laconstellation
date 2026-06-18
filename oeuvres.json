@@ -1,0 +1,22 @@
+{
+  "_doc": "Fichier des œuvres affichées dans l'onglet Œuvres. Tu peux le remplir directement ici ou via le mode édition du front (qui sauvegarde en localStorage). Chaque entrée : title (obligatoire), type ('film', 'poème', 'peinture', 'chanson', 'sculpture', 'tarot', etc.), author (créateur·rice), year, image (URL de couverture), gallery (liste {url, caption} pour carousel comme le tarot de Carrington), short (description courte), long (contexte / explication / impact, peut contenir du HTML), notes (champ libre).",
+
+  "oeuvres": [
+    {
+      "title": "Le Tarot de Leonora Carrington",
+      "type": "tarot · peinture",
+      "author": "Leonora Carrington",
+      "year": 1955,
+      "image": "",
+      "gallery": [
+        { "url": "", "caption": "Le Magicien" },
+        { "url": "", "caption": "La Papesse" },
+        { "url": "", "caption": "L'Impératrice" },
+        { "url": "", "caption": "L'Empereur" }
+      ],
+      "short": "Une série de 22 cartes peintes par Carrington dans les années 1950, redécouvertes en 2018 et exposées pour la première fois en 2021 à Madrid.",
+      "long": "",
+      "notes": ""
+    }
+  ]
+}
