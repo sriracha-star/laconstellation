@@ -91,7 +91,7 @@ body.splash-on{overflow:hidden}
 /* ══════ NAV ══════ */
 .navbar{position:sticky;top:0;z-index:900;background:transparent;display:flex;align-items:stretch;overflow-x:visible;scrollbar-width:none;transition:background .25s ease}
 .nav-item{position:relative;display:flex;align-items:stretch}
-.nav-dropdown{position:absolute;top:100%;left:40px;background:var(--ivory);border:1px solid var(--ivory2);min-width:240px;max-height:min(70vh,520px);overflow-y:auto;box-shadow:0 18px 60px rgba(0,0,0,.18);display:none;flex-direction:column;z-index:950;scrollbar-width:none;-ms-overflow-style:none}
+.nav-dropdown{position:absolute;top:100%;left:28px;background:var(--ivory);border:1px solid var(--ivory2);min-width:240px;max-height:min(70vh,520px);overflow-y:auto;box-shadow:0 18px 60px rgba(0,0,0,.18);display:none;flex-direction:column;z-index:950;scrollbar-width:none;-ms-overflow-style:none}
 .nav-dropdown::-webkit-scrollbar{display:none}
 .nav-item:hover .nav-dropdown{display:flex}
 .nav-dropdown-item{font-family:"Cormorant Garamond",serif;font-size:16px;font-style:italic;color:var(--ink2);padding:10px 20px;cursor:pointer;text-align:left;transition:background .2s;display:block;white-space:nowrap;border:none;background:none}
@@ -117,6 +117,59 @@ body.on-detail .nav-btn.on,body.on-detail.on-map .nav-btn.on,body.on-detail.on-f
 .oeuvre-video iframe{width:100%;height:100%;border:none;display:block}
 .oeuvre-figlink{background:none;border:1px solid var(--ivory2);color:var(--ink);font-family:"Cormorant Garamond",serif;font-style:italic;font-size:16px;padding:12px 18px;cursor:pointer;transition:all .2s;border-radius:3px}
 .oeuvre-figlink:hover{background:var(--ink);color:var(--ivory);border-color:var(--ink)}
+/* Toolbar Organiser / Ajouter */
+.oeuvres-toolbar{display:flex;justify-content:flex-end;gap:10px;padding:24px 0 18px}
+.oeuvres-btn{background:none;border:1px solid var(--ivory2);color:var(--mist);font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:11.5px;letter-spacing:.22em;padding:9px 18px;cursor:pointer;text-transform:uppercase;border-radius:3px;transition:all .2s}
+.oeuvres-btn:hover{color:var(--ink);border-color:var(--ink)}
+.oeuvres-btn.on{color:var(--ivory);background:var(--ink);border-color:var(--ink)}
+.oeuvres-btn-primary{color:var(--ivory);background:var(--ink);border-color:var(--ink)}
+.oeuvres-btn-primary:hover{background:var(--ink2);border-color:var(--ink2);color:var(--ivory)}
+/* Actions Organiser sur chaque carte */
+.oeuvre-org-actions{position:absolute;top:10px;right:10px;display:flex;flex-direction:column;gap:4px;z-index:3}
+.oeuvre-org-btn{background:rgba(255,255,255,.92);border:1px solid var(--ivory2);width:30px;height:30px;cursor:pointer;font-size:14px;line-height:1;border-radius:3px;display:flex;align-items:center;justify-content:center;color:var(--ink2);transition:all .2s;padding:0}
+.oeuvre-org-btn:hover{background:#fff;color:var(--ink)}
+.oeuvre-org-del{color:var(--carmine)}
+.oeuvre-org-del:hover{color:var(--carmine2);border-color:var(--carmine)}
+/* Détail Œuvre : œuvre principale + galerie */
+.oeuvre-video{width:100%;aspect-ratio:16/9;background:#000;margin-bottom:24px}
+.oeuvre-video iframe{width:100%;height:100%;border:none;display:block}
+.oeuvre-text{font-family:"Cormorant Garamond",serif;font-size:17.5px;line-height:1.85;color:var(--ink2);margin-bottom:24px}
+.oeuvre-text p{margin-bottom:14px}
+.oeuvre-text em{font-style:italic;color:var(--ink)}
+.oeuvre-single-img{margin-bottom:24px}
+.oeuvre-single-img img{width:100%;display:block;filter:grayscale(.4) contrast(1.04)}
+.oeuvre-img-cap{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:14px;color:var(--mist);padding:10px 4px 0;line-height:1.4}
+/* Carousel d'images d'une œuvre */
+.oeuvre-carousel{margin-bottom:24px}
+.oeuvre-slides{position:relative;width:100%;background:var(--ivory2)}
+.oeuvre-slide{display:none}
+.oeuvre-slide.on{display:block}
+.oeuvre-slide img{width:100%;display:block;filter:grayscale(.3) contrast(1.04)}
+.oeuvre-carousel-nav{display:flex;justify-content:space-between;align-items:center;padding:14px 4px 0;gap:8px}
+/* Auteur cliquable dans le header (œuvre → figure) */
+.oeuvre-author-link{font-family:inherit;color:var(--ink);font-weight:600;letter-spacing:inherit;text-transform:inherit;cursor:pointer;border-bottom:1px solid var(--ivory2);transition:border-color .2s,color .2s;padding-bottom:1px}
+.oeuvre-author-link:hover{border-bottom-color:var(--ink);color:var(--ink)}
+/* Toolbar notes — variante quand on est sur une œuvre (juste l'icône ✎) */
+.notes-toolbar-oeuvre{display:flex;justify-content:flex-end;margin-bottom:14px}
+/* Modal formulaire d'ajout / modif œuvre */
+#oeuvre-form-modal{position:fixed;inset:0;background:rgba(10,10,10,.55);z-index:10000;display:none;align-items:flex-start;justify-content:center;padding:60px 24px;overflow-y:auto;backdrop-filter:blur(3px)}
+#oeuvre-form-modal.open{display:flex}
+.of-inner{background:var(--ivory);width:min(680px,100%);border:1px solid var(--ink2);box-shadow:0 30px 80px rgba(0,0,0,.4)}
+.of-header{padding:24px 28px 18px;border-bottom:1px solid var(--ivory2)}
+.of-title{font-family:"Playfair Display",serif;font-size:1.5rem;font-weight:700;color:var(--ink);letter-spacing:.01em}
+.of-body{padding:24px 28px;display:flex;flex-direction:column;gap:18px}
+.of-label{display:flex;flex-direction:column;gap:6px;font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:10.5px;letter-spacing:.25em;color:var(--mist);text-transform:uppercase}
+.of-row-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:520px){.of-row-2{grid-template-columns:1fr}}
+.of-input{width:100%;padding:10px 12px;background:#fff;border:1px solid var(--ivory2);font-family:"Cormorant Garamond",serif;font-size:15.5px;font-style:italic;color:var(--ink);outline:none;letter-spacing:0;text-transform:none;font-weight:400;transition:border-color .2s}
+.of-input:focus{border-color:var(--mist)}
+.of-textarea{min-height:140px;resize:vertical;font-style:normal}
+.of-gal-row{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;margin-bottom:8px;align-items:center}
+.of-row-del{background:none;border:1px solid var(--ivory2);color:var(--fog);width:32px;height:32px;cursor:pointer;font-size:16px;line-height:1;border-radius:3px;display:flex;align-items:center;justify-content:center;padding:0}
+.of-row-del:hover{color:var(--carmine);border-color:var(--carmine)}
+.of-btn-add{background:none;border:1px dashed var(--mist);color:var(--mist);font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:11px;letter-spacing:.22em;padding:7px 14px;cursor:pointer;text-transform:uppercase;border-radius:3px;transition:all .2s;margin-top:6px}
+.of-btn-add:hover{color:var(--ink);border-color:var(--ink);border-style:solid}
+.of-footer{padding:18px 28px 24px;border-top:1px solid var(--ivory2);display:flex;justify-content:flex-end;gap:10px}
 .nav-btn{position:relative;background:none;border:none;color:var(--fog);font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:13px;letter-spacing:.28em;padding:18px 28px;cursor:pointer;white-space:nowrap;transition:color .2s;text-transform:uppercase}
 .nav-btn:hover{color:var(--mist)}
 .nav-btn.on{color:var(--ink)}
@@ -451,6 +504,9 @@ footer strong{display:block;font-family:"Playfair Display",serif;font-size:1.15r
 
 <!-- DETAIL PAGE (full screen) -->
 <div id="page-detail"></div>
+
+<!-- ŒUVRE FORM MODAL -->
+<div id="oeuvre-form-modal"></div>
 
 <!-- HERO SPLASH (s'efface à l'ouverture) — boussole multi-couches animée -->
 <section class="hero" id="hero-splash">
@@ -2174,6 +2230,9 @@ function persistOeuvres(){
 }
 
 let oeuvresEditMode = false;
+// Affichage de la liste des œuvres : les plus récentes en haut, deux modes
+// (lecture / organiser). Plus de classe .reveal qui laisse certaines cartes
+// invisibles si l'IntersectionObserver les rate.
 function buildOeuvres(){
   const grid = document.getElementById("oeuvres-grid");
   if(!grid) return;
@@ -2183,118 +2242,288 @@ function buildOeuvres(){
     grid.innerHTML = `<div class="oeuvres-empty">Chargement…</div>`;
     return;
   }
-  grid.innerHTML = "";
-  const editBar = `<div class="oeuvres-toolbar">
-    <button class="det-edit-btn" onclick="toggleOeuvresEdit()">${oeuvresEditMode ? "Terminer" : "✎ Modifier"}</button>
-    ${oeuvresEditMode ? `<button class="det-edit-save" onclick="addOeuvre()">+ Ajouter une œuvre</button>` : ""}
-  </div>`;
-  grid.insertAdjacentHTML("beforebegin", "");
-  // injecte la toolbar dans le grid-wrap
+  // Toolbar : Organiser + Ajouter
   const wrap = grid.parentElement;
-  let existing = wrap.querySelector(".oeuvres-toolbar");
-  if(existing) existing.remove();
+  let existingBar = wrap.querySelector(".oeuvres-toolbar");
+  if(existingBar) existingBar.remove();
+  const editBar = `<div class="oeuvres-toolbar">
+    <button class="oeuvres-btn ${oeuvresEditMode ? 'on' : ''}" onclick="toggleOeuvresEdit()">${oeuvresEditMode ? "Terminer" : "Organiser"}</button>
+    <button class="oeuvres-btn oeuvres-btn-primary" onclick="openOeuvreForm()">+ Ajouter</button>
+  </div>`;
   wrap.insertAdjacentHTML("afterbegin", editBar);
 
+  grid.innerHTML = "";
   if(OEUVRES.length === 0){
-    grid.innerHTML = `<div class="oeuvres-empty">Aucune œuvre pour le moment.<br>${oeuvresEditMode ? "Clique « + Ajouter une œuvre » pour commencer." : "Active le mode édition pour en ajouter."}</div>`;
+    grid.innerHTML = `<div class="oeuvres-empty">Aucune œuvre pour le moment.<br>Clique « + Ajouter » pour commencer.</div>`;
     return;
   }
-  OEUVRES.forEach((o,i) => {
+  // On affiche dans l'ordre inverse : les dernières créées en premier
+  const items = OEUVRES.map((o, i) => ({ o, i })).reverse();
+  items.forEach(({o, i}, displayIdx) => {
     const cover = galURL((o.gallery && o.gallery[0]) || o.image || "");
     const photoStyle = cover ? `background-image:url('${cover}');background-position:center` : `background:linear-gradient(135deg,#3a3a45,#1a1a1f)`;
-    const typeLabel = o.type ? `<div class="oeuvre-type">${o.type}</div>` : "";
     const yearLabel = o.year ? ` · ${o.year}` : "";
+    const metaLine = `${(o.author || "")}${yearLabel}`;
+    const orgActions = oeuvresEditMode ? `
+      <div class="oeuvre-org-actions">
+        <button class="oeuvre-org-btn" onclick="event.stopPropagation();moveOeuvre(${i},-1)" title="Monter">↑</button>
+        <button class="oeuvre-org-btn" onclick="event.stopPropagation();moveOeuvre(${i},1)" title="Descendre">↓</button>
+        <button class="oeuvre-org-btn" onclick="event.stopPropagation();editOeuvreForm(${i})" title="Modifier">✎</button>
+        <button class="oeuvre-org-btn oeuvre-org-del" onclick="event.stopPropagation();delOeuvre(${i})" title="Supprimer">×</button>
+      </div>` : "";
     grid.innerHTML += `
-      <div class="card oeuvre-card reveal" data-oi="${i}" onclick="openOeuvre(${i})">
+      <div class="card oeuvre-card" data-oi="${i}" onclick="${oeuvresEditMode ? '' : `openOeuvre(${i})`}">
         <div class="card-photo-bg" style="${photoStyle}"></div>
         <div class="card-overlay">
-          ${typeLabel}
           <div class="card-name">${o.title || "Sans titre"}</div>
-          <div class="card-dates">${(o.author || "")}${yearLabel}</div>
+          ${metaLine.trim() ? `<div class="card-dates">${metaLine}</div>` : ""}
         </div>
-        ${oeuvresEditMode ? `<button class="oeuvre-del" onclick="event.stopPropagation();delOeuvre(${i})" title="Supprimer">×</button>` : ""}
+        ${orgActions}
       </div>`;
   });
 }
 function toggleOeuvresEdit(){ oeuvresEditMode = !oeuvresEditMode; buildOeuvres(); }
-function addOeuvre(){
-  const title = prompt("Titre de l'œuvre :", "");
-  if(!title) return;
-  const type = prompt("Type (film, poème, peinture, chanson, sculpture…) :", "") || "";
-  const author = prompt("Auteur·rice :", "") || "";
-  const year = parseInt(prompt("Année :", "")) || null;
-  OEUVRES.push({ title, type, author, year, image:"", gallery:[], short:"", long:"", notes:"" });
+function moveOeuvre(i, dir){
+  // dir = -1 monte (vers le début de la liste affichée = vers la fin du tableau)
+  // dir =  1 descend
+  // Comme l'affichage est inversé, on inverse aussi le sens du déplacement
+  const realDir = -dir;
+  const newPos = i + realDir;
+  if(newPos < 0 || newPos >= OEUVRES.length) return;
+  const item = OEUVRES.splice(i, 1)[0];
+  OEUVRES.splice(newPos, 0, item);
   persistOeuvres();
   buildOeuvres();
 }
 function delOeuvre(i){
-  if(!confirm("Supprimer cette œuvre ?")) return;
+  if(!confirm("Supprimer cette œuvre ? Cette action est irréversible.")) return;
   OEUVRES.splice(i,1);
   persistOeuvres();
   buildOeuvres();
 }
+// ── Page détail d'une œuvre : même squelette que le détail figure ──
+// Header : nom (l'œuvre) + auteur·date (même emplacement que les dates de
+// naissance/mort d'une figure). L'auteur est cliquable → ouvre la fiche figure.
+// Au hover du nom de l'auteur on prévisualise la carte figure.
+// Contenu : juste l'œuvre (photo principale OU vidéo OU texte) + section Notes.
 function openOeuvre(i){
-  currentOeuvreKey = i;
   const o = OEUVRES[i];
   if(!o) return;
-  const galArr = (o.gallery && o.gallery.length) ? o.gallery : (o.image ? [o.image] : []);
-  const mainImg = galArr.length ? galURL(galArr[0]) : "";
-  const galHTML = galArr.slice(1).map(g=>`<div class="det-gallery-item"><img src="${galURL(g)}" alt="">${galCap(g)?`<div class="det-gal-caption">${galCap(g)}</div>`:""}</div>`).join("");
-  // Vidéo embeddée si yt présent
-  let videoHTML = "";
+  currentOeuvreKey = i;
+  const page = document.getElementById("page-detail");
+  // Sauvegarde de la classe de section précédente (idem openDetail figure)
+  if(!page._prevSecClass){
+    page._prevSecClass = ["on-map","on-frise","on-figures","on-oeuvres"].find(c => document.body.classList.contains(c)) || null;
+  }
+  document.body.classList.remove("on-map","on-frise","on-figures","on-oeuvres");
+  document.body.classList.add("on-detail");
+  // Préparation de la zone "œuvre" : ce qui s'affiche dépend de ce qu'on a
+  let oeuvreHTML = "";
+  // Vidéo prioritaire si yt
   if(o.yt){
     const m = o.yt.match(/(?:v=|youtu\.be\/|embed\/)([\w-]{11})/);
     const vid = m ? m[1] : o.yt;
-    videoHTML = `<section class="det-section">
-      <div class="oeuvre-video"><iframe src="https://www.youtube.com/embed/${vid}?rel=0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe></div>
-    </section>`;
+    oeuvreHTML = `<div class="oeuvre-video"><iframe src="https://www.youtube.com/embed/${vid}?rel=0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe></div>`;
+  } else if(o.long || o.short) {
+    // Texte (poème, etc.)
+    oeuvreHTML = `<div class="oeuvre-text">${o.long || o.short}</div>`;
   }
-  // Lien vers la figure liée
-  const figLink = o.figKey ? `<button class="oeuvre-figlink" onclick="openDetail('${o.figKey}')">Voir la figure : ${(FIGURES.find(f=>f.key===o.figKey)||{}).name || o.figKey} →</button>` : "";
-  const page = document.getElementById("page-detail");
+  // Galerie / image(s) — affichée après l'œuvre principale
+  const galArr = (o.gallery && o.gallery.length) ? o.gallery : (o.image ? [o.image] : []);
+  let galleryHTML = "";
+  if(galArr.length > 0){
+    if(galArr.length === 1){
+      galleryHTML = `<div class="oeuvre-single-img"><img src="${galURL(galArr[0])}" alt="">${galCap(galArr[0])?`<div class="oeuvre-img-cap">${galCap(galArr[0])}</div>`:""}</div>`;
+    } else {
+      // Plusieurs images → un carousel simple
+      const slides = galArr.map((g,idx)=>`<div class="oeuvre-slide ${idx===0?'on':''}" data-idx="${idx}"><img src="${galURL(g)}" alt="">${galCap(g)?`<div class="oeuvre-img-cap">${galCap(g)}</div>`:""}</div>`).join("");
+      galleryHTML = `
+        <div class="oeuvre-carousel">
+          <div class="oeuvre-slides" id="oeuvre-slides-${i}">${slides}</div>
+          <div class="oeuvre-carousel-nav">
+            <button class="vid-nav-btn" onclick="oeuvreCarPrev(${i},${galArr.length})">‹</button>
+            <span class="vid-counter" id="oeuvre-counter-${i}">1 sur ${galArr.length}</span>
+            <button class="vid-nav-btn" onclick="oeuvreCarNext(${i},${galArr.length})">›</button>
+          </div>
+        </div>`;
+    }
+  }
+  // Auteur cliquable avec aperçu au hover
+  const figRef = o.figKey ? FIGURES.find(f=>f.key===o.figKey) : null;
+  const meta = o.year ? `${o.year}` : "";
+  let authorPart = "";
+  if(figRef){
+    authorPart = `<a class="oeuvre-author-link" onmouseenter="showFigCard(FIGURES.find(f=>f.key==='${figRef.key}'),event)" onmousemove="positionFloater(document.getElementById('conn-figcard'),event.clientX,event.clientY)" onmouseleave="hideFigCard()" onclick="hideFigCard();openDetail('${figRef.key}')">${o.author || figRef.name}</a>`;
+  } else if(o.author){
+    authorPart = `<span>${o.author}</span>`;
+  }
   page.innerHTML = `
     <header class="det-header">
       <div class="det-header-top">
         <div>
           <div class="det-header-name">${o.title || "Sans titre"}</div>
-          <div class="det-header-meta">${o.type ? o.type : ""}${o.author ? " · "+o.author : ""}${o.year ? " · "+o.year : ""}</div>
+          <div class="det-header-meta">${authorPart}${authorPart && meta ? ' · ' : ''}${meta}</div>
         </div>
-        <button class="det-edit-btn" onclick="editOeuvreToggle()">✎ Modifier</button>
       </div>
+      <nav class="det-anchors"><!-- vide mais conserve la hauteur du header --></nav>
     </header>
     <div class="det-layout">
       <main class="det-text">
-        <section class="det-section"><div class="det-desc">${o.short || ""}</div>${o.long ? `<div class="det-bio">${o.long}</div>` : ""}</section>
-        ${videoHTML}
-        ${figLink ? `<section class="det-section">${figLink}</section>` : ""}
-        <section class="det-section"><div class="det-section-title">Notes</div><div id="oeuvre-notes-${i}"></div></section>
+        <section class="det-section">${oeuvreHTML}${galleryHTML}</section>
+        <section class="det-section" id="anchor-notes-o${i}">
+          <div id="oeuvre-notes-${i}"></div>
+        </section>
       </main>
       <aside class="det-photos">
-        ${mainImg ? `<div class="det-photo-main"><img src="${mainImg}" alt=""></div>` : ""}
-        ${galHTML}
+        <!-- volontairement vide : tout est dans la colonne principale -->
       </aside>
     </div>`;
   page.classList.add("open");
   document.body.style.overflow = "hidden";
-  document.body.classList.add("on-detail");
+  // Hash routing : #/o/<id> pour que back fonctionne
+  if(!_suppressHashPush){
+    const targetHash = "#/o/" + i;
+    if(location.hash !== targetHash) history.pushState({oeuvre:i}, "", targetHash);
+  }
+  document.title = (o.title || "Œuvre") + " · La Constellation";
   setTimeout(()=>buildNotes('oeuvre-notes-'+i, 'oeuvre-'+i), 30);
 }
 function closeOeuvre(){
-  document.getElementById("page-detail").classList.remove("open");
+  const page = document.getElementById("page-detail");
+  page.classList.remove("open");
   document.body.style.overflow = "";
   document.body.classList.remove("on-detail");
+  if(page._prevSecClass){
+    document.body.classList.add(page._prevSecClass);
+    page._prevSecClass = null;
+  }
   currentOeuvreKey = null;
+  document.title = DEFAULT_TITLE;
+  if(!_suppressHashPush && location.hash){
+    history.pushState({}, "", location.pathname + location.search);
+  }
 }
-function editOeuvreToggle(){
-  const i = currentOeuvreKey;
-  if(i === null) return;
+// Carousel simple des images d'une œuvre
+let _oeuvreCarPos = {};
+function oeuvreCarGo(i, n, count){
+  _oeuvreCarPos[i] = ((n % count) + count) % count;
+  const slides = document.querySelectorAll(`#oeuvre-slides-${i} .oeuvre-slide`);
+  slides.forEach((s,idx)=>s.classList.toggle("on", idx === _oeuvreCarPos[i]));
+  const counter = document.getElementById(`oeuvre-counter-${i}`);
+  if(counter) counter.textContent = (_oeuvreCarPos[i]+1) + " sur " + count;
+}
+function oeuvreCarPrev(i, count){ oeuvreCarGo(i, (_oeuvreCarPos[i]||0)-1, count); }
+function oeuvreCarNext(i, count){ oeuvreCarGo(i, (_oeuvreCarPos[i]||0)+1, count); }
+
+// ── Formulaire d'ajout / modification d'une œuvre (modal) ──
+function openOeuvreForm(){ showOeuvreForm({ title:"", type:"", author:"", figKey:"", year:"", yt:"", short:"", long:"", gallery:[] }, null); }
+function editOeuvreForm(i){
   const o = OEUVRES[i];
-  const newShort = prompt("Description courte :", o.short || "");
-  if(newShort !== null) o.short = newShort;
-  const newLong = prompt("Description longue / contexte / impact (HTML autorisé) :", o.long || "");
-  if(newLong !== null) o.long = newLong;
+  if(!o) return;
+  // Deep clone pour pouvoir annuler
+  showOeuvreForm(JSON.parse(JSON.stringify(o)), i);
+}
+function showOeuvreForm(draft, editIdx){
+  const modal = document.getElementById("oeuvre-form-modal");
+  const figOptions = FIGURES.map(f=>`<option value="${f.key}" ${draft.figKey===f.key?'selected':''}>${f.name}</option>`).join("");
+  const galleryRows = (draft.gallery||[]).map((g,idx)=>{
+    const url = galURL(g), cap = galCap(g);
+    return `<div class="of-gal-row" data-i="${idx}">
+      <input class="of-input of-gal-url" placeholder="URL ou chemin relatif" value="${(url||'').replace(/"/g,'&quot;')}" data-i="${idx}" />
+      <input class="of-input of-gal-cap" placeholder="Légende (apparaît au hover)" value="${(cap||'').replace(/"/g,'&quot;')}" data-i="${idx}" />
+      <button type="button" class="of-row-del" data-i="${idx}" title="Supprimer">×</button>
+    </div>`;
+  }).join("");
+  modal.innerHTML = `
+    <div class="of-inner">
+      <div class="of-header">
+        <div class="of-title">${editIdx===null ? "Ajouter une œuvre" : "Modifier l'œuvre"}</div>
+      </div>
+      <div class="of-body">
+        <label class="of-label">Titre<input class="of-input" id="of-title" value="${(draft.title||'').replace(/"/g,'&quot;')}" /></label>
+        <div class="of-row-2">
+          <label class="of-label">Type<input class="of-input" id="of-type" placeholder="film, poème, peinture, chanson…" value="${(draft.type||'').replace(/"/g,'&quot;')}" /></label>
+          <label class="of-label">Année<input class="of-input" id="of-year" type="number" value="${draft.year || ''}" /></label>
+        </div>
+        <div class="of-row-2">
+          <label class="of-label">Auteur·rice (texte libre)<input class="of-input" id="of-author" value="${(draft.author||'').replace(/"/g,'&quot;')}" /></label>
+          <label class="of-label">Figure liée (optionnel)
+            <select class="of-input" id="of-figkey">
+              <option value="">— Aucune —</option>
+              ${figOptions}
+            </select>
+          </label>
+        </div>
+        <label class="of-label">URL YouTube (optionnel)<input class="of-input" id="of-yt" placeholder="https://youtube.com/watch?v=..." value="${(draft.yt||'').replace(/"/g,'&quot;')}" /></label>
+        <label class="of-label">Description courte (1-2 phrases)<input class="of-input" id="of-short" value="${(draft.short||'').replace(/"/g,'&quot;')}" /></label>
+        <label class="of-label">Contenu / texte / contexte (HTML autorisé)<textarea class="of-input of-textarea" id="of-long">${(draft.long||'').replace(/</g,'&lt;')}</textarea></label>
+        <div class="of-label">Images (URLs)
+          <div id="of-gallery">${galleryRows}</div>
+          <button type="button" class="of-btn-add" onclick="oeuvreFormAddGalRow()">+ Ajouter une image</button>
+        </div>
+      </div>
+      <div class="of-footer">
+        <button type="button" class="oeuvres-btn" onclick="closeOeuvreForm()">Annuler</button>
+        <button type="button" class="oeuvres-btn oeuvres-btn-primary" onclick="saveOeuvreForm(${editIdx===null ? 'null' : editIdx})">${editIdx===null ? "Créer" : "Enregistrer"}</button>
+      </div>
+    </div>`;
+  modal.classList.add("open");
+  // câblage des delete d'images
+  modal.querySelectorAll(".of-row-del").forEach(b=>{
+    b.addEventListener("click", e=>{
+      const idx = +b.dataset.i;
+      b.closest(".of-gal-row").remove();
+    });
+  });
+  setTimeout(()=>modal.querySelector("#of-title").focus(), 50);
+}
+function oeuvreFormAddGalRow(){
+  const cont = document.getElementById("of-gallery");
+  const idx = cont.querySelectorAll(".of-gal-row").length;
+  const row = document.createElement("div");
+  row.className = "of-gal-row";
+  row.dataset.i = idx;
+  row.innerHTML = `
+    <input class="of-input of-gal-url" placeholder="URL ou chemin relatif" />
+    <input class="of-input of-gal-cap" placeholder="Légende" />
+    <button type="button" class="of-row-del" title="Supprimer">×</button>`;
+  cont.appendChild(row);
+  row.querySelector(".of-row-del").addEventListener("click", ()=>row.remove());
+}
+function closeOeuvreForm(){
+  document.getElementById("oeuvre-form-modal").classList.remove("open");
+}
+function saveOeuvreForm(editIdx){
+  const v = id => document.getElementById(id).value.trim();
+  const title = v("of-title");
+  if(!title){ alert("Le titre est obligatoire."); return; }
+  const gallery = [];
+  document.querySelectorAll("#of-gallery .of-gal-row").forEach(r=>{
+    const url = r.querySelector(".of-gal-url").value.trim();
+    const caption = r.querySelector(".of-gal-cap").value.trim();
+    if(url) gallery.push({ url, caption });
+  });
+  const entry = {
+    title,
+    type: v("of-type"),
+    author: v("of-author"),
+    figKey: v("of-figkey"),
+    year: parseInt(v("of-year")) || null,
+    yt: v("of-yt"),
+    short: v("of-short"),
+    long: document.getElementById("of-long").value, // HTML, pas trim
+    gallery,
+    image: gallery[0] ? galURL(gallery[0]) : "",
+    notes: ""
+  };
+  if(editIdx === null){
+    OEUVRES.push(entry);
+  } else {
+    OEUVRES[editIdx] = { ...OEUVRES[editIdx], ...entry };
+  }
   persistOeuvres();
-  openOeuvre(i);
+  closeOeuvreForm();
+  buildOeuvres();
 }
 
 // Charge le contenu enrichi de la frise (si présent) et fusionne avec les arrays
@@ -2438,12 +2667,19 @@ function buildNotes(containerId, figKey){
 
   function render(){
     const itemsHTML = notes.map(renderItem).join('');
-    container.innerHTML = `
-      <div class="det-section-title">Notes
-        <div class="notes-toolbar">
+    // Si on est dans une page \u0152uvre (figKey commence par "oeuvre-"), pas de
+    // titre interne (le parent g\u00e8re d\u00e9j\u00e0 l'intitul\u00e9 "Notes" si n\u00e9cessaire)
+    const ownTitle = !String(figKey).startsWith("oeuvre-")
+      ? `<div class="det-section-title">Notes
+          <div class="notes-toolbar">
+            <button class="notes-edit-toggle ${editMode?'on':''}" id="nedit_${figKey}" title="${editMode?'Terminer':'Modifier'}">\u270e</button>
+          </div>
+        </div>`
+      : `<div class="notes-toolbar notes-toolbar-oeuvre">
           <button class="notes-edit-toggle ${editMode?'on':''}" id="nedit_${figKey}" title="${editMode?'Terminer':'Modifier'}">\u270e</button>
-        </div>
-      </div>
+        </div>`;
+    container.innerHTML = `
+      ${ownTitle}
       <div class="notes-list ${editMode?'editing':''}">${itemsHTML}</div>
       <div class="notes-input">
         <textarea class="notes-area" id="narea_${figKey}" placeholder="Ce qui te touche, les connexions que tu vois, les questions que \u00e7a soul\u00e8ve\u2026"></textarea>
@@ -2536,8 +2772,20 @@ function buildNotes(containerId, figKey){
 // ══════════════════════════════
 function _syncFromHash(){
   _suppressHashPush = true;
+  // Œuvre : #/o/<id>
+  const oMatch = location.hash.match(/^#\/o\/(\d+)$/);
+  if(oMatch){
+    const oi = parseInt(oMatch[1]);
+    if(!isNaN(oi) && OEUVRES[oi] !== undefined){
+      openOeuvre(oi);
+      _suppressHashPush = false;
+      return;
+    } else if(currentOeuvreKey !== null){
+      closeOeuvre();
+    }
+  }
   const m = location.hash.match(/^#\/(.+)$/);
-  if (m) {
+  if (m && !m[1].startsWith("o/")) {
     const key = decodeURIComponent(m[1]);
     if (FIGURES.find(f => f.key === key)) {
       openDetail(key);
@@ -2546,6 +2794,8 @@ function _syncFromHash(){
     }
   } else if (currentDetailKey) {
     closeDetail();
+  } else if (currentOeuvreKey !== null) {
+    closeOeuvre();
   }
   _suppressHashPush = false;
 }
