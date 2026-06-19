@@ -91,7 +91,7 @@ body.splash-on{overflow:hidden}
 /* ══════ NAV ══════ */
 .navbar{position:sticky;top:0;z-index:900;background:transparent;display:flex;align-items:stretch;overflow-x:visible;scrollbar-width:none;transition:background .25s ease}
 .nav-item{position:relative;display:flex;align-items:stretch}
-.nav-dropdown{position:absolute;top:100%;left:24px;background:var(--ivory);border:1px solid var(--ivory2);min-width:220px;max-height:min(70vh,520px);overflow-y:auto;box-shadow:0 18px 60px rgba(0,0,0,.18);display:none;flex-direction:column;z-index:950;scrollbar-width:none}
+.nav-dropdown{position:absolute;top:100%;left:40px;background:var(--ivory);border:1px solid var(--ivory2);min-width:240px;max-height:min(70vh,520px);overflow-y:auto;box-shadow:0 18px 60px rgba(0,0,0,.18);display:none;flex-direction:column;z-index:950;scrollbar-width:none;-ms-overflow-style:none}
 .nav-dropdown::-webkit-scrollbar{display:none}
 .nav-item:hover .nav-dropdown{display:flex}
 .nav-dropdown-item{font-family:"Cormorant Garamond",serif;font-size:16px;font-style:italic;color:var(--ink2);padding:10px 20px;cursor:pointer;text-align:left;transition:background .2s;display:block;white-space:nowrap;border:none;background:none}
@@ -172,7 +172,7 @@ body.on-frise .frise-scroll{height:100vh}
 .det-header{flex-shrink:0;padding:64px 64px 0 64px;border-bottom:1px solid var(--ivory2);background:var(--ivory)}
 .det-header-top{display:flex;align-items:flex-start;justify-content:space-between;gap:24px}
 .det-header-top{display:flex;align-items:flex-start;justify-content:space-between;gap:24px}
-.det-header-name{font-family:"Playfair Display",serif;font-size:clamp(1.7rem,3.6vw,2.4rem);font-weight:900;color:var(--ink);line-height:1.05;letter-spacing:.01em;display:inline-block}
+.det-header-name{font-family:"Playfair Display",serif;font-size:clamp(1.7rem,3.6vw,2.4rem);font-weight:900;color:var(--ink);line-height:1.05;letter-spacing:.01em;display:block;margin-bottom:42px}
 .det-edit-btn{background:none;border:1px solid var(--ivory2);color:var(--mist);font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:11px;letter-spacing:.22em;padding:8px 14px;cursor:pointer;text-transform:uppercase;border-radius:3px;transition:all .2s;align-self:flex-start;margin-top:6px}
 .det-edit-btn:hover{color:var(--ink);border-color:var(--ink)}
 .det-edit-controls{display:flex;gap:8px;align-self:flex-start;margin-top:6px}
@@ -213,13 +213,14 @@ body.on-frise .frise-scroll{height:100vh}
 .ed-quote-source,.ed-quote-link{width:100%;padding:6px 10px;background:rgba(255,255,255,.6);border:1px solid var(--ivory2);font-family:"Cormorant Garamond",serif;font-size:13px;outline:none;margin-bottom:4px}
 .ed-quote-text:focus,.ed-quote-source:focus,.ed-quote-link:focus{border-color:var(--mist)}
 .det-header-meta{font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:13px;letter-spacing:.28em;color:var(--mist);text-transform:uppercase;margin-top:0}
-.det-anchors{margin-top:56px;display:flex;flex-wrap:wrap;gap:0;overflow-x:auto;scrollbar-width:none}
+.det-anchors{margin-top:72px;display:flex;flex-wrap:wrap;gap:0;overflow-x:auto;scrollbar-width:none}
+.det-anchors::-webkit-scrollbar{display:none}
 .det-anchors::-webkit-scrollbar{display:none}
 .det-anchor{position:relative;display:inline-flex;align-items:center;font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:11.5px;letter-spacing:.22em;color:var(--fog);text-transform:uppercase;padding:10px 0 12px;margin-right:32px;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:color .2s,border-color .25s;text-decoration:none}
 .det-anchor:hover{color:var(--mist)}
 .det-anchor.on{color:var(--ink);border-bottom-color:var(--ink)}
 .det-layout{flex:1;display:grid;grid-template-columns:1fr 420px;gap:0;overflow:hidden;min-height:0}
-.det-text{overflow-y:auto;padding:40px 64px 80px;scrollbar-width:thin;scrollbar-color:var(--ink3) transparent}
+.det-text{overflow-y:auto;padding:40px 64px 80px;scrollbar-width:thin;scrollbar-color:var(--ink3) transparent;scroll-padding-top:100px}
 .det-photos{overflow-y:auto;padding:40px 48px 80px 0;background:var(--ivory);scrollbar-width:thin;scrollbar-color:var(--ink3) transparent}
 .det-photo-main{width:100%;aspect-ratio:3/4;overflow:hidden;background:var(--ivory2)}
 .det-photo-main img{width:100%;height:100%;object-fit:cover;object-position:top center;filter:grayscale(.35) contrast(1.05)}
@@ -876,6 +877,16 @@ function enterEditMode(){
     gallery: d.gallery || [],
     cover: d.cover || ""
   }));
+  // Injecte le portrait original IMGS[key] dans la galerie de travail s'il n'y est pas
+  // déjà, pour qu'il reste visible/modifiable même quand on choisit une autre cover
+  const originalPortrait = IMGS[d.key];
+  if(originalPortrait){
+    const galCheck = g => (typeof g === 'string' ? g : (g && g.url) || "");
+    const inGal = (editingDraft.gallery || []).some(g => galCheck(g) === originalPortrait);
+    if(!inGal){
+      editingDraft.gallery = [{ url: originalPortrait, caption: "Portrait d'origine" }, ...(editingDraft.gallery || [])];
+    }
+  }
   openDetail(currentDetailKey);
 }
 function exitEditMode(save){
@@ -1235,6 +1246,13 @@ function openDetail(key){
   const page = document.getElementById("page-detail");
   page.classList.add("open");
   document.body.style.overflow = "hidden";
+  // On retire les classes de section précédentes pour que la navbar prenne
+  // exclusivement le style on-detail (ivoire + texte noir/gris). On les
+  // sauvegarde pour les restaurer quand on ferme la fiche.
+  if(!page._prevSecClass){
+    page._prevSecClass = ["on-map","on-frise","on-figures","on-oeuvres"].find(c => document.body.classList.contains(c)) || null;
+  }
+  document.body.classList.remove("on-map","on-frise","on-figures","on-oeuvres");
   document.body.classList.add("on-detail");
 
   if(d.videos && d.videos.length){
@@ -1262,7 +1280,12 @@ function openDetail(key){
       if(target){
         _suppressSpy = true;
         // On scroll AVANT le titre, pour qu'il soit toujours visible en haut
-        textCol.scrollTo({ top: Math.max(0, target.offsetTop - 80), behavior: "smooth" });
+        // Scroll bien AVANT le titre : on prend l'offset du titre dans la section
+        // et on remonte de ~100px supplémentaires pour garantir qu'il est visible
+        const title = target.querySelector(".det-section-title");
+        const titleOffset = title ? title.offsetTop : 0;
+        const target_y = target.offsetTop + titleOffset - 100;
+        textCol.scrollTo({ top: Math.max(0, target_y), behavior: "smooth" });
         setActive(tid);
         setTimeout(()=>{ _suppressSpy = false; }, 700);
       }
@@ -1289,9 +1312,16 @@ function openDetail(key){
 }
 
 function closeDetail(){
-  document.getElementById("page-detail").classList.remove("open");
+  const page = document.getElementById("page-detail");
+  page.classList.remove("open");
   document.body.style.overflow="";
   document.body.classList.remove("on-detail");
+  // Restaure la classe de section précédente (utile quand on appuie sur "back"
+  // depuis la fiche : on revient au bon background)
+  if(page._prevSecClass){
+    document.body.classList.add(page._prevSecClass);
+    page._prevSecClass = null;
+  }
   // Si on était en mode édition, on quitte aussi le mode édition
   if(editMode){ editMode = false; editingDraft = null; }
   currentDetailKey = null;
@@ -1335,13 +1365,24 @@ function showSec(id){
   if(id==="map") buildMap();
   if(id==="frise") buildFrise();
   if(id==="oeuvres") buildOeuvres();
-  // Defensive : si on revient sur Figures, force toutes les cards à être visibles
-  // (au cas où l'IntersectionObserver n'aurait pas révélé certaines après display:none)
+  // Defensive : si on revient sur Figures, reconstruit la grille si vide,
+  // retire le .reveal pour qu'aucune carte ne reste invisible (opacity:0)
   if(id==="figures"){
-    document.querySelectorAll("#grid .card.reveal").forEach(c => c.classList.add("vis"));
+    const grid = document.getElementById("grid");
+    if(grid && grid.children.length === 0){
+      buildCards();
+    }
+    // Forcer toutes les cards à être visibles immédiatement (.reveal a opacity:0)
+    document.querySelectorAll("#grid .card").forEach(c => {
+      c.classList.remove("reveal");
+      c.classList.add("vis");
+    });
   }
   if(id==="oeuvres"){
-    document.querySelectorAll("#oeuvres-grid .card.reveal").forEach(c => c.classList.add("vis"));
+    document.querySelectorAll("#oeuvres-grid .card").forEach(c => {
+      c.classList.remove("reveal");
+      c.classList.add("vis");
+    });
   }
   window.scrollTo(0, 0);
 }
