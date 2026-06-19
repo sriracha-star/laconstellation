@@ -170,6 +170,60 @@ body.on-detail .nav-btn.on,body.on-detail.on-map .nav-btn.on,body.on-detail.on-f
 .of-btn-add{background:none;border:1px dashed var(--mist);color:var(--mist);font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:11px;letter-spacing:.22em;padding:7px 14px;cursor:pointer;text-transform:uppercase;border-radius:3px;transition:all .2s;margin-top:6px}
 .of-btn-add:hover{color:var(--ink);border-color:var(--ink);border-style:solid}
 .of-footer{padding:18px 28px 24px;border-top:1px solid var(--ivory2);display:flex;justify-content:flex-end;gap:10px}
+.of-help{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:13px;color:var(--fog);margin-top:4px;text-transform:none;letter-spacing:0;font-weight:400}
+.of-check-row{display:flex;align-items:center;gap:10px;margin-top:6px}
+.of-check-row input[type="checkbox"]{width:16px;height:16px;cursor:pointer}
+.of-check-row label{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:14px;color:var(--ink2);cursor:pointer;text-transform:none;letter-spacing:0;font-weight:400}
+.of-input:disabled{background:var(--ivory2);color:var(--fog);cursor:not-allowed}
+.of-file{display:flex;flex-direction:column;gap:6px}
+.of-file-label{display:inline-block;padding:8px 14px;background:var(--ivory2);border:1px solid var(--ivory2);font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:10.5px;letter-spacing:.2em;color:var(--mist);text-transform:uppercase;cursor:pointer;transition:all .2s}
+.of-file-label:hover{background:var(--ink);color:var(--ivory);border-color:var(--ink)}
+.of-file input[type="file"]{display:none}
+.of-content-tabs{display:flex;gap:0;margin-bottom:8px;border-bottom:1px solid var(--ivory2)}
+.of-content-tab{background:none;border:none;padding:10px 16px;cursor:pointer;font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:11px;letter-spacing:.22em;color:var(--fog);text-transform:uppercase;border-bottom:2px solid transparent;transition:all .2s}
+.of-content-tab:hover{color:var(--mist)}
+.of-content-tab.on{color:var(--ink);border-bottom-color:var(--ink)}
+.of-content-section{display:none}
+.of-content-section.on{display:block}
+.of-file-preview{margin-top:8px;font-family:"Cormorant Garamond",serif;font-style:italic;font-size:13px;color:var(--mist);padding:8px 12px;background:rgba(10,10,10,.04);border-left:2px solid var(--ivory2)}
+/* Filtres tags sur la liste des Œuvres */
+.oeuvres-bar{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:24px 0 18px;flex-wrap:nowrap;overflow:hidden}
+.oeuvres-filters{display:flex;align-items:center;gap:8px;overflow-x:auto;flex:1;min-width:0;scrollbar-width:none}
+.oeuvres-filters::-webkit-scrollbar{display:none}
+.oeuvres-filter{background:none;border:1px solid var(--ivory2);color:var(--mist);font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:10.5px;letter-spacing:.2em;padding:7px 14px;cursor:pointer;text-transform:uppercase;border-radius:3px;transition:all .2s;white-space:nowrap}
+.oeuvres-filter:hover{color:var(--ink);border-color:var(--mist)}
+.oeuvres-filter.on{background:var(--ink);color:var(--ivory);border-color:var(--ink)}
+.oeuvres-actions{display:flex;gap:10px;flex-shrink:0}
+/* Lightbox : aperçu image en plein écran */
+#lightbox{position:fixed;inset:0;background:rgba(0,0,0,.93);z-index:11500;display:none;align-items:center;justify-content:center;padding:40px;cursor:zoom-out}
+#lightbox.open{display:flex}
+#lightbox img{max-width:100%;max-height:100%;width:auto;height:auto;display:block;box-shadow:0 30px 100px rgba(0,0,0,.7)}
+#lightbox-caption{position:absolute;bottom:24px;left:24px;right:24px;text-align:center;color:rgba(255,255,255,.85);font-family:"Cormorant Garamond",serif;font-style:italic;font-size:15px;pointer-events:none;text-shadow:0 1px 8px rgba(0,0,0,.6)}
+#lightbox-close{position:absolute;top:20px;right:20px;background:none;border:1px solid rgba(255,255,255,.4);color:#fff;width:42px;height:42px;font-size:18px;cursor:pointer;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .2s}
+#lightbox-close:hover{background:rgba(255,255,255,.15)}
+.lightbox-trigger{cursor:zoom-in}
+/* Détail œuvre : single-column, header compact, scrollbar contre le bord */
+body.on-detail.on-oeuvre-detail #page-detail{display:flex;flex-direction:column;overflow:hidden}
+body.on-detail.on-oeuvre-detail .det-header{padding:62px 0 16px 0;border-bottom:1px solid var(--ivory2);background:var(--ivory)}
+body.on-detail.on-oeuvre-detail .det-header-top{padding:0 64px}
+body.on-detail.on-oeuvre-detail .det-header-name{margin-bottom:14px;display:block}
+body.on-detail.on-oeuvre-detail .det-header-meta{margin-top:0;margin-bottom:6px}
+body.on-detail.on-oeuvre-detail .det-anchors{display:none}
+body.on-detail.on-oeuvre-detail .det-layout{display:block;flex:1;overflow-y:auto;min-height:0;padding:0;scrollbar-gutter:stable}
+body.on-detail.on-oeuvre-detail .det-text{padding:40px 64px 80px;max-width:none;overflow:visible}
+body.on-detail.on-oeuvre-detail .det-photos{display:none}
+body.on-detail.on-oeuvre-detail .oeuvre-video,
+body.on-detail.on-oeuvre-detail .oeuvre-single-img,
+body.on-detail.on-oeuvre-detail .oeuvre-carousel,
+body.on-detail.on-oeuvre-detail .oeuvre-text{max-width:1100px;margin-left:auto;margin-right:auto}
+/* Œuvres liées sur la fiche d'une figure : scroll horizontal façon Netflix */
+.fig-related-oeuvres{display:flex;gap:14px;overflow-x:auto;overflow-y:hidden;padding:6px 4px 18px 4px;scrollbar-width:thin;scrollbar-color:var(--ink3) var(--ivory2);scroll-snap-type:x mandatory}
+.fig-related-card{flex:0 0 220px;height:280px;position:relative;cursor:pointer;overflow:hidden;background:var(--ink);scroll-snap-align:start;transition:transform .25s}
+.fig-related-card:hover{transform:translateY(-3px)}
+.fig-related-card-bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:grayscale(.4) contrast(1.05)}
+.fig-related-card-overlay{position:absolute;left:0;right:0;bottom:0;padding:14px 14px 16px;background:linear-gradient(to bottom,rgba(10,10,10,0) 0%,rgba(10,10,10,.4) 35%,rgba(10,10,10,.9) 100%);color:var(--ivory)}
+.fig-related-card-name{font-family:"Playfair Display",serif;font-style:italic;font-size:14.5px;font-weight:700;line-height:1.2;margin-bottom:4px}
+.fig-related-card-meta{font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:9.5px;letter-spacing:.22em;color:rgba(244,241,236,.78);text-transform:uppercase}
 .nav-btn{position:relative;background:none;border:none;color:var(--fog);font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:13px;letter-spacing:.28em;padding:18px 28px;cursor:pointer;white-space:nowrap;transition:color .2s;text-transform:uppercase}
 .nav-btn:hover{color:var(--mist)}
 .nav-btn.on{color:var(--ink)}
@@ -507,6 +561,13 @@ footer strong{display:block;font-family:"Playfair Display",serif;font-size:1.15r
 
 <!-- ŒUVRE FORM MODAL -->
 <div id="oeuvre-form-modal"></div>
+
+<!-- LIGHTBOX (aperçu image plein écran) -->
+<div id="lightbox" onclick="closeLightbox()">
+  <button id="lightbox-close" onclick="event.stopPropagation();closeLightbox()" aria-label="Fermer">×</button>
+  <img id="lightbox-img" src="" alt="" />
+  <div id="lightbox-caption"></div>
+</div>
 
 <!-- HERO SPLASH (s'efface à l'ouverture) — boussole multi-couches animée -->
 <section class="hero" id="hero-splash">
@@ -1053,6 +1114,26 @@ function openDetail(key){
     if(html) sections.push({ id:"citations", label:"Citations", html });
   }
 
+  // Œuvres liées à cette figure : carousel horizontal style Netflix, juste avant "À explorer"
+  const relatedOeuvres = (typeof OEUVRES !== "undefined" && Array.isArray(OEUVRES))
+    ? OEUVRES.map((o, idx) => ({o, idx})).filter(({o}) => o.figKey === d.key)
+    : [];
+  if(relatedOeuvres.length > 0){
+    const cardsHTML = relatedOeuvres.map(({o, idx}) => {
+      const cover = (o.image) || galURL((o.gallery && o.gallery[0]) || "");
+      const photoStyle = cover ? `background-image:url('${cover}')` : `background:linear-gradient(135deg,#3a3a45,#1a1a1f)`;
+      const meta = o.type ? o.type : (o.year ? o.year : "");
+      return `<div class="fig-related-card" onclick="openOeuvre(${idx})">
+        <div class="fig-related-card-bg" style="${photoStyle}"></div>
+        <div class="fig-related-card-overlay">
+          <div class="fig-related-card-name">${o.title || "Sans titre"}</div>
+          ${meta ? `<div class="fig-related-card-meta">${meta}${o.year && o.type ? ' · '+o.year : ''}</div>` : ""}
+        </div>
+      </div>`;
+    }).join("");
+    sections.push({ id:"oeuvres-liees", label:"Œuvres", html:`<div class="fig-related-oeuvres">${cardsHTML}</div>` });
+  }
+
   // À explorer = Œuvres + Recos fusionnés
   const renderWorkItem = (item, listName, i) => {
     const wkey = d.key+"::"+(listName==="recos"?"reco::":"")+item.title;
@@ -1180,7 +1261,7 @@ function openDetail(key){
     galleryHTML = galArr.map(g=>{
       const url = galURL(g);
       const cap = galCap(g);
-      return `<div class="det-gallery-item"><img src="${url}" alt="">${cap?`<div class="det-gal-caption">${cap}</div>`:""}</div>`;
+      return `<div class="det-gallery-item"><img class="lightbox-trigger" src="${url}" alt="" onclick="openLightbox('${url.replace(/'/g,"\\'")}','${(cap||'').replace(/'/g,"\\'")}')">${cap?`<div class="det-gal-caption">${cap}</div>`:""}</div>`;
     }).join("");
   } else {
     galleryHTML = `
@@ -2230,9 +2311,12 @@ function persistOeuvres(){
 }
 
 let oeuvresEditMode = false;
-// Affichage de la liste des œuvres : les plus récentes en haut, deux modes
-// (lecture / organiser). Plus de classe .reveal qui laisse certaines cartes
-// invisibles si l'IntersectionObserver les rate.
+// Filtres actifs (Set de types) - vide = "Tous"
+let oeuvresFilters = new Set();
+
+// Affichage de la liste des œuvres : les plus récentes en haut, filtres par type,
+// deux modes (lecture / organiser). Plus de classe .reveal qui laisse certaines
+// cartes invisibles si l'IntersectionObserver les rate.
 function buildOeuvres(){
   const grid = document.getElementById("oeuvres-grid");
   if(!grid) return;
@@ -2242,24 +2326,49 @@ function buildOeuvres(){
     grid.innerHTML = `<div class="oeuvres-empty">Chargement…</div>`;
     return;
   }
-  // Toolbar : Organiser + Ajouter
+  // Barre du haut : filtres tags (à gauche) + Organiser/Ajouter (à droite)
   const wrap = grid.parentElement;
-  let existingBar = wrap.querySelector(".oeuvres-toolbar");
+  let existingBar = wrap.querySelector(".oeuvres-bar");
   if(existingBar) existingBar.remove();
-  const editBar = `<div class="oeuvres-toolbar">
-    <button class="oeuvres-btn ${oeuvresEditMode ? 'on' : ''}" onclick="toggleOeuvresEdit()">${oeuvresEditMode ? "Terminer" : "Organiser"}</button>
-    <button class="oeuvres-btn oeuvres-btn-primary" onclick="openOeuvreForm()">+ Ajouter</button>
+  // Collecte des types uniques (case-insensitive, conserve le casing du 1er trouvé)
+  const typeMap = new Map(); // lowercase → display
+  OEUVRES.forEach(o => {
+    const t = (o.type || "").trim();
+    if(t) typeMap.set(t.toLowerCase(), t);
+  });
+  const filtersHTML = `
+    <button class="oeuvres-filter ${oeuvresFilters.size===0?'on':''}" onclick="setOeuvresFilter(null)">Tous</button>
+    ${Array.from(typeMap.entries()).map(([k,v]) =>
+      `<button class="oeuvres-filter ${oeuvresFilters.has(k)?'on':''}" onclick="setOeuvresFilter('${k.replace(/'/g,"\\'")}')">${v}</button>`
+    ).join("")}
+  `;
+  const bar = `<div class="oeuvres-bar">
+    <div class="oeuvres-filters">${filtersHTML}</div>
+    <div class="oeuvres-actions">
+      <button class="oeuvres-btn ${oeuvresEditMode ? 'on' : ''}" onclick="toggleOeuvresEdit()">${oeuvresEditMode ? "Terminer" : "Organiser"}</button>
+      <button class="oeuvres-btn oeuvres-btn-primary" onclick="openOeuvreForm()">+ Ajouter</button>
+    </div>
   </div>`;
-  wrap.insertAdjacentHTML("afterbegin", editBar);
+  wrap.insertAdjacentHTML("afterbegin", bar);
 
   grid.innerHTML = "";
   if(OEUVRES.length === 0){
     grid.innerHTML = `<div class="oeuvres-empty">Aucune œuvre pour le moment.<br>Clique « + Ajouter » pour commencer.</div>`;
     return;
   }
-  // On affiche dans l'ordre inverse : les dernières créées en premier
-  const items = OEUVRES.map((o, i) => ({ o, i })).reverse();
-  items.forEach(({o, i}, displayIdx) => {
+  // Filtrage par type sélectionné(s)
+  const visible = OEUVRES.map((o, i) => ({ o, i }))
+    .filter(({o}) => {
+      if(oeuvresFilters.size === 0) return true;
+      const t = (o.type || "").toLowerCase();
+      return oeuvresFilters.has(t);
+    })
+    .reverse();
+  if(visible.length === 0){
+    grid.innerHTML = `<div class="oeuvres-empty">Aucune œuvre correspondant aux filtres.</div>`;
+    return;
+  }
+  visible.forEach(({o, i}) => {
     const cover = galURL((o.gallery && o.gallery[0]) || o.image || "");
     const photoStyle = cover ? `background-image:url('${cover}');background-position:center` : `background:linear-gradient(135deg,#3a3a45,#1a1a1f)`;
     const yearLabel = o.year ? ` · ${o.year}` : "";
@@ -2281,6 +2390,14 @@ function buildOeuvres(){
         ${orgActions}
       </div>`;
   });
+}
+function setOeuvresFilter(key){
+  if(key === null){ oeuvresFilters.clear(); }
+  else {
+    if(oeuvresFilters.has(key)) oeuvresFilters.delete(key);
+    else oeuvresFilters.add(key);
+  }
+  buildOeuvres();
 }
 function toggleOeuvresEdit(){ oeuvresEditMode = !oeuvresEditMode; buildOeuvres(); }
 function moveOeuvre(i, dir){
@@ -2316,37 +2433,36 @@ function openOeuvre(i){
     page._prevSecClass = ["on-map","on-frise","on-figures","on-oeuvres"].find(c => document.body.classList.contains(c)) || null;
   }
   document.body.classList.remove("on-map","on-frise","on-figures","on-oeuvres");
-  document.body.classList.add("on-detail");
-  // Préparation de la zone "œuvre" : ce qui s'affiche dépend de ce qu'on a
+  document.body.classList.add("on-detail","on-oeuvre-detail");
+  // Pas d'image de couverture dans la page détail — juste l'œuvre elle-même
   let oeuvreHTML = "";
-  // Vidéo prioritaire si yt
   if(o.yt){
     const m = o.yt.match(/(?:v=|youtu\.be\/|embed\/)([\w-]{11})/);
     const vid = m ? m[1] : o.yt;
     oeuvreHTML = `<div class="oeuvre-video"><iframe src="https://www.youtube.com/embed/${vid}?rel=0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe></div>`;
   } else if(o.long || o.short) {
-    // Texte (poème, etc.)
     oeuvreHTML = `<div class="oeuvre-text">${o.long || o.short}</div>`;
   }
-  // Galerie / image(s) — affichée après l'œuvre principale
-  const galArr = (o.gallery && o.gallery.length) ? o.gallery : (o.image ? [o.image] : []);
+  // Galerie / images : si on a une image principale + d'autres dans gallery, on les
+  // affiche TOUTES en carousel ou single. On exclut volontairement l'image de
+  // couverture (= o.image) pour ne pas la réafficher : c'était la couverture.
+  const coverUrl = o.image || "";
+  const galArr = (o.gallery || []).filter(g => galURL(g) !== coverUrl);
   let galleryHTML = "";
-  if(galArr.length > 0){
-    if(galArr.length === 1){
-      galleryHTML = `<div class="oeuvre-single-img"><img src="${galURL(galArr[0])}" alt="">${galCap(galArr[0])?`<div class="oeuvre-img-cap">${galCap(galArr[0])}</div>`:""}</div>`;
-    } else {
-      // Plusieurs images → un carousel simple
-      const slides = galArr.map((g,idx)=>`<div class="oeuvre-slide ${idx===0?'on':''}" data-idx="${idx}"><img src="${galURL(g)}" alt="">${galCap(g)?`<div class="oeuvre-img-cap">${galCap(g)}</div>`:""}</div>`).join("");
-      galleryHTML = `
-        <div class="oeuvre-carousel">
-          <div class="oeuvre-slides" id="oeuvre-slides-${i}">${slides}</div>
-          <div class="oeuvre-carousel-nav">
-            <button class="vid-nav-btn" onclick="oeuvreCarPrev(${i},${galArr.length})">‹</button>
-            <span class="vid-counter" id="oeuvre-counter-${i}">1 sur ${galArr.length}</span>
-            <button class="vid-nav-btn" onclick="oeuvreCarNext(${i},${galArr.length})">›</button>
-          </div>
-        </div>`;
-    }
+  if(galArr.length === 1){
+    const g = galArr[0];
+    galleryHTML = `<div class="oeuvre-single-img"><img class="lightbox-trigger" src="${galURL(g)}" alt="" data-cap="${(galCap(g)||'').replace(/"/g,'&quot;')}" onclick="openLightbox('${galURL(g).replace(/'/g,"\\'")}','${(galCap(g)||'').replace(/'/g,"\\'")}')">${galCap(g)?`<div class="oeuvre-img-cap">${galCap(g)}</div>`:""}</div>`;
+  } else if(galArr.length > 1){
+    const slides = galArr.map((g,idx)=>`<div class="oeuvre-slide ${idx===0?'on':''}" data-idx="${idx}"><img class="lightbox-trigger" src="${galURL(g)}" alt="" onclick="openLightbox('${galURL(g).replace(/'/g,"\\'")}','${(galCap(g)||'').replace(/'/g,"\\'")}')">${galCap(g)?`<div class="oeuvre-img-cap">${galCap(g)}</div>`:""}</div>`).join("");
+    galleryHTML = `
+      <div class="oeuvre-carousel">
+        <div class="oeuvre-slides" id="oeuvre-slides-${i}">${slides}</div>
+        <div class="oeuvre-carousel-nav">
+          <button class="vid-nav-btn" onclick="oeuvreCarPrev(${i},${galArr.length})">‹</button>
+          <span class="vid-counter" id="oeuvre-counter-${i}">1 sur ${galArr.length}</span>
+          <button class="vid-nav-btn" onclick="oeuvreCarNext(${i},${galArr.length})">›</button>
+        </div>
+      </div>`;
   }
   // Auteur cliquable avec aperçu au hover
   const figRef = o.figKey ? FIGURES.find(f=>f.key===o.figKey) : null;
@@ -2365,22 +2481,17 @@ function openOeuvre(i){
           <div class="det-header-meta">${authorPart}${authorPart && meta ? ' · ' : ''}${meta}</div>
         </div>
       </div>
-      <nav class="det-anchors"><!-- vide mais conserve la hauteur du header --></nav>
     </header>
     <div class="det-layout">
       <main class="det-text">
-        <section class="det-section">${oeuvreHTML}${galleryHTML}</section>
-        <section class="det-section" id="anchor-notes-o${i}">
+        ${oeuvreHTML}${galleryHTML}
+        <section class="det-section">
           <div id="oeuvre-notes-${i}"></div>
         </section>
       </main>
-      <aside class="det-photos">
-        <!-- volontairement vide : tout est dans la colonne principale -->
-      </aside>
     </div>`;
   page.classList.add("open");
   document.body.style.overflow = "hidden";
-  // Hash routing : #/o/<id> pour que back fonctionne
   if(!_suppressHashPush){
     const targetHash = "#/o/" + i;
     if(location.hash !== targetHash) history.pushState({oeuvre:i}, "", targetHash);
@@ -2392,7 +2503,7 @@ function closeOeuvre(){
   const page = document.getElementById("page-detail");
   page.classList.remove("open");
   document.body.style.overflow = "";
-  document.body.classList.remove("on-detail");
+  document.body.classList.remove("on-detail","on-oeuvre-detail");
   if(page._prevSecClass){
     document.body.classList.add(page._prevSecClass);
     page._prevSecClass = null;
@@ -2403,6 +2514,25 @@ function closeOeuvre(){
     history.pushState({}, "", location.pathname + location.search);
   }
 }
+// Lightbox : aperçu image en plein écran
+function openLightbox(src, caption){
+  const lb = document.getElementById("lightbox");
+  document.getElementById("lightbox-img").src = src;
+  document.getElementById("lightbox-caption").textContent = caption || "";
+  lb.classList.add("open");
+}
+function closeLightbox(){
+  const lb = document.getElementById("lightbox");
+  lb.classList.remove("open");
+  document.getElementById("lightbox-img").src = "";
+}
+// Fermer la lightbox avec Escape
+document.addEventListener("keydown", e => {
+  if(e.key === "Escape"){
+    const lb = document.getElementById("lightbox");
+    if(lb && lb.classList.contains("open")) closeLightbox();
+  }
+});
 // Carousel simple des images d'une œuvre
 let _oeuvreCarPos = {};
 function oeuvreCarGo(i, n, count){
@@ -2425,42 +2555,70 @@ function editOeuvreForm(i){
 }
 function showOeuvreForm(draft, editIdx){
   const modal = document.getElementById("oeuvre-form-modal");
+  // État local éditable du draft : utilisé pour fichiers (data URL)
+  modal._draft = draft;
+  modal._editIdx = editIdx;
   const figOptions = FIGURES.map(f=>`<option value="${f.key}" ${draft.figKey===f.key?'selected':''}>${f.name}</option>`).join("");
-  const galleryRows = (draft.gallery||[]).map((g,idx)=>{
-    const url = galURL(g), cap = galCap(g);
-    return `<div class="of-gal-row" data-i="${idx}">
-      <input class="of-input of-gal-url" placeholder="URL ou chemin relatif" value="${(url||'').replace(/"/g,'&quot;')}" data-i="${idx}" />
-      <input class="of-input of-gal-cap" placeholder="Légende (apparaît au hover)" value="${(cap||'').replace(/"/g,'&quot;')}" data-i="${idx}" />
-      <button type="button" class="of-row-del" data-i="${idx}" title="Supprimer">×</button>
-    </div>`;
-  }).join("");
+  const figLinked = !!draft.figKey;
+  // Quel onglet de contenu est actif ?
+  let contentTab = "text"; // text | file | url
+  if(draft.yt) contentTab = "url";
+  else if(draft.long || draft.short) contentTab = "text";
   modal.innerHTML = `
     <div class="of-inner">
       <div class="of-header">
         <div class="of-title">${editIdx===null ? "Ajouter une œuvre" : "Modifier l'œuvre"}</div>
       </div>
       <div class="of-body">
-        <label class="of-label">Titre<input class="of-input" id="of-title" value="${(draft.title||'').replace(/"/g,'&quot;')}" /></label>
+        <label class="of-label">Titre<input class="of-input" id="of-title" value="${(draft.title||'').replace(/"/g,'&quot;')}" autocomplete="off" /></label>
+
         <div class="of-row-2">
-          <label class="of-label">Type<input class="of-input" id="of-type" placeholder="film, poème, peinture, chanson…" value="${(draft.type||'').replace(/"/g,'&quot;')}" /></label>
-          <label class="of-label">Année<input class="of-input" id="of-year" type="number" value="${draft.year || ''}" /></label>
+          <label class="of-label">Type<input class="of-input" id="of-type" placeholder="poésie, littérature, cinéma, musique, danse…" value="${(draft.type||'').replace(/"/g,'&quot;')}" autocomplete="off" /></label>
+          <label class="of-label">Année <span class="of-help">— optionnel</span><input class="of-input" id="of-year" type="number" value="${draft.year || ''}" /></label>
         </div>
-        <div class="of-row-2">
-          <label class="of-label">Auteur·rice (texte libre)<input class="of-input" id="of-author" value="${(draft.author||'').replace(/"/g,'&quot;')}" /></label>
-          <label class="of-label">Figure liée (optionnel)
-            <select class="of-input" id="of-figkey">
-              <option value="">— Aucune —</option>
-              ${figOptions}
-            </select>
-          </label>
+
+        <div class="of-label">Auteur·rice
+          <input class="of-input" id="of-author" placeholder="Texte libre" value="${(draft.author||'').replace(/"/g,'&quot;')}" ${figLinked?'disabled':''} autocomplete="off" />
+          <div class="of-check-row">
+            <input type="checkbox" id="of-figlinked" ${figLinked?'checked':''} onchange="oeuvreFormToggleFigLink(this.checked)" />
+            <label for="of-figlinked">Lié·e à une figure de la constellation</label>
+          </div>
+          <select class="of-input" id="of-figkey" style="${figLinked?'':'display:none'}">
+            <option value="">— Choisir une figure —</option>
+            ${figOptions}
+          </select>
         </div>
-        <label class="of-label">URL YouTube (optionnel)<input class="of-input" id="of-yt" placeholder="https://youtube.com/watch?v=..." value="${(draft.yt||'').replace(/"/g,'&quot;')}" /></label>
-        <label class="of-label">Description courte (1-2 phrases)<input class="of-input" id="of-short" value="${(draft.short||'').replace(/"/g,'&quot;')}" /></label>
-        <label class="of-label">Contenu / texte / contexte (HTML autorisé)<textarea class="of-input of-textarea" id="of-long">${(draft.long||'').replace(/</g,'&lt;')}</textarea></label>
-        <div class="of-label">Images (URLs)
-          <div id="of-gallery">${galleryRows}</div>
-          <button type="button" class="of-btn-add" onclick="oeuvreFormAddGalRow()">+ Ajouter une image</button>
+
+        <div class="of-label">Contenu
+          <div class="of-content-tabs">
+            <button type="button" class="of-content-tab ${contentTab==='text'?'on':''}" onclick="oeuvreFormSwitchTab('text')">Texte</button>
+            <button type="button" class="of-content-tab ${contentTab==='file'?'on':''}" onclick="oeuvreFormSwitchTab('file')">Fichier</button>
+            <button type="button" class="of-content-tab ${contentTab==='url'?'on':''}" onclick="oeuvreFormSwitchTab('url')">URL</button>
+          </div>
+          <div class="of-content-section ${contentTab==='text'?'on':''}" id="of-tab-text">
+            <textarea class="of-input of-textarea" id="of-long" placeholder="Poème, texte intégral, transcription…">${(draft.long||'').replace(/</g,'&lt;')}</textarea>
+          </div>
+          <div class="of-content-section ${contentTab==='file'?'on':''}" id="of-tab-file">
+            <div class="of-file">
+              <label class="of-file-label">Choisir un fichier (image, vidéo, son, PDF)<input type="file" id="of-file-input" accept="image/*,video/*,audio/*,application/pdf" onchange="oeuvreFormHandleFile(this)" /></label>
+              <div class="of-file-preview" id="of-file-preview">${draft.fileName ? "Fichier actuel : "+draft.fileName : "Aucun fichier sélectionné."}</div>
+            </div>
+          </div>
+          <div class="of-content-section ${contentTab==='url'?'on':''}" id="of-tab-url">
+            <input class="of-input" id="of-yt" placeholder="https://youtube.com/watch?v=... ou autre URL" value="${(draft.yt||'').replace(/"/g,'&quot;')}" autocomplete="off" />
+            <div class="of-help">YouTube → vidéo embeddée. Toute autre URL est conservée comme lien.</div>
+          </div>
         </div>
+
+        <div class="of-label">Image de couverture
+          <div class="of-file">
+            <input class="of-input" id="of-cover-url" placeholder="URL ou chemin relatif" value="${(draft.image||'').replace(/"/g,'&quot;')}" autocomplete="off" />
+            <label class="of-file-label">— ou choisir un fichier image<input type="file" id="of-cover-input" accept="image/*" onchange="oeuvreFormHandleCover(this)" /></label>
+            <div class="of-file-preview" id="of-cover-preview">${draft.image ? "Couverture actuelle définie." : "Aucune couverture."}</div>
+          </div>
+        </div>
+
+        <label class="of-label">Description <span class="of-help">— optionnel, 1-2 phrases</span><input class="of-input" id="of-short" value="${(draft.short||'').replace(/"/g,'&quot;')}" autocomplete="off" /></label>
       </div>
       <div class="of-footer">
         <button type="button" class="oeuvres-btn" onclick="closeOeuvreForm()">Annuler</button>
@@ -2468,53 +2626,102 @@ function showOeuvreForm(draft, editIdx){
       </div>
     </div>`;
   modal.classList.add("open");
-  // câblage des delete d'images
-  modal.querySelectorAll(".of-row-del").forEach(b=>{
-    b.addEventListener("click", e=>{
-      const idx = +b.dataset.i;
-      b.closest(".of-gal-row").remove();
-    });
-  });
   setTimeout(()=>modal.querySelector("#of-title").focus(), 50);
 }
-function oeuvreFormAddGalRow(){
-  const cont = document.getElementById("of-gallery");
-  const idx = cont.querySelectorAll(".of-gal-row").length;
-  const row = document.createElement("div");
-  row.className = "of-gal-row";
-  row.dataset.i = idx;
-  row.innerHTML = `
-    <input class="of-input of-gal-url" placeholder="URL ou chemin relatif" />
-    <input class="of-input of-gal-cap" placeholder="Légende" />
-    <button type="button" class="of-row-del" title="Supprimer">×</button>`;
-  cont.appendChild(row);
-  row.querySelector(".of-row-del").addEventListener("click", ()=>row.remove());
+// Bascule l'onglet contenu (texte/fichier/url)
+function oeuvreFormSwitchTab(tab){
+  document.querySelectorAll(".of-content-tab").forEach(t => t.classList.remove("on"));
+  document.querySelectorAll(".of-content-section").forEach(s => s.classList.remove("on"));
+  const tabBtns = document.querySelectorAll(".of-content-tab");
+  const idxMap = {text:0,file:1,url:2};
+  tabBtns[idxMap[tab]].classList.add("on");
+  document.getElementById("of-tab-"+tab).classList.add("on");
+}
+// Active/désactive le select figure liée et grise l'input auteur
+function oeuvreFormToggleFigLink(checked){
+  document.getElementById("of-figkey").style.display = checked ? "" : "none";
+  document.getElementById("of-author").disabled = checked;
+}
+// Lit un fichier en base64 → data URL
+function _readFileAsDataURL(file){
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = () => resolve(r.result);
+    r.onerror = reject;
+    r.readAsDataURL(file);
+  });
+}
+function oeuvreFormHandleFile(input){
+  const file = input.files && input.files[0];
+  if(!file) return;
+  const modal = document.getElementById("oeuvre-form-modal");
+  _readFileAsDataURL(file).then(dataUrl => {
+    modal._draft._contentFile = { dataUrl, name: file.name, type: file.type };
+    document.getElementById("of-file-preview").textContent = "Fichier prêt : " + file.name + " (" + Math.round(file.size/1024) + " ko)";
+  });
+}
+function oeuvreFormHandleCover(input){
+  const file = input.files && input.files[0];
+  if(!file) return;
+  const modal = document.getElementById("oeuvre-form-modal");
+  _readFileAsDataURL(file).then(dataUrl => {
+    modal._draft._coverFile = { dataUrl, name: file.name };
+    document.getElementById("of-cover-url").value = ""; // priorité au fichier
+    document.getElementById("of-cover-preview").textContent = "Couverture : " + file.name + " (" + Math.round(file.size/1024) + " ko)";
+  });
 }
 function closeOeuvreForm(){
   document.getElementById("oeuvre-form-modal").classList.remove("open");
 }
 function saveOeuvreForm(editIdx){
+  const modal = document.getElementById("oeuvre-form-modal");
   const v = id => document.getElementById(id).value.trim();
   const title = v("of-title");
   if(!title){ alert("Le titre est obligatoire."); return; }
-  const gallery = [];
-  document.querySelectorAll("#of-gallery .of-gal-row").forEach(r=>{
-    const url = r.querySelector(".of-gal-url").value.trim();
-    const caption = r.querySelector(".of-gal-cap").value.trim();
-    if(url) gallery.push({ url, caption });
-  });
+  // Figure liée prime sur le texte libre
+  const figLinked = document.getElementById("of-figlinked").checked;
+  const figKey = figLinked ? v("of-figkey") : "";
+  const figRef = figKey ? FIGURES.find(f=>f.key===figKey) : null;
+  const author = figLinked ? (figRef ? figRef.name : "") : v("of-author");
+  // Contenu : trois sources possibles (texte / fichier / URL)
+  const activeTab = document.querySelector(".of-content-tab.on").textContent.trim().toLowerCase();
+  let yt = "", longContent = "";
+  if(activeTab === "url"){
+    yt = v("of-yt");
+  } else if(activeTab === "text"){
+    longContent = document.getElementById("of-long").value;
+  } else if(activeTab === "fichier"){
+    // Fichier converti en data URL : on l'embed dans long via <img>, <video>, <audio> ou iframe selon le type
+    const f = modal._draft._contentFile;
+    if(f){
+      if(f.type.startsWith("image/")) longContent = `<img src="${f.dataUrl}" alt="${f.name}" style="max-width:100%">`;
+      else if(f.type.startsWith("video/")) longContent = `<video src="${f.dataUrl}" controls style="max-width:100%"></video>`;
+      else if(f.type.startsWith("audio/")) longContent = `<audio src="${f.dataUrl}" controls></audio>`;
+      else if(f.type === "application/pdf") longContent = `<embed src="${f.dataUrl}" type="application/pdf" width="100%" height="700">`;
+      else longContent = `<a href="${f.dataUrl}" download="${f.name}">${f.name}</a>`;
+    }
+  }
+  // Cover : URL ou fichier
+  let image = v("of-cover-url");
+  if(!image && modal._draft._coverFile){
+    image = modal._draft._coverFile.dataUrl;
+  }
+  // Si pas de cover définie en édition mais existait avant, on garde l'ancienne
+  if(!image && editIdx !== null && OEUVRES[editIdx]){
+    image = OEUVRES[editIdx].image || "";
+  }
   const entry = {
     title,
     type: v("of-type"),
-    author: v("of-author"),
-    figKey: v("of-figkey"),
+    author,
+    figKey,
     year: parseInt(v("of-year")) || null,
-    yt: v("of-yt"),
+    yt,
     short: v("of-short"),
-    long: document.getElementById("of-long").value, // HTML, pas trim
-    gallery,
-    image: gallery[0] ? galURL(gallery[0]) : "",
-    notes: ""
+    long: longContent,
+    image,
+    gallery: image ? [{ url: image, caption: title }] : [],
+    notes: editIdx !== null && OEUVRES[editIdx] ? (OEUVRES[editIdx].notes || "") : ""
   };
   if(editIdx === null){
     OEUVRES.push(entry);
