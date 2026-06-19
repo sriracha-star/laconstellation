@@ -159,18 +159,32 @@ body.on-detail .nav-btn.on,body.on-detail.on-map .nav-btn.on,body.on-detail.on-f
 .of-title{font-family:"Playfair Display",serif;font-size:1.5rem;font-weight:700;color:var(--ink);letter-spacing:.01em}
 .of-body{padding:24px 28px;display:flex;flex-direction:column;gap:18px}
 .of-label{display:flex;flex-direction:column;gap:6px;font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:10.5px;letter-spacing:.25em;color:var(--mist);text-transform:uppercase}
+.of-label > span:first-child{display:block}
 .of-row-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 @media(max-width:520px){.of-row-2{grid-template-columns:1fr}}
 .of-input{width:100%;padding:10px 12px;background:#fff;border:1px solid var(--ivory2);font-family:"Cormorant Garamond",serif;font-size:15.5px;font-style:italic;color:var(--ink);outline:none;letter-spacing:0;text-transform:none;font-weight:400;transition:border-color .2s}
 .of-input:focus{border-color:var(--mist)}
 .of-textarea{min-height:140px;resize:vertical;font-style:normal}
 .of-gal-row{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;margin-bottom:8px;align-items:center}
+.ff-conn-row{display:grid;grid-template-columns:1fr 1.5fr auto;gap:8px;margin-bottom:8px;align-items:center}
 .of-row-del{background:none;border:1px solid var(--ivory2);color:var(--fog);width:32px;height:32px;cursor:pointer;font-size:16px;line-height:1;border-radius:3px;display:flex;align-items:center;justify-content:center;padding:0}
 .of-row-del:hover{color:var(--carmine);border-color:var(--carmine)}
 .of-btn-add{background:none;border:1px dashed var(--mist);color:var(--mist);font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:11px;letter-spacing:.22em;padding:7px 14px;cursor:pointer;text-transform:uppercase;border-radius:3px;transition:all .2s;margin-top:6px}
 .of-btn-add:hover{color:var(--ink);border-color:var(--ink);border-style:solid}
 .of-footer{padding:18px 28px 24px;border-top:1px solid var(--ivory2);display:flex;justify-content:flex-end;gap:10px}
-.of-help{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:13px;color:var(--fog);margin-top:4px;text-transform:none;letter-spacing:0;font-weight:400}
+.of-help{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:13px;color:var(--fog);text-transform:none;letter-spacing:0;font-weight:400;margin-left:4px}
+.of-help-block{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:13px;color:var(--fog);margin-top:4px}
+/* Lien de secours YouTube (visible sous chaque iframe vidéo) */
+.oeuvre-yt-fallback{display:inline-block;margin:-12px 0 24px;font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:11px;letter-spacing:.22em;color:var(--fog);text-decoration:none;text-transform:uppercase;border-bottom:1px solid var(--ivory2);padding-bottom:2px;transition:color .2s,border-color .2s}
+.oeuvre-yt-fallback:hover{color:var(--ink);border-color:var(--ink)}
+body.on-detail.on-oeuvre-detail .oeuvre-yt-fallback{display:block;max-width:1100px;margin-left:auto;margin-right:auto}
+.oeuvre-notes-section{max-width:1100px;margin-left:auto;margin-right:auto}
+/* Lightbox : navigation prev/next + compteur */
+.lightbox-nav-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.3);color:#fff;width:54px;height:54px;cursor:pointer;font-size:24px;line-height:1;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .2s;font-weight:300}
+.lightbox-nav-btn:hover{background:rgba(255,255,255,.18)}
+.lightbox-prev{left:24px}
+.lightbox-next{right:24px}
+.lightbox-counter{position:absolute;top:20px;left:24px;color:rgba(255,255,255,.85);font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:11.5px;letter-spacing:.28em;text-transform:uppercase}
 .of-check-row{display:flex;align-items:center;gap:10px;margin-top:6px}
 .of-check-row input[type="checkbox"]{width:16px;height:16px;cursor:pointer}
 .of-check-row label{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:14px;color:var(--ink2);cursor:pointer;text-transform:none;letter-spacing:0;font-weight:400}
@@ -218,9 +232,9 @@ body.on-detail.on-oeuvre-detail .oeuvre-carousel,
 body.on-detail.on-oeuvre-detail .oeuvre-text{max-width:1100px;margin-left:auto;margin-right:auto}
 /* Œuvres liées sur la fiche d'une figure : scroll horizontal façon Netflix */
 .fig-related-oeuvres{display:flex;gap:14px;overflow-x:auto;overflow-y:hidden;padding:6px 4px 18px 4px;scrollbar-width:thin;scrollbar-color:var(--ink3) var(--ivory2);scroll-snap-type:x mandatory}
-.fig-related-card{flex:0 0 220px;height:280px;position:relative;cursor:pointer;overflow:hidden;background:var(--ink);scroll-snap-align:start;transition:transform .25s}
-.fig-related-card:hover{transform:translateY(-3px)}
-.fig-related-card-bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:grayscale(.4) contrast(1.05)}
+.fig-related-card{flex:0 0 220px;height:280px;position:relative;cursor:pointer;overflow:hidden;background:var(--ink);scroll-snap-align:start}
+.fig-related-card-bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:grayscale(.4) contrast(1.05);transition:filter .35s}
+.fig-related-card:hover .fig-related-card-bg{filter:grayscale(.55) contrast(1.05) brightness(.72)}
 .fig-related-card-overlay{position:absolute;left:0;right:0;bottom:0;padding:14px 14px 16px;background:linear-gradient(to bottom,rgba(10,10,10,0) 0%,rgba(10,10,10,.4) 35%,rgba(10,10,10,.9) 100%);color:var(--ivory)}
 .fig-related-card-name{font-family:"Playfair Display",serif;font-style:italic;font-size:14.5px;font-weight:700;line-height:1.2;margin-bottom:4px}
 .fig-related-card-meta{font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:9.5px;letter-spacing:.22em;color:rgba(244,241,236,.78);text-transform:uppercase}
@@ -562,12 +576,18 @@ footer strong{display:block;font-family:"Playfair Display",serif;font-size:1.15r
 <!-- ŒUVRE FORM MODAL -->
 <div id="oeuvre-form-modal"></div>
 
-<!-- LIGHTBOX (aperçu image plein écran) -->
+<!-- LIGHTBOX (aperçu image plein écran avec carousel) -->
 <div id="lightbox" onclick="closeLightbox()">
   <button id="lightbox-close" onclick="event.stopPropagation();closeLightbox()" aria-label="Fermer">×</button>
-  <img id="lightbox-img" src="" alt="" />
+  <div id="lightbox-counter"></div>
+  <button id="lightbox-prev" class="lightbox-nav-btn lightbox-prev" onclick="lightboxPrev(event)" aria-label="Précédent">‹</button>
+  <img id="lightbox-img" src="" alt="" onclick="event.stopPropagation()" />
+  <button id="lightbox-next" class="lightbox-nav-btn lightbox-next" onclick="lightboxNext(event)" aria-label="Suivant">›</button>
   <div id="lightbox-caption"></div>
 </div>
+
+<!-- FORMULAIRE FIGURE (modal) -->
+<div id="figure-form-modal"></div>
 
 <!-- HERO SPLASH (s'efface à l'ouverture) — boussole multi-couches animée -->
 <section class="hero" id="hero-splash">
@@ -953,6 +973,28 @@ const GALLERIES = {
 };
 FIGURES.forEach(f => { if(GALLERIES[f.key]) f.gallery = GALLERIES[f.key].map(p => encodeURI(p)); });
 
+// Figures ajoutées par l'utilisateur via le formulaire (localStorage)
+try {
+  const userFigs = JSON.parse(localStorage.getItem('figures-user') || '[]');
+  if(Array.isArray(userFigs)){
+    userFigs.forEach(f => {
+      if(f && f.key && !FIGURES.find(x => x.key === f.key)){
+        FIGURES.push(f);
+      }
+    });
+  }
+} catch(_){}
+// Connexions ajoutées par l'utilisateur (poussées dans MAP_CONNS au démarrage)
+try {
+  const userConns = JSON.parse(localStorage.getItem('map-conns-user') || '[]');
+  if(Array.isArray(userConns)){
+    userConns.forEach(c => {
+      if(c && c.from && c.to && !MAP_CONNS.find(x => x.from === c.from && x.to === c.to)){
+        MAP_CONNS.push(c);
+      }
+    });
+  }
+} catch(_){}
 // Overrides utilisateur stockés en localStorage (mode édition de la fiche)
 FIGURES.forEach(f => {
   try {
@@ -960,6 +1002,22 @@ FIGURES.forEach(f => {
     Object.assign(f, o);
   } catch(_){}
 });
+
+function persistUserFigures(){
+  // On sauvegarde tout ce qui n'est PAS dans le set par défaut (les 20 d'origine)
+  const baseKeys = new Set(["sappho","barney","colette","vivien","wilde","rimbaud","baudelaire","blake","carrington","varo","patti","bowie","kahlo","nijinski","mapplethorpe","woolf","jarman","plath","hilma","pasolini"]);
+  const userOnly = FIGURES.filter(f => !baseKeys.has(f.key));
+  localStorage.setItem('figures-user', JSON.stringify(userOnly));
+}
+function persistUserMapConns(){
+  // Pareil : on garde uniquement les connexions touchant une figure user OU
+  // dont les deux extrémités sont dans le set par défaut mais qu'on ne retrouve
+  // pas dans la définition d'origine. Heuristique simple : on sauve TOUTES les
+  // connexions impliquant une figure user.
+  const baseKeys = new Set(["sappho","barney","colette","vivien","wilde","rimbaud","baudelaire","blake","carrington","varo","patti","bowie","kahlo","nijinski","mapplethorpe","woolf","jarman","plath","hilma","pasolini"]);
+  const userConns = MAP_CONNS.filter(c => !baseKeys.has(c.from) || !baseKeys.has(c.to));
+  localStorage.setItem('map-conns-user', JSON.stringify(userConns));
+}
 
 // Helper : récupère le portrait à utiliser dans cartes / frise / constellation
 // (la photo de couverture override remplace le portrait par défaut quand elle est définie)
@@ -1043,16 +1101,54 @@ function formatDates(s){
   return nums[0] + " — " + nums[1];
 }
 
+// État de la grille Figures (édition + filtres par catégorie)
+let figuresEditMode = false;
+let figuresFilters = new Set();
 function buildCards(){
   const grid = document.getElementById("grid");
+  if(!grid) return;
+  // Barre du haut : filtres cat + Modifier / Ajouter
+  const wrap = grid.parentElement;
+  let existingBar = wrap.querySelector(".oeuvres-bar");
+  if(existingBar) existingBar.remove();
+  let filtersHTML = "";
+  if(!figuresEditMode){
+    const catMap = new Map();
+    FIGURES.forEach(f => { if(f.cat) catMap.set(f.cat.toLowerCase(), f.cat); });
+    filtersHTML = `
+      <button class="oeuvres-filter ${figuresFilters.size===0?'on':''}" onclick="setFiguresFilter(null)">Tous</button>
+      ${Array.from(catMap.entries()).map(([k,v]) =>
+        `<button class="oeuvres-filter ${figuresFilters.has(k)?'on':''}" onclick="setFiguresFilter('${k.replace(/'/g,"\\'")}')">${v.charAt(0).toUpperCase()+v.slice(1)}</button>`
+      ).join("")}
+    `;
+  }
+  const bar = `<div class="oeuvres-bar">
+    <div class="oeuvres-filters">${filtersHTML}</div>
+    <div class="oeuvres-actions">
+      <button class="oeuvres-btn ${figuresEditMode?'on':''}" onclick="toggleFiguresEdit()">${figuresEditMode ? "Terminer" : "Modifier"}</button>
+      ${figuresEditMode ? "" : `<button class="oeuvres-btn oeuvres-btn-primary" onclick="openFigureForm()">Ajouter</button>`}
+    </div>
+  </div>`;
+  wrap.insertAdjacentHTML("afterbegin", bar);
+
   grid.innerHTML = "";
-  FIGURES.forEach(d => {
+  // Filtrage par catégorie
+  const visible = FIGURES.filter(d => {
+    if(figuresFilters.size === 0) return true;
+    return figuresFilters.has((d.cat || "").toLowerCase());
+  });
+  visible.forEach(d => {
     const img = getPortrait(d);
     const pos = d.photoPos || "top center";
     const photoStyle = img ? `background-image:url('${img}');background-position:${pos}` : `background:linear-gradient(135deg,${d.eraColor}66,${d.eraColor}22)`;
     const resume = d.resume || d.desc;
+    const orgActions = figuresEditMode ? `
+      <div class="oeuvre-org-actions">
+        <button class="oeuvre-org-btn" onclick="event.stopPropagation();editFigureForm('${d.key}')" title="Modifier">✎</button>
+        <button class="oeuvre-org-btn oeuvre-org-del" onclick="event.stopPropagation();delFigure('${d.key}')" title="Supprimer">×</button>
+      </div>` : "";
     grid.innerHTML += `
-<div class="card reveal" data-key="${d.key}" data-cat="${d.cat}" onclick="openDetail('${d.key}')">
+<div class="card" data-key="${d.key}" data-cat="${d.cat}" onclick="${figuresEditMode ? '' : `openDetail('${d.key}')`}">
   <div class="card-photo-bg" style="${photoStyle}"></div>
   <div class="card-overlay">
     <div class="card-name">${d.name}</div>
@@ -1061,8 +1157,36 @@ function buildCards(){
       <div class="card-resume">${resume}</div>
     </div>
   </div>
+  ${orgActions}
 </div>`;
   });
+}
+function setFiguresFilter(key){
+  if(key === null) figuresFilters.clear();
+  else {
+    if(figuresFilters.has(key)) figuresFilters.delete(key);
+    else figuresFilters.add(key);
+  }
+  buildCards();
+}
+function toggleFiguresEdit(){ figuresEditMode = !figuresEditMode; buildCards(); }
+function delFigure(key){
+  const baseKeys = new Set(["sappho","barney","colette","vivien","wilde","rimbaud","baudelaire","blake","carrington","varo","patti","bowie","kahlo","nijinski","mapplethorpe","woolf","jarman","plath","hilma","pasolini"]);
+  if(baseKeys.has(key)){
+    alert("Les figures originales ne peuvent pas être supprimées (seulement modifiées).");
+    return;
+  }
+  if(!confirm("Supprimer cette figure ? Ses connexions seront aussi retirées.")) return;
+  const idx = FIGURES.findIndex(f => f.key === key);
+  if(idx >= 0) FIGURES.splice(idx, 1);
+  // Retire aussi les MAP_CONNS impliquant cette figure
+  for(let i = MAP_CONNS.length - 1; i >= 0; i--){
+    if(MAP_CONNS[i].from === key || MAP_CONNS[i].to === key) MAP_CONNS.splice(i, 1);
+  }
+  persistUserFigures();
+  persistUserMapConns();
+  buildCards();
+  buildNavDropdown();
 }
 
 // (le click sur une carte est géré par onclick="openDetail()" dans le markup)
@@ -1258,10 +1382,10 @@ function openDetail(key){
     } else {
       galArr = src.gallery || [];
     }
-    galleryHTML = galArr.map(g=>{
+    galleryHTML = galArr.map((g,idx)=>{
       const url = galURL(g);
       const cap = galCap(g);
-      return `<div class="det-gallery-item"><img class="lightbox-trigger" src="${url}" alt="" onclick="openLightbox('${url.replace(/'/g,"\\'")}','${(cap||'').replace(/'/g,"\\'")}')">${cap?`<div class="det-gal-caption">${cap}</div>`:""}</div>`;
+      return `<div class="det-gallery-item"><img class="lightbox-trigger" src="${url}" alt="" onclick="openLightboxFromFigure('${d.key}',${idx})">${cap?`<div class="det-gal-caption">${cap}</div>`:""}</div>`;
     }).join("");
   } else {
     galleryHTML = `
@@ -1272,7 +1396,7 @@ function openDetail(key){
 
   const editControls = E
     ? `<div class="det-edit-controls"><button class="det-edit-cancel" onclick="exitEditMode(false)">Annuler</button><button class="det-edit-save" onclick="exitEditMode(true)">Valider</button></div>`
-    : `<button class="det-edit-btn" onclick="enterEditMode()" title="Modifier cette fiche">✎ Modifier</button>`;
+    : `<button class="det-edit-btn" onclick="enterEditMode()" title="Modifier cette fiche">Modifier</button>`;
 
   document.getElementById("page-detail").innerHTML = `
     <header class="det-header ${E?'editing':''}">
@@ -1481,7 +1605,8 @@ function toggleDetWork(figKey, workTitle, el){
 const NAV_SECTIONS = ["figures","oeuvres","map","frise"]; // frise toujours accessible mais plus dans le menu
 function showSec(id){
   if(currentDetailKey){ closeDetail(); }
-  if(currentOeuvreKey){ closeOeuvre(); }
+  // ⚠ on compare avec !== null car currentOeuvreKey peut être 0 (1re œuvre)
+  if(currentOeuvreKey !== null){ closeOeuvre(); }
   NAV_SECTIONS.forEach(s=>{
     const el = document.getElementById("sec-"+s);
     if(el) el.style.display = s===id?"block":"none";
@@ -2326,27 +2451,30 @@ function buildOeuvres(){
     grid.innerHTML = `<div class="oeuvres-empty">Chargement…</div>`;
     return;
   }
-  // Barre du haut : filtres tags (à gauche) + Organiser/Ajouter (à droite)
+  // Barre du haut : filtres tags (à gauche, cachés en mode édition) +
+  // Modifier (toujours visible) + Ajouter (caché en mode édition)
   const wrap = grid.parentElement;
   let existingBar = wrap.querySelector(".oeuvres-bar");
   if(existingBar) existingBar.remove();
-  // Collecte des types uniques (case-insensitive, conserve le casing du 1er trouvé)
-  const typeMap = new Map(); // lowercase → display
-  OEUVRES.forEach(o => {
-    const t = (o.type || "").trim();
-    if(t) typeMap.set(t.toLowerCase(), t);
-  });
-  const filtersHTML = `
-    <button class="oeuvres-filter ${oeuvresFilters.size===0?'on':''}" onclick="setOeuvresFilter(null)">Tous</button>
-    ${Array.from(typeMap.entries()).map(([k,v]) =>
-      `<button class="oeuvres-filter ${oeuvresFilters.has(k)?'on':''}" onclick="setOeuvresFilter('${k.replace(/'/g,"\\'")}')">${v}</button>`
-    ).join("")}
-  `;
+  let filtersHTML = "";
+  if(!oeuvresEditMode){
+    const typeMap = new Map();
+    OEUVRES.forEach(o => {
+      const t = (o.type || "").trim();
+      if(t) typeMap.set(t.toLowerCase(), t);
+    });
+    filtersHTML = `
+      <button class="oeuvres-filter ${oeuvresFilters.size===0?'on':''}" onclick="setOeuvresFilter(null)">Tous</button>
+      ${Array.from(typeMap.entries()).map(([k,v]) =>
+        `<button class="oeuvres-filter ${oeuvresFilters.has(k)?'on':''}" onclick="setOeuvresFilter('${k.replace(/'/g,"\\'")}')">${v}</button>`
+      ).join("")}
+    `;
+  }
   const bar = `<div class="oeuvres-bar">
     <div class="oeuvres-filters">${filtersHTML}</div>
     <div class="oeuvres-actions">
-      <button class="oeuvres-btn ${oeuvresEditMode ? 'on' : ''}" onclick="toggleOeuvresEdit()">${oeuvresEditMode ? "Terminer" : "Organiser"}</button>
-      <button class="oeuvres-btn oeuvres-btn-primary" onclick="openOeuvreForm()">+ Ajouter</button>
+      <button class="oeuvres-btn ${oeuvresEditMode ? 'on' : ''}" onclick="toggleOeuvresEdit()">${oeuvresEditMode ? "Terminer" : "Modifier"}</button>
+      ${oeuvresEditMode ? "" : `<button class="oeuvres-btn oeuvres-btn-primary" onclick="openOeuvreForm()">Ajouter</button>`}
     </div>
   </div>`;
   wrap.insertAdjacentHTML("afterbegin", bar);
@@ -2438,8 +2566,16 @@ function openOeuvre(i){
   let oeuvreHTML = "";
   if(o.yt){
     const m = o.yt.match(/(?:v=|youtu\.be\/|embed\/)([\w-]{11})/);
-    const vid = m ? m[1] : o.yt;
-    oeuvreHTML = `<div class="oeuvre-video"><iframe src="https://www.youtube.com/embed/${vid}?rel=0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe></div>`;
+    if(m){
+      const vid = m[1];
+      // Certaines vidéos ont l'embed désactivé par leur uploader → on ajoute
+      // toujours un lien de secours pour aller la voir directement sur YouTube
+      oeuvreHTML = `<div class="oeuvre-video"><iframe src="https://www.youtube.com/embed/${vid}?rel=0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe></div>
+        <a class="oeuvre-yt-fallback" href="https://www.youtube.com/watch?v=${vid}" target="_blank" rel="noopener">Voir directement sur YouTube ↗</a>`;
+    } else {
+      // URL non YouTube : juste un lien
+      oeuvreHTML = `<a class="oeuvre-yt-fallback" href="${o.yt}" target="_blank" rel="noopener">Ouvrir ce lien dans un nouvel onglet ↗</a>`;
+    }
   } else if(o.long || o.short) {
     oeuvreHTML = `<div class="oeuvre-text">${o.long || o.short}</div>`;
   }
@@ -2453,7 +2589,7 @@ function openOeuvre(i){
     const g = galArr[0];
     galleryHTML = `<div class="oeuvre-single-img"><img class="lightbox-trigger" src="${galURL(g)}" alt="" data-cap="${(galCap(g)||'').replace(/"/g,'&quot;')}" onclick="openLightbox('${galURL(g).replace(/'/g,"\\'")}','${(galCap(g)||'').replace(/'/g,"\\'")}')">${galCap(g)?`<div class="oeuvre-img-cap">${galCap(g)}</div>`:""}</div>`;
   } else if(galArr.length > 1){
-    const slides = galArr.map((g,idx)=>`<div class="oeuvre-slide ${idx===0?'on':''}" data-idx="${idx}"><img class="lightbox-trigger" src="${galURL(g)}" alt="" onclick="openLightbox('${galURL(g).replace(/'/g,"\\'")}','${(galCap(g)||'').replace(/'/g,"\\'")}')">${galCap(g)?`<div class="oeuvre-img-cap">${galCap(g)}</div>`:""}</div>`).join("");
+    const slides = galArr.map((g,idx)=>`<div class="oeuvre-slide ${idx===0?'on':''}" data-idx="${idx}"><img class="lightbox-trigger" src="${galURL(g)}" alt="" onclick="openLightboxFromOeuvre(${i},${idx})">${galCap(g)?`<div class="oeuvre-img-cap">${galCap(g)}</div>`:""}</div>`).join("");
     galleryHTML = `
       <div class="oeuvre-carousel">
         <div class="oeuvre-slides" id="oeuvre-slides-${i}">${slides}</div>
@@ -2480,12 +2616,14 @@ function openOeuvre(i){
           <div class="det-header-name">${o.title || "Sans titre"}</div>
           <div class="det-header-meta">${authorPart}${authorPart && meta ? ' · ' : ''}${meta}</div>
         </div>
+        <button class="det-edit-btn" onclick="editOeuvreForm(${i})">Modifier</button>
       </div>
     </header>
     <div class="det-layout">
       <main class="det-text">
         ${oeuvreHTML}${galleryHTML}
-        <section class="det-section">
+        <section class="det-section oeuvre-notes-section">
+          <div class="det-section-title">Notes</div>
           <div id="oeuvre-notes-${i}"></div>
         </section>
       </main>
@@ -2497,7 +2635,19 @@ function openOeuvre(i){
     if(location.hash !== targetHash) history.pushState({oeuvre:i}, "", targetHash);
   }
   document.title = (o.title || "Œuvre") + " · La Constellation";
-  setTimeout(()=>buildNotes('oeuvre-notes-'+i, 'oeuvre-'+i), 30);
+  // Important : on n'utilise PAS le préfixe "oeuvre-" pour la clé de buildNotes
+  // afin qu'il rende son propre titre "Notes" + ✎ sur la même ligne. La div
+  // .det-section-title qu'on a posée plus haut sert juste de fallback visuel.
+  setTimeout(()=>{
+    // On masque la section-title de notre wrapper pour laisser buildNotes
+    // rendre son propre titre + ✎ sur la même ligne, comme sur les fiches figures
+    const notesWrap = document.querySelector(".oeuvre-notes-section");
+    if(notesWrap){
+      const t = notesWrap.querySelector(".det-section-title");
+      if(t) t.remove();
+    }
+    buildNotes('oeuvre-notes-'+i, 'fig-oeuvre-'+i);
+  }, 30);
 }
 function closeOeuvre(){
   const page = document.getElementById("page-detail");
@@ -2514,24 +2664,76 @@ function closeOeuvre(){
     history.pushState({}, "", location.pathname + location.search);
   }
 }
-// Lightbox : aperçu image en plein écran
-function openLightbox(src, caption){
-  const lb = document.getElementById("lightbox");
-  document.getElementById("lightbox-img").src = src;
-  document.getElementById("lightbox-caption").textContent = caption || "";
-  lb.classList.add("open");
+// Lightbox : aperçu image en plein écran, avec navigation prev/next
+let _lbItems = [];
+let _lbIdx = 0;
+function openLightbox(srcOrItems, captionOrIndex){
+  if(Array.isArray(srcOrItems)){
+    _lbItems = srcOrItems;
+    _lbIdx = (typeof captionOrIndex === "number") ? captionOrIndex : 0;
+  } else {
+    _lbItems = [{ url: srcOrItems, caption: (captionOrIndex || "") }];
+    _lbIdx = 0;
+  }
+  _lbRender();
+  document.getElementById("lightbox").classList.add("open");
 }
+function _lbRender(){
+  if(!_lbItems.length) return;
+  const it = _lbItems[_lbIdx];
+  document.getElementById("lightbox-img").src = it.url;
+  document.getElementById("lightbox-caption").textContent = it.caption || "";
+  const counterEl = document.getElementById("lightbox-counter");
+  if(_lbItems.length > 1){
+    counterEl.textContent = (_lbIdx + 1) + " sur " + _lbItems.length;
+    counterEl.style.display = "block";
+    document.getElementById("lightbox-prev").style.display = "flex";
+    document.getElementById("lightbox-next").style.display = "flex";
+  } else {
+    counterEl.style.display = "none";
+    document.getElementById("lightbox-prev").style.display = "none";
+    document.getElementById("lightbox-next").style.display = "none";
+  }
+}
+function lightboxPrev(e){ if(e) e.stopPropagation(); _lbIdx = (_lbIdx - 1 + _lbItems.length) % _lbItems.length; _lbRender(); }
+function lightboxNext(e){ if(e) e.stopPropagation(); _lbIdx = (_lbIdx + 1) % _lbItems.length; _lbRender(); }
 function closeLightbox(){
   const lb = document.getElementById("lightbox");
   lb.classList.remove("open");
   document.getElementById("lightbox-img").src = "";
+  _lbItems = []; _lbIdx = 0;
 }
-// Fermer la lightbox avec Escape
-document.addEventListener("keydown", e => {
-  if(e.key === "Escape"){
-    const lb = document.getElementById("lightbox");
-    if(lb && lb.classList.contains("open")) closeLightbox();
+// Wrapper pour ouvrir la lightbox depuis le carousel d'une œuvre
+function openLightboxFromOeuvre(oeuvreIdx, imageIdx){
+  const o = OEUVRES[oeuvreIdx];
+  if(!o) return;
+  const coverUrl = o.image || "";
+  const items = (o.gallery || [])
+    .filter(g => galURL(g) !== coverUrl)
+    .map(g => ({ url: galURL(g), caption: galCap(g) }));
+  openLightbox(items, imageIdx);
+}
+// Wrapper pour la galerie d'une fiche figure
+function openLightboxFromFigure(figKey, imageIdx){
+  const f = FIGURES.find(x => x.key === figKey);
+  if(!f) return;
+  const original = IMGS[f.key] || "";
+  const galArr = [];
+  if(f.cover){
+    if(original && original !== f.cover) galArr.push({ url: original, caption: "Portrait original" });
+    (f.gallery || []).forEach(g => { if(galURL(g) !== f.cover) galArr.push({ url: galURL(g), caption: galCap(g) }); });
+  } else {
+    (f.gallery || []).forEach(g => galArr.push({ url: galURL(g), caption: galCap(g) }));
   }
+  openLightbox(galArr, imageIdx);
+}
+// Fermer la lightbox avec Escape + naviguer avec ← →
+document.addEventListener("keydown", e => {
+  const lb = document.getElementById("lightbox");
+  if(!lb || !lb.classList.contains("open")) return;
+  if(e.key === "Escape") closeLightbox();
+  else if(e.key === "ArrowLeft") lightboxPrev();
+  else if(e.key === "ArrowRight") lightboxNext();
 });
 // Carousel simple des images d'une œuvre
 let _oeuvreCarPos = {};
@@ -2574,7 +2776,7 @@ function showOeuvreForm(draft, editIdx){
 
         <div class="of-row-2">
           <label class="of-label">Type<input class="of-input" id="of-type" placeholder="poésie, littérature, cinéma, musique, danse…" value="${(draft.type||'').replace(/"/g,'&quot;')}" autocomplete="off" /></label>
-          <label class="of-label">Année <span class="of-help">— optionnel</span><input class="of-input" id="of-year" type="number" value="${draft.year || ''}" /></label>
+          <label class="of-label"><span>Année <span class="of-help">— optionnel</span></span><input class="of-input" id="of-year" type="number" value="${draft.year || ''}" /></label>
         </div>
 
         <div class="of-label">Auteur·rice
@@ -2606,7 +2808,7 @@ function showOeuvreForm(draft, editIdx){
           </div>
           <div class="of-content-section ${contentTab==='url'?'on':''}" id="of-tab-url">
             <input class="of-input" id="of-yt" placeholder="https://youtube.com/watch?v=... ou autre URL" value="${(draft.yt||'').replace(/"/g,'&quot;')}" autocomplete="off" />
-            <div class="of-help">YouTube → vidéo embeddée. Toute autre URL est conservée comme lien.</div>
+            <div class="of-help-block">YouTube → vidéo embeddée. Toute autre URL est conservée comme lien.</div>
           </div>
         </div>
 
@@ -2618,7 +2820,7 @@ function showOeuvreForm(draft, editIdx){
           </div>
         </div>
 
-        <label class="of-label">Description <span class="of-help">— optionnel, 1-2 phrases</span><input class="of-input" id="of-short" value="${(draft.short||'').replace(/"/g,'&quot;')}" autocomplete="off" /></label>
+        <label class="of-label"><span>Description <span class="of-help">— optionnel, 1-2 phrases</span></span><input class="of-input" id="of-short" value="${(draft.short||'').replace(/"/g,'&quot;')}" autocomplete="off" /></label>
       </div>
       <div class="of-footer">
         <button type="button" class="oeuvres-btn" onclick="closeOeuvreForm()">Annuler</button>
@@ -2669,6 +2871,214 @@ function oeuvreFormHandleCover(input){
     document.getElementById("of-cover-url").value = ""; // priorité au fichier
     document.getElementById("of-cover-preview").textContent = "Couverture : " + file.name + " (" + Math.round(file.size/1024) + " ko)";
   });
+}
+
+// ──────────────────────────────────────────────────────────────
+// FORMULAIRE FIGURE (modal) — créer / modifier une figure de la constellation
+// ──────────────────────────────────────────────────────────────
+function openFigureForm(){
+  showFigureForm({
+    key: "", name: "", dates: "", nation: "", cat: "écrivain",
+    era: "", eraColor: "#3a3a45", eraLabel: "", desc: "", bio: "",
+    cover: "", connections: []
+  }, null);
+}
+function editFigureForm(figKey){
+  const f = FIGURES.find(x => x.key === figKey);
+  if(!f) return;
+  // On reconstitue les connexions sortantes existantes depuis MAP_CONNS
+  const conns = MAP_CONNS.filter(c => c.from === figKey).map(c => ({ to: c.to, desc: c.desc || "", descLong: c.descLong || "" }));
+  showFigureForm(JSON.parse(JSON.stringify({
+    key: f.key, name: f.name, dates: f.dates, nation: f.nation || "",
+    cat: f.cat || "écrivain", era: f.era || "", eraColor: f.eraColor || "#3a3a45",
+    eraLabel: f.eraLabel || "", desc: f.desc || "", bio: f.bio || "",
+    cover: f.cover || "", connections: conns
+  })), figKey);
+}
+function _slugify(name){
+  return (name || "").toLowerCase()
+    .normalize("NFD").replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 40);
+}
+function showFigureForm(draft, editKey){
+  const modal = document.getElementById("figure-form-modal");
+  modal._draft = draft;
+  modal._editKey = editKey;
+  const catOptions = ["poète","écrivain","peintre","musicien","danse","cinéaste","mystique","autre"]
+    .map(c => `<option value="${c}" ${draft.cat===c?'selected':''}>${c.charAt(0).toUpperCase()+c.slice(1)}</option>`).join("");
+  // Toutes les autres figures pour la sélection de connexions
+  const otherFigures = FIGURES.filter(f => f.key !== editKey).sort((a,b)=>a.name.localeCompare(b.name,'fr'));
+  const connsHTML = (draft.connections||[]).map((c, idx) => `
+    <div class="ff-conn-row" data-i="${idx}">
+      <select class="of-input ff-conn-to" data-i="${idx}">
+        <option value="">— Choisir une figure —</option>
+        ${otherFigures.map(f => `<option value="${f.key}" ${c.to===f.key?'selected':''}>${f.name}</option>`).join("")}
+      </select>
+      <input class="of-input ff-conn-desc" placeholder="Description courte du lien" value="${(c.desc||'').replace(/"/g,'&quot;')}" data-i="${idx}" />
+      <button type="button" class="of-row-del ff-conn-del" data-i="${idx}" title="Supprimer">×</button>
+    </div>`).join("");
+  modal.innerHTML = `
+    <div class="of-inner">
+      <div class="of-header">
+        <div class="of-title">${editKey===null ? "Ajouter une figure" : "Modifier la figure"}</div>
+      </div>
+      <div class="of-body">
+        <label class="of-label">Nom <span class="of-help">— ex. Jim Morrison</span><input class="of-input" id="ff-name" value="${(draft.name||'').replace(/"/g,'&quot;')}" autocomplete="off" /></label>
+        <div class="of-row-2">
+          <label class="of-label"><span>Dates <span class="of-help">— ex. "1943 1971", "1946 " (vivant·e)</span></span><input class="of-input" id="ff-dates" value="${(draft.dates||'').replace(/"/g,'&quot;')}" autocomplete="off" /></label>
+          <label class="of-label"><span>Nation <span class="of-help">— optionnel</span></span><input class="of-input" id="ff-nation" value="${(draft.nation||'').replace(/"/g,'&quot;')}" autocomplete="off" /></label>
+        </div>
+        <div class="of-row-2">
+          <label class="of-label">Catégorie<select class="of-input" id="ff-cat">${catOptions}</select></label>
+          <label class="of-label"><span>Époque <span class="of-help">— optionnel, ex. "Belle Époque"</span></span><input class="of-input" id="ff-era-label" value="${(draft.eraLabel||'').replace(/"/g,'&quot;')}" autocomplete="off" /></label>
+        </div>
+        <label class="of-label">Image de couverture
+          <div class="of-file">
+            <input class="of-input" id="ff-cover-url" placeholder="URL ou chemin relatif" value="${(draft.cover||'').replace(/"/g,'&quot;')}" autocomplete="off" />
+            <label class="of-file-label">— ou choisir un fichier image<input type="file" id="ff-cover-input" accept="image/*" onchange="figureFormHandleCover(this)" /></label>
+            <div class="of-file-preview" id="ff-cover-preview">${draft.cover ? "Couverture définie." : "Aucune couverture."}</div>
+          </div>
+        </label>
+        <label class="of-label"><span>Résumé (carte) <span class="of-help">— 1-2 phrases qui s'affichent au hover sur sa carte</span></span><textarea class="of-input of-textarea" id="ff-desc" style="min-height:80px">${(draft.desc||'').replace(/</g,'&lt;')}</textarea></label>
+        <label class="of-label"><span>Biographie <span class="of-help">— HTML autorisé, structure libre</span></span><textarea class="of-input of-textarea" id="ff-bio" style="min-height:160px">${(draft.bio||'').replace(/</g,'&lt;')}</textarea></label>
+
+        <div class="of-label">Connexions dans la constellation
+          <div class="of-help-block">Lie cette figure à d'autres : chaque lien apparaîtra dans l'onglet Constellation.</div>
+          <div id="ff-conns">${connsHTML}</div>
+          <button type="button" class="of-btn-add" onclick="figureFormAddConn()">+ Ajouter une connexion</button>
+        </div>
+      </div>
+      <div class="of-footer">
+        <button type="button" class="oeuvres-btn" onclick="closeFigureForm()">Annuler</button>
+        <button type="button" class="oeuvres-btn oeuvres-btn-primary" onclick="saveFigureForm()">${editKey===null ? "Créer" : "Enregistrer"}</button>
+      </div>
+    </div>`;
+  modal.classList.add("open");
+  modal.querySelectorAll(".ff-conn-del").forEach(b => b.addEventListener("click", e => b.closest(".ff-conn-row").remove()));
+  setTimeout(()=>modal.querySelector("#ff-name").focus(), 50);
+}
+function figureFormAddConn(){
+  const cont = document.getElementById("ff-conns");
+  const idx = cont.querySelectorAll(".ff-conn-row").length;
+  const modal = document.getElementById("figure-form-modal");
+  const editKey = modal._editKey;
+  const otherFigures = FIGURES.filter(f => f.key !== editKey).sort((a,b)=>a.name.localeCompare(b.name,'fr'));
+  const opts = `<option value="">— Choisir une figure —</option>` + otherFigures.map(f => `<option value="${f.key}">${f.name}</option>`).join("");
+  const row = document.createElement("div");
+  row.className = "ff-conn-row";
+  row.dataset.i = idx;
+  row.innerHTML = `
+    <select class="of-input ff-conn-to">${opts}</select>
+    <input class="of-input ff-conn-desc" placeholder="Description courte du lien" />
+    <button type="button" class="of-row-del ff-conn-del" title="Supprimer">×</button>`;
+  cont.appendChild(row);
+  row.querySelector(".ff-conn-del").addEventListener("click", ()=>row.remove());
+}
+function figureFormHandleCover(input){
+  const file = input.files && input.files[0];
+  if(!file) return;
+  const modal = document.getElementById("figure-form-modal");
+  _readFileAsDataURL(file).then(dataUrl => {
+    modal._draft._coverFile = { dataUrl, name: file.name };
+    document.getElementById("ff-cover-url").value = "";
+    document.getElementById("ff-cover-preview").textContent = "Couverture : " + file.name + " (" + Math.round(file.size/1024) + " ko)";
+  });
+}
+function closeFigureForm(){
+  document.getElementById("figure-form-modal").classList.remove("open");
+}
+function saveFigureForm(){
+  const modal = document.getElementById("figure-form-modal");
+  const editKey = modal._editKey;
+  const v = id => document.getElementById(id).value.trim();
+  const name = v("ff-name");
+  if(!name){ alert("Le nom est obligatoire."); return; }
+  const dates = v("ff-dates");
+  if(!dates){ alert("Les dates sont obligatoires."); return; }
+  // Clé : on garde celle existante en édition, sinon on slugifie le nom
+  let key = editKey;
+  if(!key){
+    key = _slugify(name);
+    if(FIGURES.find(f => f.key === key)){
+      key = key + "-" + Date.now().toString(36).slice(-4);
+    }
+  }
+  // Cover : URL ou fichier
+  let cover = v("ff-cover-url");
+  if(!cover && modal._draft._coverFile) cover = modal._draft._coverFile.dataUrl;
+  if(!cover && editKey){
+    const existing = FIGURES.find(f => f.key === editKey);
+    cover = existing ? (existing.cover || "") : "";
+  }
+  // Génère une mapPos cohérente : pour une nouvelle figure on prend un point
+  // dans une zone libre (centre-bas si rien d'autre). Pour une édition on garde.
+  let mapPos;
+  if(editKey){
+    const existing = FIGURES.find(f => f.key === editKey);
+    mapPos = existing ? existing.mapPos : { x: 600, y: 400 };
+  } else {
+    // Cherche un endroit pas trop encombré : grille 1200×650 vers le bas droit
+    let placed = false;
+    for(let attempt = 0; attempt < 25 && !placed; attempt++){
+      const cx = 200 + Math.random() * 850;
+      const cy = 100 + Math.random() * 500;
+      const tooClose = FIGURES.some(f => f.mapPos && Math.hypot(f.mapPos.x - cx, f.mapPos.y - cy) < 70);
+      if(!tooClose){ mapPos = { x: Math.round(cx), y: Math.round(cy) }; placed = true; }
+    }
+    if(!mapPos) mapPos = { x: 600, y: 400 };
+  }
+  // Collecte des connexions
+  const newConns = [];
+  document.querySelectorAll("#ff-conns .ff-conn-row").forEach(r => {
+    const to = r.querySelector(".ff-conn-to").value;
+    const desc = r.querySelector(".ff-conn-desc").value.trim();
+    if(to && to !== key){
+      newConns.push({ from: key, to, desc: desc || `${name} ↔ ${(FIGURES.find(f=>f.key===to)||{}).name||to}`, theme: "aesthetic" });
+    }
+  });
+  const cat = v("ff-cat") || "écrivain";
+  const eraLabel = v("ff-era-label") || cat.charAt(0).toUpperCase() + cat.slice(1);
+  const entry = {
+    key, name, dates,
+    nation: v("ff-nation"),
+    cat,
+    era: editKey ? (FIGURES.find(f=>f.key===editKey)||{}).era || "contemporain" : "contemporain",
+    eraColor: editKey ? (FIGURES.find(f=>f.key===editKey)||{}).eraColor || "#3a3a45" : "#3a3a45",
+    eraLabel,
+    tagline: "",
+    desc: document.getElementById("ff-desc").value,
+    bio: document.getElementById("ff-bio").value,
+    cover,
+    quotes: editKey ? (FIGURES.find(f=>f.key===editKey)||{}).quotes || [] : [],
+    works: editKey ? (FIGURES.find(f=>f.key===editKey)||{}).works || [] : [],
+    connections: newConns.map(c => c.to),
+    connectionDesc: Object.fromEntries(newConns.map(c => [c.to, c.desc])),
+    recos: editKey ? (FIGURES.find(f=>f.key===editKey)||{}).recos || [] : [],
+    yt_link: null,
+    threads: [],
+    gallery: editKey ? (FIGURES.find(f=>f.key===editKey)||{}).gallery || [] : [],
+    mapPos
+  };
+  if(editKey){
+    const idx = FIGURES.findIndex(f => f.key === editKey);
+    if(idx >= 0) FIGURES[idx] = { ...FIGURES[idx], ...entry };
+    // Retire les anciennes connexions FROM cette figure
+    for(let i = MAP_CONNS.length - 1; i >= 0; i--){
+      if(MAP_CONNS[i].from === editKey) MAP_CONNS.splice(i, 1);
+    }
+  } else {
+    FIGURES.push(entry);
+  }
+  // Ajoute les nouvelles connexions à MAP_CONNS
+  newConns.forEach(c => MAP_CONNS.push(c));
+  persistUserFigures();
+  persistUserMapConns();
+  closeFigureForm();
+  buildCards();
+  buildNavDropdown();
+  // Reset des map et frise pour qu'ils intègrent la nouvelle figure au prochain affichage
+  const nodes = document.getElementById("map-nodes"); if(nodes) nodes.innerHTML = "";
+  const friseTrack = document.getElementById("friseTrack"); if(friseTrack) friseTrack.innerHTML = "";
 }
 function closeOeuvreForm(){
   document.getElementById("oeuvre-form-modal").classList.remove("open");
@@ -2874,22 +3284,17 @@ function buildNotes(containerId, figKey){
 
   function render(){
     const itemsHTML = notes.map(renderItem).join('');
-    // Si on est dans une page \u0152uvre (figKey commence par "oeuvre-"), pas de
-    // titre interne (le parent g\u00e8re d\u00e9j\u00e0 l'intitul\u00e9 "Notes" si n\u00e9cessaire)
-    const ownTitle = !String(figKey).startsWith("oeuvre-")
-      ? `<div class="det-section-title">Notes
-          <div class="notes-toolbar">
-            <button class="notes-edit-toggle ${editMode?'on':''}" id="nedit_${figKey}" title="${editMode?'Terminer':'Modifier'}">\u270e</button>
-          </div>
-        </div>`
-      : `<div class="notes-toolbar notes-toolbar-oeuvre">
+    // Titre "Notes" + \u270e d'\u00e9dition sur la m\u00eame ligne, partout
+    const ownTitle = `<div class="det-section-title">Notes
+        <div class="notes-toolbar">
           <button class="notes-edit-toggle ${editMode?'on':''}" id="nedit_${figKey}" title="${editMode?'Terminer':'Modifier'}">\u270e</button>
-        </div>`;
+        </div>
+      </div>`;
     container.innerHTML = `
       ${ownTitle}
       <div class="notes-list ${editMode?'editing':''}">${itemsHTML}</div>
       <div class="notes-input">
-        <textarea class="notes-area" id="narea_${figKey}" placeholder="Ce qui te touche, les connexions que tu vois, les questions que \u00e7a soul\u00e8ve\u2026"></textarea>
+        <textarea class="notes-area" id="narea_${figKey}" placeholder="Ajouter une note"></textarea>
         <button class="notes-validate" id="nvalid_${figKey}" title="Valider">\u21b5</button>
       </div>`;
 
