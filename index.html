@@ -178,6 +178,20 @@ body.on-detail .nav-btn.on,body.on-detail.on-map .nav-btn.on,body.on-detail.on-f
 .fig-org-btn:hover{background:#fff;color:var(--ink)}
 .fig-org-del{color:var(--carmine)}
 .fig-org-del:hover{color:var(--carmine2);border-color:var(--carmine)}
+/* Drag-and-drop : poignée ≡, état "dragging" et "drag-over" */
+.drag-handle{cursor:grab;letter-spacing:-1px;font-size:18px;font-weight:600;color:var(--fog)}
+.drag-handle:hover{color:var(--ink);background:#fff}
+.drag-handle:active{cursor:grabbing}
+.card.dragging{opacity:.4;transform:scale(.97)}
+.card.drag-over{outline:2px dashed var(--mist);outline-offset:-4px}
+/* Bouton Modifier de la Constellation (haut-droit, en blanc sur le ciel) */
+.map-edit-btn{position:fixed;top:18px;right:24px;z-index:920;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.4);color:#fff;font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:11.5px;letter-spacing:.22em;padding:9px 18px;cursor:pointer;text-transform:uppercase;border-radius:3px;transition:all .2s;display:none}
+body.on-map .map-edit-btn{display:block}
+.map-edit-btn:hover{background:rgba(255,255,255,.25);color:#fff}
+.map-edit-btn.on{background:#fff;color:#000;border-color:#fff}
+/* Quand le mode édition de la constellation est actif, le pointeur change sur les nœuds */
+body.on-map.map-editing #map-nodes g{cursor:grab}
+body.on-map.map-editing #map-nodes g.dragging{cursor:grabbing}
 .of-row-del{background:none;border:1px solid var(--ivory2);color:var(--fog);width:32px;height:32px;cursor:pointer;font-size:16px;line-height:1;border-radius:3px;display:flex;align-items:center;justify-content:center;padding:0}
 .of-row-del:hover{color:var(--carmine);border-color:var(--carmine)}
 .of-btn-add{background:none;border:1px dashed var(--mist);color:var(--mist);font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:11px;letter-spacing:.22em;padding:7px 14px;cursor:pointer;text-transform:uppercase;border-radius:3px;transition:all .2s;margin-top:6px}
@@ -565,6 +579,9 @@ footer strong{display:block;font-family:"Playfair Display",serif;font-size:1.15r
 </style>
 </head>
 <body>
+
+<!-- BOUTON MODIFIER POSITIONS sur la Constellation -->
+<button id="map-edit-btn" class="map-edit-btn" onclick="toggleMapEdit()">Modifier</button>
 
 <!-- CONNECTION TOOLTIP -->
 <div id="conn-tooltip"></div>
@@ -1065,16 +1082,8 @@ function enterEditMode(){
     gallery: d.gallery || [],
     cover: d.cover || ""
   }));
-  // Injecte le portrait original IMGS[key] dans la galerie de travail s'il n'y est pas
-  // déjà, pour qu'il reste visible/modifiable même quand on choisit une autre cover
-  const originalPortrait = IMGS[d.key];
-  if(originalPortrait){
-    const galCheck = g => (typeof g === 'string' ? g : (g && g.url) || "");
-    const inGal = (editingDraft.gallery || []).some(g => galCheck(g) === originalPortrait);
-    if(!inGal){
-      editingDraft.gallery = [{ url: originalPortrait, caption: "Portrait d'origine" }, ...(editingDraft.gallery || [])];
-    }
-  }
+  // Plus d'injection automatique du portrait original : la cover et la galerie
+  // sont gérées comme des items normaux, l'utilisateur décide ce qu'il y a dedans.
   openDetail(currentDetailKey);
 }
 function exitEditMode(save){
@@ -1157,8 +1166,7 @@ function buildCards(){
     const resume = d.resume || d.desc;
     const orgActions = figuresEditMode ? `
       <div class="oeuvre-org-actions">
-        <button class="oeuvre-org-btn" onclick="event.stopPropagation();moveFigure('${d.key}',-1)" title="Monter">↑</button>
-        <button class="oeuvre-org-btn" onclick="event.stopPropagation();moveFigure('${d.key}',1)" title="Descendre">↓</button>
+        <button class="oeuvre-org-btn drag-handle" draggable="true" title="Déplacer" data-drag-key="${d.key}" data-drag-list="figures">≡</button>
         <button class="oeuvre-org-btn" onclick="event.stopPropagation();editFigureForm('${d.key}')" title="Modifier">✎</button>
         <button class="oeuvre-org-btn oeuvre-org-del" onclick="event.stopPropagation();delFigure('${d.key}')" title="Supprimer">×</button>
       </div>` : "";
@@ -1184,7 +1192,11 @@ function setFiguresFilter(key){
   }
   buildCards();
 }
-function toggleFiguresEdit(){ figuresEditMode = !figuresEditMode; buildCards(); }
+function toggleFiguresEdit(){
+  figuresEditMode = !figuresEditMode;
+  buildCards();
+  setTimeout(() => setupDragAndDrop("figures"), 60);
+}
 function moveFigure(key, dir){
   const idx = FIGURES.findIndex(f => f.key === key);
   if(idx < 0) return;
@@ -1195,6 +1207,74 @@ function moveFigure(key, dir){
   persistUserFigures();
   buildCards();
   buildNavDropdown();
+}
+
+// ── Drag-and-drop générique pour Figures, Œuvres, Galerie ──
+// L'utilisateur grab une poignée ≡ et la déplace au-dessus d'une autre carte.
+// Au drop, on swap les positions dans le tableau correspondant et on persiste.
+let _dragSrc = null;
+function setupDragAndDrop(listKind){
+  const containerSel = listKind === "figures" ? "#grid" : "#oeuvres-grid";
+  const container = document.querySelector(containerSel);
+  if(!container) return;
+  // Les éléments draggables sont les cards qui contiennent une poignée
+  container.querySelectorAll(".card").forEach(card => {
+    const handle = card.querySelector(".drag-handle");
+    if(!handle) return;
+    // On rend toute la card draggable (mais seul handle déclenche le geste)
+    card.setAttribute("draggable", "true");
+    card.addEventListener("dragstart", e => {
+      // Si on a pas commencé sur la poignée, on annule pour ne pas drag par accident
+      const fromHandle = e.target.closest(".drag-handle");
+      if(!fromHandle && e.target !== card){
+        // Permet le drag même si on a cliqué ailleurs sur la card pendant le glisser
+      }
+      _dragSrc = { card, kind: listKind, idx: handle.dataset.dragIdx ? +handle.dataset.dragIdx : null, key: handle.dataset.dragKey || null };
+      card.classList.add("dragging");
+      e.dataTransfer.effectAllowed = "move";
+    });
+    card.addEventListener("dragend", () => {
+      card.classList.remove("dragging");
+      document.querySelectorAll(".card.drag-over").forEach(c => c.classList.remove("drag-over"));
+      _dragSrc = null;
+    });
+    card.addEventListener("dragover", e => {
+      if(!_dragSrc) return;
+      e.preventDefault();
+      e.dataTransfer.dropEffect = "move";
+      card.classList.add("drag-over");
+    });
+    card.addEventListener("dragleave", () => card.classList.remove("drag-over"));
+    card.addEventListener("drop", e => {
+      e.preventDefault();
+      card.classList.remove("drag-over");
+      if(!_dragSrc || _dragSrc.kind !== listKind) return;
+      const targetHandle = card.querySelector(".drag-handle");
+      if(!targetHandle) return;
+      if(listKind === "figures"){
+        const fromIdx = FIGURES.findIndex(f => f.key === _dragSrc.key);
+        const toIdx = FIGURES.findIndex(f => f.key === targetHandle.dataset.dragKey);
+        if(fromIdx < 0 || toIdx < 0 || fromIdx === toIdx) return;
+        const item = FIGURES.splice(fromIdx, 1)[0];
+        FIGURES.splice(toIdx, 0, item);
+        persistUserFigures();
+        buildCards();
+        buildNavDropdown();
+        setTimeout(() => setupDragAndDrop("figures"), 30);
+      } else if(listKind === "oeuvres"){
+        const fromIdx = _dragSrc.idx;
+        const toIdx = +targetHandle.dataset.dragIdx;
+        if(fromIdx == null || isNaN(toIdx) || fromIdx === toIdx) return;
+        const item = OEUVRES.splice(fromIdx, 1)[0];
+        OEUVRES.splice(toIdx, 0, item);
+        persistOeuvres();
+        buildOeuvres();
+        setTimeout(() => setupDragAndDrop("oeuvres"), 30);
+      } else if(listKind === "gallery"){
+        // Géré ailleurs (mode édition figure)
+      }
+    });
+  });
 }
 function delFigure(key){
   const baseKeys = new Set(["sappho","barney","colette","vivien","wilde","rimbaud","baudelaire","blake","carrington","varo","patti","bowie","kahlo","nijinski","mapplethorpe","woolf","jarman","plath","hilma","pasolini"]);
@@ -1265,7 +1345,13 @@ function openDetail(key){
   }
 
   // Œuvres liées à cette figure : carousel horizontal style Netflix, juste avant "À explorer"
-  const relatedOeuvres = (typeof OEUVRES !== "undefined" && Array.isArray(OEUVRES))
+  // On déclenche le chargement async des œuvres si pas encore fait, puis
+  // re-rendra automatiquement (le retry est plus bas dans openDetail)
+  if(!Array.isArray(OEUVRES) || OEUVRES.length === 0){
+    // Pas encore chargé : on ne mettra pas la section. Le retry après loadOeuvres
+    // la rajoutera.
+  }
+  const relatedOeuvres = Array.isArray(OEUVRES)
     ? OEUVRES.map((o, idx) => ({o, idx})).filter(({o}) => o.figKey === d.key)
     : [];
   if(relatedOeuvres.length > 0){
@@ -1317,11 +1403,12 @@ function openDetail(key){
   }
 
   if(d.yt_link){
-    sections.push({ id:"voir", label:"À voir",
-      html:`<a class="det-yt-link" href="${d.yt_link}" target="_blank" rel="noopener">
-              <span class="det-yt-icon">▶</span>
-              <span>Ouvrir sur YouTube ↗</span>
-            </a>` });
+    const m = d.yt_link.match(/(?:v=|youtu\.be\/|embed\/)([\w-]{11})/);
+    if(m){
+      const vid = m[1];
+      sections.push({ id:"voir", label:"À voir",
+        html:`<div class="oeuvre-video"><iframe src="https://www.youtube-nocookie.com/embed/${vid}?rel=0&modestbranding=1" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>` });
+    }
   }
 
   const involvedConns = MAP_CONNS.filter(c=>c.from===d.key || c.to===d.key);
@@ -1392,26 +1479,17 @@ function openDetail(key){
     }).join("")}
       <button class="ed-add" data-list="gallery">+ Ajouter une image (URL)</button>
     </div>`;
-  } else if((src.gallery && src.gallery.length) || src.cover){
-    // En mode lecture : si une cover override est définie, on garde aussi le
-    // portrait original dans la galerie (juste démoté). La cover s'affiche
-    // déjà en grand via mainPhoto, la galerie liste le RESTE des images.
-    const originalPortrait = IMGS[d.key] || "";
-    let galArr;
-    if(src.cover){
-      // L'original (s'il existe et qu'il n'est pas la cover) en tête de galerie
-      galArr = [];
-      if(originalPortrait && originalPortrait !== src.cover){
-        galArr.push(originalPortrait);
-      }
-      galArr.push(...(src.gallery || []).filter(g => galURL(g) !== src.cover));
-    } else {
-      galArr = src.gallery || [];
-    }
+  } else if((src.gallery && src.gallery.length)){
+    // La cover override est la photo principale (mainPhoto). La galerie
+    // affiche tout SAUF cette image (pas de duplication). Si pas de cover
+    // override, on affiche TOUTE la galerie (le portrait IMGS reste main).
+    const coverUrl = src.cover || "";
+    const galArr = (src.gallery || []).filter(g => galURL(g) !== coverUrl);
     galleryHTML = galArr.map((g,idx)=>{
       const url = galURL(g);
       const cap = galCap(g);
-      return `<div class="det-gallery-item"><img class="lightbox-trigger" src="${url}" alt="" onclick="openLightboxFromFigure('${d.key}',${idx})">${cap?`<div class="det-gal-caption">${cap}</div>`:""}</div>`;
+      // idx+1 car la cover est en position 0 dans openLightboxFromFigure
+      return `<div class="det-gallery-item"><img class="lightbox-trigger" src="${url}" alt="" onclick="openLightboxFromFigure('${d.key}',${idx+1})">${cap?`<div class="det-gal-caption">${cap}</div>`:""}</div>`;
     }).join("");
   } else {
     galleryHTML = ""; // pas de placeholders quand il n'y a pas d'images
@@ -1435,7 +1513,7 @@ function openDetail(key){
     <div class="det-layout">
       <main class="det-text" id="det-text">${sectionsHTML}</main>
       <aside class="det-photos" id="det-photos">
-        <div class="det-photo-main">${mainPhoto ? `<img src="${mainPhoto}" alt="${d.name}" style="object-position:${pos}">` : `<div style="height:100%;background:${d.eraColor}"></div>`}</div>
+        <div class="det-photo-main">${mainPhoto ? `<img class="lightbox-trigger" src="${mainPhoto}" alt="${d.name}" style="object-position:${pos}" onclick="openLightboxFromFigure('${d.key}', 0)">` : `<div style="height:100%;background:${d.eraColor}"></div>`}</div>
         ${galleryHTML}
       </aside>
     </div>`;
@@ -1543,6 +1621,13 @@ function openDetail(key){
     setTimeout(()=>buildVideoCarousel(d.videos, 'vid_'+d.key, d.key), 30);
   }
   setTimeout(()=>buildNotes('notes_'+d.key, d.key), 30);
+  // Si OEUVRES n'est pas encore chargé, on déclenche le chargement et on
+  // re-rendra la fiche pour faire apparaître les œuvres liées
+  if(!Array.isArray(OEUVRES) || OEUVRES.length === 0){
+    loadOeuvres().then(() => {
+      if(currentDetailKey === d.key) openDetail(d.key);
+    });
+  }
   if(involvedConns.length && !E){
     setTimeout(()=>{
       const svg = document.getElementById("det-mini-svg");
@@ -1814,8 +1899,15 @@ function paintFigure(opts){
   g.appendChild(halo); g.appendChild(spikes); g.appendChild(core); g.appendChild(label);
   if(onHoverIn) g.addEventListener("mouseenter", onHoverIn);
   if(onHoverOut) g.addEventListener("mouseleave", onHoverOut);
-  if(onClick) g.addEventListener("click", onClick);
+  if(onClick){
+    g.addEventListener("click", e => {
+      if(mapEditMode) return; // pas de navigation pendant le drag
+      onClick(e);
+    });
+  }
   nodesG.appendChild(g);
+  // Câblage du drag (seulement actif si mapEditMode est true)
+  if(typeof setupMapDrag === "function") setupMapDrag(g, fig);
   return { g, halo, core, label };
 }
 
@@ -1872,6 +1964,57 @@ function showFigCard(fig, ev){
 }
 function hideFigCard(){ const fc = document.getElementById("conn-figcard"); if(fc) fc.style.display = "none"; }
 
+// Mode édition Constellation : drag des figures dans le SVG
+let mapEditMode = false;
+function toggleMapEdit(){
+  mapEditMode = !mapEditMode;
+  document.body.classList.toggle("map-editing", mapEditMode);
+  const btn = document.getElementById("map-edit-btn");
+  if(btn){
+    btn.classList.toggle("on", mapEditMode);
+    btn.textContent = mapEditMode ? "Terminer" : "Modifier";
+  }
+}
+function setupMapDrag(g, fig){
+  const svg = document.getElementById("mapsvg");
+  if(!svg) return;
+  let dragging = false;
+  let startCTMInv = null;
+  g.addEventListener("mousedown", e => {
+    if(!mapEditMode) return;
+    e.preventDefault();
+    e.stopPropagation();
+    dragging = true;
+    g.classList.add("dragging");
+    startCTMInv = svg.getScreenCTM().inverse();
+  });
+  document.addEventListener("mousemove", e => {
+    if(!dragging || !startCTMInv) return;
+    const pt = svg.createSVGPoint();
+    pt.x = e.clientX; pt.y = e.clientY;
+    const svgPt = pt.matrixTransform(startCTMInv);
+    fig.mapPos = { x: svgPt.x / MAP_SCALE_X, y: svgPt.y / MAP_SCALE_Y };
+    g.setAttribute("transform", `translate(${svgPt.x},${svgPt.y})`);
+    // Met aussi à jour les lignes qui pointent vers cette figure
+    document.querySelectorAll("#map-connections line").forEach(line => {
+      // Recompute non — coût trop élevé, on rebuild en fin de drag.
+    });
+  });
+  document.addEventListener("mouseup", () => {
+    if(!dragging) return;
+    dragging = false;
+    g.classList.remove("dragging");
+    // Persiste + rebuild pour replacer toutes les connexions
+    persistUserFigures();
+    const nodes = document.getElementById("map-nodes");
+    const conns = document.getElementById("map-connections");
+    if(nodes) nodes.innerHTML = "";
+    if(conns) conns.innerHTML = "";
+    const stars = document.getElementById("map-stars");
+    if(stars) stars.innerHTML = "";
+    buildMap();
+  });
+}
 function buildMap(){
   const nodes = document.getElementById("map-nodes");
   const conns = document.getElementById("map-connections");
@@ -2532,8 +2675,7 @@ function buildOeuvres(){
     const metaLine = `${(o.author || "")}${yearLabel}`;
     const orgActions = oeuvresEditMode ? `
       <div class="oeuvre-org-actions">
-        <button class="oeuvre-org-btn" onclick="event.stopPropagation();moveOeuvre(${i},-1)" title="Monter">↑</button>
-        <button class="oeuvre-org-btn" onclick="event.stopPropagation();moveOeuvre(${i},1)" title="Descendre">↓</button>
+        <button class="oeuvre-org-btn drag-handle" draggable="true" title="Déplacer" data-drag-idx="${i}" data-drag-list="oeuvres">≡</button>
         <button class="oeuvre-org-btn" onclick="event.stopPropagation();editOeuvreForm(${i})" title="Modifier">✎</button>
         <button class="oeuvre-org-btn oeuvre-org-del" onclick="event.stopPropagation();delOeuvre(${i})" title="Supprimer">×</button>
       </div>` : "";
@@ -2556,7 +2698,11 @@ function setOeuvresFilter(key){
   }
   buildOeuvres();
 }
-function toggleOeuvresEdit(){ oeuvresEditMode = !oeuvresEditMode; buildOeuvres(); }
+function toggleOeuvresEdit(){
+  oeuvresEditMode = !oeuvresEditMode;
+  buildOeuvres();
+  setTimeout(() => setupDragAndDrop("oeuvres"), 60);
+}
 function moveOeuvre(i, dir){
   // dir = -1 monte (vers le début de la liste affichée = vers la fin du tableau)
   // dir =  1 descend
@@ -2638,9 +2784,9 @@ function openOeuvre(i){
   page.innerHTML = `
     <header class="det-header">
       <div class="det-header-top">
-        <div>
-          <div class="det-header-name">${o.title || "Sans titre"}</div>
-          <div class="det-header-meta">${authorPart}${authorPart && meta ? ' · ' : ''}${meta}</div>
+        <div class="det-header-name-row">
+          <span class="det-header-name">${o.title || "Sans titre"}</span>
+          ${authorPart || meta ? `<span class="det-header-meta">${authorPart}${authorPart && meta ? ' · ' : ''}${meta}</span>` : ""}
         </div>
         <button class="det-edit-btn" onclick="editOeuvreForm(${i})">Modifier</button>
       </div>
@@ -2743,19 +2889,17 @@ function openLightboxFromOeuvre(oeuvreIdx, imageIdx){
     .map(g => ({ url: galURL(g), caption: galCap(g) }));
   openLightbox(items, imageIdx);
 }
-// Wrapper pour la galerie d'une fiche figure
+// Wrapper pour la galerie d'une fiche figure : cover en 1er, puis le reste
 function openLightboxFromFigure(figKey, imageIdx){
   const f = FIGURES.find(x => x.key === figKey);
   if(!f) return;
-  const original = IMGS[f.key] || "";
-  const galArr = [];
-  if(f.cover){
-    if(original && original !== f.cover) galArr.push({ url: original, caption: "Portrait original" });
-    (f.gallery || []).forEach(g => { if(galURL(g) !== f.cover) galArr.push({ url: galURL(g), caption: galCap(g) }); });
-  } else {
-    (f.gallery || []).forEach(g => galArr.push({ url: galURL(g), caption: galCap(g) }));
-  }
-  openLightbox(galArr, imageIdx);
+  const items = [];
+  const cover = f.cover || IMGS[f.key] || "";
+  if(cover) items.push({ url: cover, caption: f.name });
+  (f.gallery || []).forEach(g => {
+    if(galURL(g) !== cover) items.push({ url: galURL(g), caption: galCap(g) });
+  });
+  openLightbox(items, imageIdx);
 }
 // Fermer la lightbox avec Escape + naviguer avec ← →
 document.addEventListener("keydown", e => {
@@ -2963,7 +3107,7 @@ function showFigureForm(draft, editKey){
       <div class="of-body">
         <label class="of-label">Nom<input class="of-input" id="ff-name" value="${(draft.name||'').replace(/"/g,'&quot;')}" autocomplete="off" /></label>
         <label class="of-label">Dates<input class="of-input" id="ff-dates" placeholder="1943 1971" value="${(draft.dates||'').replace(/"/g,'&quot;')}" autocomplete="off" /></label>
-        <div class="of-label">Catégories <span class="of-help">— une ou plusieurs</span>
+        <div class="of-label">Catégorie(s)
           <div class="ff-cat-grid" id="ff-cats">${catOptions}</div>
         </div>
         <label class="of-label">Image de couverture
@@ -2973,8 +3117,7 @@ function showFigureForm(draft, editKey){
             <div class="of-file-preview" id="ff-cover-preview">${draft.cover ? "Couverture définie." : "Aucune couverture."}</div>
           </div>
         </label>
-        <label class="of-label"><span>Résumé (carte) <span class="of-help">— 1-2 phrases qui s'affichent au hover sur sa carte</span></span><textarea class="of-input of-textarea" id="ff-desc" style="min-height:80px">${(draft.desc||'').replace(/</g,'&lt;')}</textarea></label>
-        <label class="of-label"><span>Biographie <span class="of-help">— HTML autorisé, structure libre</span></span><textarea class="of-input of-textarea" id="ff-bio" style="min-height:160px">${(draft.bio||'').replace(/</g,'&lt;')}</textarea></label>
+        <label class="of-label">Résumé<textarea class="of-input of-textarea" id="ff-desc" style="min-height:90px">${(draft.desc||'').replace(/</g,'&lt;')}</textarea></label>
 
         <div class="of-label">Connexions dans la constellation
           <div id="ff-conns">${connsHTML}</div>
@@ -3087,7 +3230,7 @@ function saveFigureForm(){
     eraLabel,
     tagline: "",
     desc: document.getElementById("ff-desc").value,
-    bio: document.getElementById("ff-bio").value,
+    bio: editKey ? (FIGURES.find(f=>f.key===editKey)||{}).bio || "" : "",
     cover,
     quotes: editKey ? (FIGURES.find(f=>f.key===editKey)||{}).quotes || [] : [],
     works: editKey ? (FIGURES.find(f=>f.key===editKey)||{}).works || [] : [],
