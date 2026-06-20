@@ -100,7 +100,7 @@ body.splash-on{overflow:hidden}
 /* Fond ivoire opaque (sans démarcation) dès que la page a scrollé sur Figures */
 body.on-figures.scrolled .navbar,body.on-oeuvres.scrolled .navbar,body.on-detail .navbar{background:var(--ivory)}
 /* Sur une fiche détail, la navbar prend toujours l'UI claire pour rester lisible */
-body.on-detail .navbar,body.on-detail.on-map .navbar,body.on-detail.on-frise .navbar{background:var(--ivory)!important;position:fixed;top:0;left:0;right:0;border-bottom:1px solid var(--ivory2)}
+body.on-detail .navbar,body.on-detail.on-map .navbar,body.on-detail.on-frise .navbar{background:var(--ivory)!important;position:fixed!important;top:0!important;left:0;right:0;border-bottom:1px solid var(--ivory2);z-index:1000!important;display:flex!important;visibility:visible!important;opacity:1!important}
 body.on-detail .nav-btn,body.on-detail.on-map .nav-btn,body.on-detail.on-frise .nav-btn{color:var(--fog)!important;text-shadow:none!important;font-weight:600}
 body.on-detail .nav-btn:hover,body.on-detail.on-map .nav-btn:hover,body.on-detail.on-frise .nav-btn:hover{color:var(--mist)!important}
 body.on-detail .nav-btn.on,body.on-detail.on-map .nav-btn.on,body.on-detail.on-frise .nav-btn.on{color:var(--ink)!important;text-shadow:none!important}
@@ -157,6 +157,7 @@ body.on-detail .nav-btn.on,body.on-detail.on-map .nav-btn.on,body.on-detail.on-f
 .of-inner{background:var(--ivory);width:min(680px,100%);border:1px solid var(--ink2);box-shadow:0 30px 80px rgba(0,0,0,.4)}
 .of-header{padding:24px 28px 18px;border-bottom:1px solid var(--ivory2)}
 .of-title{font-family:"Playfair Display",serif;font-size:1.5rem;font-weight:700;color:var(--ink);letter-spacing:.01em}
+.of-step-indicator{font-family:"Josefin Sans",sans-serif;font-size:11px;font-weight:300;letter-spacing:.22em;color:var(--ink3);text-transform:uppercase;margin-top:6px}
 .of-body{padding:24px 28px;display:flex;flex-direction:column;gap:18px}
 .of-label{display:flex;flex-direction:column;gap:6px;font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:10.5px;letter-spacing:.25em;color:var(--mist);text-transform:uppercase}
 .of-label > span:first-child{display:block}
@@ -178,12 +179,21 @@ body.on-detail .nav-btn.on,body.on-detail.on-map .nav-btn.on,body.on-detail.on-f
 .fig-org-btn:hover{background:#fff;color:var(--ink)}
 .fig-org-del{color:var(--carmine)}
 .fig-org-del:hover{color:var(--carmine2);border-color:var(--carmine)}
-/* Drag-and-drop : poignée ≡, état "dragging" et "drag-over" */
-.drag-handle{cursor:grab;letter-spacing:-1px;font-size:18px;font-weight:600;color:var(--fog)}
+/* Drag-and-drop : poignée ≡, aperçu visuel, état "drag-over" */
+.drag-handle{cursor:grab;letter-spacing:-1px;font-size:18px;font-weight:600;color:var(--fog);user-select:none;-webkit-user-select:none;touch-action:none}
 .drag-handle:hover{color:var(--ink);background:#fff}
 .drag-handle:active{cursor:grabbing}
-.card.dragging{opacity:.4;transform:scale(.97)}
-.card.drag-over{outline:2px dashed var(--mist);outline-offset:-4px}
+/* Carte fantôme qui suit le curseur pendant un drag personnalisé */
+.dnd-ghost{position:fixed;pointer-events:none;z-index:99999;opacity:.95;transform:rotate(-2deg);box-shadow:0 30px 60px rgba(0,0,0,.45);transition:none}
+.dnd-source{opacity:.25;filter:grayscale(.4)}
+/* Indicateur de drop : une bordure de chaque côté de la carte cible */
+.dnd-drop-before{box-shadow:inset 4px 0 0 var(--ink) !important}
+.dnd-drop-after{box-shadow:inset -4px 0 0 var(--ink) !important}
+/* L'élément en cours de drag : ghost très visible avec border + rotation légère */
+.card.dragging{opacity:.45;transform:rotate(-2deg) scale(.96);box-shadow:0 18px 50px rgba(0,0,0,.35);outline:3px solid var(--ink);outline-offset:-3px;transition:none}
+/* La cible potentielle : barre verticale épaisse à gauche */
+.card.drag-over{position:relative}
+.card.drag-over::before{content:"";position:absolute;left:-8px;top:0;bottom:0;width:4px;background:var(--ink);box-shadow:0 0 12px var(--ink);z-index:5}
 /* Bouton Modifier de la Constellation (haut-droit, en blanc sur le ciel) */
 .map-edit-btn{position:fixed;top:18px;right:24px;z-index:920;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.4);color:#fff;font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:11.5px;letter-spacing:.22em;padding:9px 18px;cursor:pointer;text-transform:uppercase;border-radius:3px;transition:all .2s;display:none}
 body.on-map .map-edit-btn{display:block}
@@ -196,7 +206,7 @@ body.on-map.map-editing #map-nodes g.dragging{cursor:grabbing}
 .of-row-del:hover{color:var(--carmine);border-color:var(--carmine)}
 .of-btn-add{background:none;border:1px dashed var(--mist);color:var(--mist);font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:11px;letter-spacing:.22em;padding:7px 14px;cursor:pointer;text-transform:uppercase;border-radius:3px;transition:all .2s;margin-top:6px}
 .of-btn-add:hover{color:var(--ink);border-color:var(--ink);border-style:solid}
-.of-footer{padding:18px 28px 24px;border-top:1px solid var(--ivory2);display:flex;justify-content:flex-end;gap:10px}
+.of-footer{padding:18px 28px 24px;border-top:1px solid var(--ivory2);display:flex;justify-content:space-between;align-items:center;gap:10px}
 .of-help{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:13px;color:var(--fog);text-transform:none;letter-spacing:0;font-weight:400;margin-left:4px}
 .of-help-block{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:13px;color:var(--fog);margin-top:4px}
 /* Lien de secours YouTube (visible sous chaque iframe vidéo) */
@@ -537,13 +547,9 @@ footer strong{display:block;font-family:"Playfair Display",serif;font-size:1.15r
 /* VIDEO CAROUSEL */
 .vid-carousel{position:relative;overflow:hidden;margin-bottom:24px}
 .vid-track{display:flex;transition:transform .4s cubic-bezier(.4,0,.2,1)}
-.vid-slide{min-width:100%;position:relative;cursor:pointer}
-.vid-slide{min-width:100%;position:relative;display:block;text-decoration:none}
-.vid-thumb{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:var(--ink2)}
-.vid-overlay{position:absolute;inset:0;background:rgba(10,10,10,.35);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;opacity:0;transition:opacity .25s}
-.vid-slide:hover .vid-overlay{opacity:1}
-.vid-play-icon{width:60px;height:60px;background:rgba(168,161,147,.92);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:var(--ink);padding-left:4px}
-.vid-caption{font-family:"Playfair Display",serif;font-style:italic;font-size:14px;color:var(--ivory);text-align:center;padding:0 20px;text-shadow:0 1px 4px rgba(0,0,0,.6)}
+.vid-slide{min-width:100%;position:relative;display:block}
+.vid-slide iframe{width:100%;aspect-ratio:16/9;border:0;display:block;background:var(--ink2)}
+.vid-caption-below{font-family:"Playfair Display",serif;font-style:italic;font-size:14px;color:var(--ink2);text-align:center;padding:8px 16px 0}
 .vid-nav{display:flex;justify-content:space-between;align-items:center;padding:6px 4px 0;background:transparent;gap:6px}
 .vid-nav-btn{background:none;border:none;color:var(--ink);width:42px;height:42px;cursor:pointer;font-size:2rem;font-family:"Josefin Sans",sans-serif;font-weight:700;transition:color .2s;display:flex;align-items:center;justify-content:center;line-height:1}
 .vid-nav-btn:hover{color:var(--ink2)}
@@ -1025,6 +1031,21 @@ try {
     });
   }
 } catch(_){}
+// Override de mapPos pour TOUTES les figures (built-in + user) — persiste
+// les déplacements dans la Constellation
+try {
+  const mapposOverrides = JSON.parse(localStorage.getItem('figure-mappos') || '{}');
+  FIGURES.forEach(f => {
+    if(mapposOverrides[f.key]) f.mapPos = mapposOverrides[f.key];
+  });
+} catch(_){}
+function persistMapPos(figKey, pos){
+  try {
+    const all = JSON.parse(localStorage.getItem('figure-mappos') || '{}');
+    all[figKey] = pos;
+    localStorage.setItem('figure-mappos', JSON.stringify(all));
+  } catch(_){}
+}
 // Overrides utilisateur stockés en localStorage (mode édition de la fiche)
 FIGURES.forEach(f => {
   try {
@@ -1212,69 +1233,106 @@ function moveFigure(key, dir){
 // ── Drag-and-drop générique pour Figures, Œuvres, Galerie ──
 // L'utilisateur grab une poignée ≡ et la déplace au-dessus d'une autre carte.
 // Au drop, on swap les positions dans le tableau correspondant et on persiste.
-let _dragSrc = null;
+// ── Drag-and-drop personnalisé (pointer events) ──
+// Au pointerdown sur ≡ on clone la carte, on la fait suivre le curseur,
+// on détecte la carte sous le pointeur et on affiche une bordure
+// "avant/après" pour montrer où l'élément va atterrir au drop.
 function setupDragAndDrop(listKind){
   const containerSel = listKind === "figures" ? "#grid" : "#oeuvres-grid";
   const container = document.querySelector(containerSel);
   if(!container) return;
-  // Les éléments draggables sont les cards qui contiennent une poignée
   container.querySelectorAll(".card").forEach(card => {
     const handle = card.querySelector(".drag-handle");
     if(!handle) return;
-    // On rend toute la card draggable (mais seul handle déclenche le geste)
-    card.setAttribute("draggable", "true");
-    card.addEventListener("dragstart", e => {
-      // Si on a pas commencé sur la poignée, on annule pour ne pas drag par accident
-      const fromHandle = e.target.closest(".drag-handle");
-      if(!fromHandle && e.target !== card){
-        // Permet le drag même si on a cliqué ailleurs sur la card pendant le glisser
-      }
-      _dragSrc = { card, kind: listKind, idx: handle.dataset.dragIdx ? +handle.dataset.dragIdx : null, key: handle.dataset.dragKey || null };
-      card.classList.add("dragging");
-      e.dataTransfer.effectAllowed = "move";
-    });
-    card.addEventListener("dragend", () => {
-      card.classList.remove("dragging");
-      document.querySelectorAll(".card.drag-over").forEach(c => c.classList.remove("drag-over"));
-      _dragSrc = null;
-    });
-    card.addEventListener("dragover", e => {
-      if(!_dragSrc) return;
+    // Désactiver le HTML5 DnD natif (qu'on n'utilise plus)
+    card.removeAttribute("draggable");
+    handle.removeAttribute("draggable");
+    if(handle._dndBound) return;
+    handle._dndBound = true;
+    handle.addEventListener("pointerdown", e => {
       e.preventDefault();
-      e.dataTransfer.dropEffect = "move";
-      card.classList.add("drag-over");
-    });
-    card.addEventListener("dragleave", () => card.classList.remove("drag-over"));
-    card.addEventListener("drop", e => {
-      e.preventDefault();
-      card.classList.remove("drag-over");
-      if(!_dragSrc || _dragSrc.kind !== listKind) return;
-      const targetHandle = card.querySelector(".drag-handle");
-      if(!targetHandle) return;
-      if(listKind === "figures"){
-        const fromIdx = FIGURES.findIndex(f => f.key === _dragSrc.key);
-        const toIdx = FIGURES.findIndex(f => f.key === targetHandle.dataset.dragKey);
-        if(fromIdx < 0 || toIdx < 0 || fromIdx === toIdx) return;
-        const item = FIGURES.splice(fromIdx, 1)[0];
-        FIGURES.splice(toIdx, 0, item);
-        persistUserFigures();
-        buildCards();
-        buildNavDropdown();
-        setTimeout(() => setupDragAndDrop("figures"), 30);
-      } else if(listKind === "oeuvres"){
-        const fromIdx = _dragSrc.idx;
-        const toIdx = +targetHandle.dataset.dragIdx;
-        if(fromIdx == null || isNaN(toIdx) || fromIdx === toIdx) return;
-        const item = OEUVRES.splice(fromIdx, 1)[0];
-        OEUVRES.splice(toIdx, 0, item);
-        persistOeuvres();
-        buildOeuvres();
-        setTimeout(() => setupDragAndDrop("oeuvres"), 30);
-      } else if(listKind === "gallery"){
-        // Géré ailleurs (mode édition figure)
-      }
+      const startX = e.clientX, startY = e.clientY;
+      const rect = card.getBoundingClientRect();
+      const offsetX = startX - rect.left;
+      const offsetY = startY - rect.top;
+      // Clone visuel qui suit le curseur
+      const ghost = card.cloneNode(true);
+      ghost.classList.add("dnd-ghost");
+      ghost.style.width = rect.width + "px";
+      ghost.style.height = rect.height + "px";
+      ghost.style.left = (startX - offsetX) + "px";
+      ghost.style.top = (startY - offsetY) + "px";
+      document.body.appendChild(ghost);
+      card.classList.add("dnd-source");
+      let currentTarget = null;
+      let currentPos = null; // "before" | "after"
+      const clearMarks = () => {
+        container.querySelectorAll(".dnd-drop-before,.dnd-drop-after").forEach(c => {
+          c.classList.remove("dnd-drop-before","dnd-drop-after");
+        });
+      };
+      const onMove = ev => {
+        ghost.style.left = (ev.clientX - offsetX) + "px";
+        ghost.style.top  = (ev.clientY - offsetY) + "px";
+        // Détecter la carte sous le pointeur
+        ghost.style.display = "none";
+        const el = document.elementFromPoint(ev.clientX, ev.clientY);
+        ghost.style.display = "";
+        const target = el && el.closest(".card");
+        if(!target || target === card || !container.contains(target)){
+          clearMarks();
+          currentTarget = null; currentPos = null;
+          return;
+        }
+        const tr = target.getBoundingClientRect();
+        const pos = (ev.clientX < tr.left + tr.width/2) ? "before" : "after";
+        if(target === currentTarget && pos === currentPos) return;
+        clearMarks();
+        target.classList.add("dnd-drop-" + pos);
+        currentTarget = target; currentPos = pos;
+      };
+      const onUp = () => {
+        document.removeEventListener("pointermove", onMove);
+        document.removeEventListener("pointerup", onUp);
+        ghost.remove();
+        card.classList.remove("dnd-source");
+        clearMarks();
+        if(!currentTarget) return;
+        _performReorder(listKind, card, currentTarget, currentPos);
+      };
+      document.addEventListener("pointermove", onMove);
+      document.addEventListener("pointerup", onUp);
     });
   });
+}
+function _performReorder(listKind, srcCard, dstCard, pos){
+  if(listKind === "figures"){
+    const fromKey = srcCard.querySelector(".drag-handle").dataset.dragKey;
+    const toKey = dstCard.querySelector(".drag-handle").dataset.dragKey;
+    let fromIdx = FIGURES.findIndex(f => f.key === fromKey);
+    let toIdx = FIGURES.findIndex(f => f.key === toKey);
+    if(fromIdx < 0 || toIdx < 0 || fromIdx === toIdx) return;
+    const [item] = FIGURES.splice(fromIdx, 1);
+    if(fromIdx < toIdx) toIdx--;                 // décalage après extraction
+    if(pos === "after") toIdx++;
+    FIGURES.splice(toIdx, 0, item);
+    persistUserFigures();
+    buildCards();
+    buildNavDropdown();
+    setTimeout(() => setupDragAndDrop("figures"), 30);
+  } else if(listKind === "oeuvres"){
+    const fromIdx0 = +srcCard.querySelector(".drag-handle").dataset.dragIdx;
+    let toIdx = +dstCard.querySelector(".drag-handle").dataset.dragIdx;
+    if(isNaN(fromIdx0) || isNaN(toIdx) || fromIdx0 === toIdx) return;
+    let fromIdx = fromIdx0;
+    const [item] = OEUVRES.splice(fromIdx, 1);
+    if(fromIdx < toIdx) toIdx--;
+    if(pos === "after") toIdx++;
+    OEUVRES.splice(toIdx, 0, item);
+    persistOeuvres();
+    buildOeuvres();
+    setTimeout(() => setupDragAndDrop("oeuvres"), 30);
+  }
 }
 function delFigure(key){
   const baseKeys = new Set(["sappho","barney","colette","vivien","wilde","rimbaud","baudelaire","blake","carrington","varo","patti","bowie","kahlo","nijinski","mapplethorpe","woolf","jarman","plath","hilma","pasolini"]);
@@ -1502,9 +1560,9 @@ function openDetail(key){
   document.getElementById("page-detail").innerHTML = `
     <header class="det-header ${E?'editing':''}">
       <div class="det-header-top">
-        <div>
-          <div class="det-header-name">${d.name}</div>
-          <div class="det-header-meta">${formatDates(d.dates)}</div>
+        <div class="det-header-name-row">
+          <span class="det-header-name">${d.name}</span>
+          <span class="det-header-meta">(${formatDates(d.dates)})</span>
         </div>
         ${editControls}
       </div>
@@ -1975,43 +2033,47 @@ function toggleMapEdit(){
     btn.textContent = mapEditMode ? "Terminer" : "Modifier";
   }
 }
+// Drag des figures sur la constellation : un seul jeu de listeners globaux,
+// on n'attache que pointerdown au noeud SVG.
+let _mapDrag = null; // { fig, g, ctmInv }
 function setupMapDrag(g, fig){
-  const svg = document.getElementById("mapsvg");
-  if(!svg) return;
-  let dragging = false;
-  let startCTMInv = null;
-  g.addEventListener("mousedown", e => {
+  if(g._mapDragBound) return;
+  g._mapDragBound = true;
+  g.addEventListener("pointerdown", e => {
     if(!mapEditMode) return;
     e.preventDefault();
     e.stopPropagation();
-    dragging = true;
+    const svg = document.getElementById("mapsvg");
+    if(!svg) return;
+    _mapDrag = { fig, g, ctmInv: svg.getScreenCTM().inverse() };
     g.classList.add("dragging");
-    startCTMInv = svg.getScreenCTM().inverse();
   });
-  document.addEventListener("mousemove", e => {
-    if(!dragging || !startCTMInv) return;
+}
+// Listener global unique (attaché une seule fois au chargement)
+if(typeof window._mapDragGlobalAttached === "undefined"){
+  window._mapDragGlobalAttached = true;
+  document.addEventListener("pointermove", e => {
+    if(!_mapDrag) return;
+    const svg = document.getElementById("mapsvg");
+    if(!svg) return;
     const pt = svg.createSVGPoint();
     pt.x = e.clientX; pt.y = e.clientY;
-    const svgPt = pt.matrixTransform(startCTMInv);
-    fig.mapPos = { x: svgPt.x / MAP_SCALE_X, y: svgPt.y / MAP_SCALE_Y };
-    g.setAttribute("transform", `translate(${svgPt.x},${svgPt.y})`);
-    // Met aussi à jour les lignes qui pointent vers cette figure
-    document.querySelectorAll("#map-connections line").forEach(line => {
-      // Recompute non — coût trop élevé, on rebuild en fin de drag.
-    });
+    const svgPt = pt.matrixTransform(_mapDrag.ctmInv);
+    _mapDrag.fig.mapPos = { x: svgPt.x / MAP_SCALE_X, y: svgPt.y / MAP_SCALE_Y };
+    _mapDrag.g.setAttribute("transform", `translate(${svgPt.x},${svgPt.y})`);
   });
-  document.addEventListener("mouseup", () => {
-    if(!dragging) return;
-    dragging = false;
+  document.addEventListener("pointerup", () => {
+    if(!_mapDrag) return;
+    const { fig, g } = _mapDrag;
+    _mapDrag = null;
     g.classList.remove("dragging");
-    // Persiste + rebuild pour replacer toutes les connexions
+    persistMapPos(fig.key, fig.mapPos);
     persistUserFigures();
-    const nodes = document.getElementById("map-nodes");
-    const conns = document.getElementById("map-connections");
-    if(nodes) nodes.innerHTML = "";
-    if(conns) conns.innerHTML = "";
-    const stars = document.getElementById("map-stars");
-    if(stars) stars.innerHTML = "";
+    // Rebuild pour replacer les connexions
+    ["map-nodes","map-connections","map-stars","map-incrust"].forEach(id => {
+      const el = document.getElementById(id);
+      if(el) el.innerHTML = "";
+    });
     buildMap();
   });
 }
@@ -2589,6 +2651,11 @@ function loadOeuvres(){
         const stored = JSON.parse(localStorage.getItem('oeuvres-user') || '[]');
         if(Array.isArray(stored)) extras = stored;
       } catch(_){}
+      // Dédupe : si une entrée localStorage a le même titre+auteur qu'une œuvre
+      // du JSON de base, on ignore la version localStorage (potentiellement obsolète
+      // suite à des éditions du JSON). La source canonique reste oeuvres.json.
+      const baseSig = new Set(base.map(o => (o.title||"") + "::" + (o.author||"")));
+      extras = extras.filter(o => !baseSig.has((o.title||"") + "::" + (o.author||"")));
       OEUVRES = [...base, ...extras];
     })
     .catch(_ => { OEUVRES = []; });
@@ -2929,21 +2996,24 @@ function editOeuvreForm(i){
   // Deep clone pour pouvoir annuler
   showOeuvreForm(JSON.parse(JSON.stringify(o)), i);
 }
-function showOeuvreForm(draft, editIdx){
+function showOeuvreForm(draft, editIdx, step){
   const modal = document.getElementById("oeuvre-form-modal");
-  // État local éditable du draft : utilisé pour fichiers (data URL)
+  // État local éditable du draft : utilisé pour fichiers (data URL) + step actuel
   modal._draft = draft;
   modal._editIdx = editIdx;
+  modal._step = step || 1;
+  if(modal._step === 1) _renderOeuvreFormStep1(modal, draft, editIdx);
+  else _renderOeuvreFormStep2(modal, draft, editIdx);
+  modal.classList.add("open");
+}
+function _renderOeuvreFormStep1(modal, draft, editIdx){
   const figOptions = FIGURES.map(f=>`<option value="${f.key}" ${draft.figKey===f.key?'selected':''}>${f.name}</option>`).join("");
   const figLinked = !!draft.figKey;
-  // Quel onglet de contenu est actif ?
-  let contentTab = "text"; // text | file | url
-  if(draft.yt) contentTab = "url";
-  else if(draft.long || draft.short) contentTab = "text";
   modal.innerHTML = `
     <div class="of-inner">
       <div class="of-header">
         <div class="of-title">${editIdx===null ? "Ajouter une œuvre" : "Modifier l'œuvre"}</div>
+        <div class="of-step-indicator">Étape 1 sur 2 — Identité</div>
       </div>
       <div class="of-body">
         <label class="of-label">Titre<input class="of-input" id="of-title" value="${(draft.title||'').replace(/"/g,'&quot;')}" autocomplete="off" /></label>
@@ -2965,6 +3035,33 @@ function showOeuvreForm(draft, editIdx){
           </select>
         </div>
 
+        <div class="of-label">Image de couverture
+          <div class="of-file">
+            <input class="of-input" id="of-cover-url" placeholder="URL ou chemin relatif" value="${(draft.image||'').replace(/"/g,'&quot;')}" autocomplete="off" />
+            <label class="of-file-label">— ou choisir un fichier image<input type="file" id="of-cover-input" accept="image/*" onchange="oeuvreFormHandleCover(this)" /></label>
+            <div class="of-file-preview" id="of-cover-preview">${draft.image ? "Couverture actuelle définie." : "Aucune couverture."}</div>
+          </div>
+        </div>
+      </div>
+      <div class="of-footer">
+        <button type="button" class="oeuvres-btn" onclick="closeOeuvreForm()">Annuler</button>
+        <button type="button" class="oeuvres-btn oeuvres-btn-primary" onclick="oeuvreFormGoStep2()">Suivant →</button>
+      </div>
+    </div>`;
+  setTimeout(()=>{ const t = modal.querySelector("#of-title"); if(t) t.focus(); }, 50);
+}
+function _renderOeuvreFormStep2(modal, draft, editIdx){
+  // Quel onglet de contenu est actif ?
+  let contentTab = "text";
+  if(draft.yt) contentTab = "url";
+  else if(draft.long || draft.short) contentTab = "text";
+  modal.innerHTML = `
+    <div class="of-inner">
+      <div class="of-header">
+        <div class="of-title">${editIdx===null ? "Ajouter une œuvre" : "Modifier l'œuvre"}</div>
+        <div class="of-step-indicator">Étape 2 sur 2 — Contenu &amp; description</div>
+      </div>
+      <div class="of-body">
         <div class="of-label">Contenu
           <div class="of-content-tabs">
             <button type="button" class="of-content-tab ${contentTab==='text'?'on':''}" onclick="oeuvreFormSwitchTab('text')">Texte</button>
@@ -2986,23 +3083,46 @@ function showOeuvreForm(draft, editIdx){
           </div>
         </div>
 
-        <div class="of-label">Image de couverture
-          <div class="of-file">
-            <input class="of-input" id="of-cover-url" placeholder="URL ou chemin relatif" value="${(draft.image||'').replace(/"/g,'&quot;')}" autocomplete="off" />
-            <label class="of-file-label">— ou choisir un fichier image<input type="file" id="of-cover-input" accept="image/*" onchange="oeuvreFormHandleCover(this)" /></label>
-            <div class="of-file-preview" id="of-cover-preview">${draft.image ? "Couverture actuelle définie." : "Aucune couverture."}</div>
-          </div>
-        </div>
-
         <label class="of-label"><span>Description <span class="of-help">— optionnel</span></span><input class="of-input" id="of-short" value="${(draft.short||'').replace(/"/g,'&quot;')}" autocomplete="off" /></label>
       </div>
       <div class="of-footer">
-        <button type="button" class="oeuvres-btn" onclick="closeOeuvreForm()">Annuler</button>
+        <button type="button" class="oeuvres-btn" onclick="oeuvreFormGoStep1()">← Retour</button>
         <button type="button" class="oeuvres-btn oeuvres-btn-primary" onclick="saveOeuvreForm(${editIdx===null ? 'null' : editIdx})">${editIdx===null ? "Créer" : "Enregistrer"}</button>
       </div>
     </div>`;
-  modal.classList.add("open");
-  setTimeout(()=>modal.querySelector("#of-title").focus(), 50);
+}
+// Lit les champs de l'étape courante dans modal._draft puis affiche l'autre étape
+function _captureCurrentStep(){
+  const modal = document.getElementById("oeuvre-form-modal");
+  const d = modal._draft;
+  if(modal._step === 1){
+    const t = document.getElementById("of-title"); if(t) d.title = t.value.trim();
+    const ty = document.getElementById("of-type"); if(ty) d.type = ty.value.trim();
+    const yr = document.getElementById("of-year"); if(yr) d.year = yr.value ? Number(yr.value) : null;
+    const au = document.getElementById("of-author"); if(au && !au.disabled) d.author = au.value.trim();
+    const fl = document.getElementById("of-figlinked");
+    const fk = document.getElementById("of-figkey");
+    if(fl && fl.checked && fk){ d.figKey = fk.value || null; }
+    else { d.figKey = null; }
+    const cu = document.getElementById("of-cover-url"); if(cu && cu.value.trim()) d.image = cu.value.trim();
+    if(d._coverFile){ d.image = d._coverFile.dataUrl; }
+  } else {
+    const lg = document.getElementById("of-long"); if(lg) d.long = lg.value;
+    const sh = document.getElementById("of-short"); if(sh) d.short = sh.value.trim();
+    const yt = document.getElementById("of-yt"); if(yt && yt.value.trim()) d.yt = yt.value.trim();
+  }
+}
+function oeuvreFormGoStep2(){
+  _captureCurrentStep();
+  const modal = document.getElementById("oeuvre-form-modal");
+  if(!modal._draft.title){ alert("Le titre est obligatoire."); return; }
+  if(!modal._draft.type){ alert("Le type est obligatoire."); return; }
+  showOeuvreForm(modal._draft, modal._editIdx, 2);
+}
+function oeuvreFormGoStep1(){
+  _captureCurrentStep();
+  const modal = document.getElementById("oeuvre-form-modal");
+  showOeuvreForm(modal._draft, modal._editIdx, 1);
 }
 // Bascule l'onglet contenu (texte/fichier/url)
 function oeuvreFormSwitchTab(tab){
@@ -3261,13 +3381,12 @@ function saveFigureForm(){
   buildNavDropdown();
   const nodes = document.getElementById("map-nodes"); if(nodes) nodes.innerHTML = "";
   const friseTrack = document.getElementById("friseTrack"); if(friseTrack) friseTrack.innerHTML = "";
-  // Création : on amène l'utilisateur sur la fiche fraîche, en mode édition
-  // pour qu'il puisse compléter contenu, citations, gallery, etc.
+  // Création : on amène l'utilisateur sur la fiche fraîche en mode lecture.
+  // Il pourra cliquer "Modifier" pour compléter contenu, citations, gallery.
   if(wasCreated){
-    setTimeout(() => {
-      openDetail(key);
-      setTimeout(() => enterEditMode(), 100);
-    }, 50);
+    // On force d'abord la fermeture totale du modal et la propreté du body
+    document.body.classList.remove("on-figures","on-oeuvres","on-map","on-frise");
+    openDetail(key);
   }
 }
 function closeOeuvreForm(){
@@ -3386,17 +3505,25 @@ function buildVideoCarousel(videos, containerId, figKey) {
   if(!container || !videos || !videos.length) return;
   let cur = 0;
 
+  function _ytId(s){
+    if(!s) return "";
+    s = String(s).trim();
+    // Si c'est déjà juste un ID (11 chars sans /), on garde
+    if(/^[\w-]{11}$/.test(s)) return s;
+    const m = s.match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([\w-]{11})/);
+    return m ? m[1] : s;
+  }
   function slidesHTML() {
     return videos.map(function(v, i) {
-      return '<a class="vid-slide" href="https://www.youtube.com/watch?v=' + v.id
-        + '" target="_blank" rel="noopener" title="' + v.title + '">'
-        + '<img class="vid-thumb" '
-        + 'src="https://img.youtube.com/vi/' + v.id + '/hqdefault.jpg" '
-        + 'onerror="this.src=\'https://img.youtube.com/vi/' + v.id + '/mqdefault.jpg\'" '
-        + 'alt="' + v.title + '">'
-        + '<div class="vid-overlay"><div class="vid-play-icon">&#9654;</div>'
-        + '<div class="vid-caption">' + v.title + '</div></div>'
-        + '</a>';
+      const id = _ytId(v.id);
+      return '<div class="vid-slide">'
+        + '<iframe src="https://www.youtube-nocookie.com/embed/' + id
+        + '?rel=0&modestbranding=1" '
+        + 'allow="autoplay; encrypted-media; picture-in-picture" '
+        + 'allowfullscreen referrerpolicy="strict-origin-when-cross-origin" '
+        + 'loading="lazy" title="' + (v.title || '').replace(/"/g,'&quot;') + '"></iframe>'
+        + (v.title ? '<div class="vid-caption-below">' + v.title + '</div>' : '')
+        + '</div>';
     }).join('');
   }
 
